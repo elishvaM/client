@@ -22,27 +22,42 @@ import { tooltipClasses } from '@mui/material/Tooltip';
 import Tooltip from '@mui/material/Tooltip';
 import Slide from '@mui/material/Slide';
 import { loginFromServer } from "../services/user";
-export default function Login({open,Transition}) {
-    let { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({ mode: "onSubmit" });
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+
+// { minLength: 2, maxLength: 15, required: true }
+const schema = yup.object({
+    Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15",x => x.length >= 2 && x.length <= 15),
+    Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25",x => x.length >= 2 && x.length <= 25).email('מייל לא תקין'),
+}).required();
+
+
+export default function Login({ open, Transition }) {
+    let { register, handleSubmit, formState: { errors } } = useForm({
+        mode: "onSubmit",
+        resolver: yupResolver(schema)
+
+    });
     let [msg, setMsg] = useState();
     let mynavigate = useNavigate();
 
     let dispatch = useDispatch();
     const save = (user) => {
-        alert(user.Password)
-        loginFromServer(user).then(res=>{
+        // alert(user.Password)
+        loginFromServer(user).then(res => {
             // if(res.data)
             console.log(res)
-            console.log("data"+res.data) 
-            console.log("user"+res.data.user) 
-             dispatch(saveUser(user))
-        }).catch(err => {console.log(err); console.log("faild")})
-       
+            console.log("data" , res.data)
+            console.log("user" , res.data)
+            dispatch(saveUser(user))
+        }).catch(err => { console.log(err); console.log("faild") })
+
         // חזרה לדף ההבית
         mynavigate("destinations")
     }
 
-     //submit/cancel-dialog
+    //submit/cancel-dialog
     const [open2, setOpen] = React.useState(false);
 
     // const handleClickOpen = () => {
@@ -52,11 +67,11 @@ export default function Login({open,Transition}) {
     //     return <Slide direction="up" ref={ref} {...props} />;
     // })
     //??? דיאלוג לא נסגר
-    
+
     const handleClose = () => {
-        alert(open2 +" "+open)
+        alert(open2 + " " + open)
         setOpen(false);
-        open=open2;
+        open = open2;
     };
     let cnt = 0;
 
@@ -82,37 +97,30 @@ export default function Login({open,Transition}) {
                     <DialogContentText>
                         <form className="form" onSubmit={handleSubmit(save)} >
                             <div>
-                                    {/* <InputLabel htmlFor="input-with-icon-adornment">
+                                {/* <InputLabel htmlFor="input-with-icon-adornment">
                                         סיסמא
                                     </InputLabel> */}
-                                    <Input
+                                <Input
                                     label="סיסמא"
-                                        {...register("Password", { minLength: 2, maxLength: 15, required: true })}
-                                        id="input-with-icon-adornment"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                <PasswordOutlined />
-                                            </InputAdornment>
-                                        }   />
-                                {errors.Password && errors.Password.type == "required" &&
-                                    <div className="error">
-                                        סיסמא שדה חובה
-                                    </div>}
-                                {errors.Password?.type == "minLength" &&
-                                    <div className="error">
-                                        סיסמא לפחות 5 תויים
-                                    </div>}
-                                {errors.Password?.type == "maxLength" &&
-                                    <div className="error">
-                                        סיסמא מקסימום 15 תוים
-                                    </div>}
+                                    {...register("Password")}
+                                    id="input-with-icon-adornment"
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <PasswordOutlined />
+                                        </InputAdornment>
+                                    } />
+
+                                {/* errors.Password && errors.Password.type == "required" && */}
+                                <div className="error">{ errors.Password?.message}</div>
+
+                               
 
                                 {/* מייל */}
                                 {/* <InputLabel htmlFor="input-with-icon-adornment">
                                     מייל
                                 </InputLabel> */}
                                 <Input
-                                    {...register("Email", { minLength: 2, maxLength: 50, required: true })}
+                                    {...register("Email")}
                                     id="input-with-icon-adornment"
                                     startAdornment={
                                         <InputAdornment position="start">
@@ -120,7 +128,8 @@ export default function Login({open,Transition}) {
                                         </InputAdornment>
                                     }
                                 />
-                                {errors.Email?.type == "required" && <div className="error">
+                                 <div className="error">{ errors.Email?.message}</div>
+                                {/* {errors.Email?.type == "required" && <div className="error">
                                     מייל הוא שדה חובה
                                 </div>}
                                 {errors.Email?.type == "maxLength" && <div className="error">
@@ -131,12 +140,12 @@ export default function Login({open,Transition}) {
                                 </div>}
                                 {errors.Email?.type == "minLength" && <div className="error">
                                     מייל לא פחות מ 2 תוים
-                                </div>}
+                                </div>} */}
                                 <br />
-                            <DialogActions >
-                                <Button onClick={handleClose}>ביטול</Button>
-                                <Button type="submit">התחבר</Button>
-                            </DialogActions> 
+                                <DialogActions >
+                                    <Button onClick={handleClose}>ביטול</Button>
+                                    <Button type="submit">התחבר</Button>
+                                </DialogActions>
                             </div>
                         </form>
                     </DialogContentText>

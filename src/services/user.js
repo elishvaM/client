@@ -1,12 +1,18 @@
-import { useSelector } from "react-redux";
-import { useState } from 'react';
 import axios from "axios";
-//login
-// export const saveUser= (user)=>{}
 
 export const loginFromServer = (user) => {
-    console.log("user ps:" + user.Password)
-    return axios.post(`https://localhost:7114/api/User/LogIn/7777/hadas@gmail.com`);
+    console.log("user ps:" , user)
+    // user={
+    //     // "id": 0,
+    //     // "name": "string",
+    //     // "phone": "string",
+    //     "password": "7777",
+    //     "email": "777",
+    //     // "dateBorn": "2023-10-18T16:43:10.098Z",
+    //     // "userTypeId": 0,
+    //     // "status": true
+    //   }
+    return axios.post(`https://localhost:7114/api/User/LogIn`,user);
 }
 
 export const usersFromServer = () => {
