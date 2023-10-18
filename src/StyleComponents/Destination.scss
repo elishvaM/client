@@ -1,0 +1,15 @@
+.ul-dest{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin:auto;//למה לא שם את הכל באמצע ??
+}
+.li{
+    // איך יתכן שאין הבדל בין פדינג למרגינג ???
+ margin: 2vw;
+}
+.attraction-content{
+    background-color: #003b95;
+    height: 100px;
+    color: white;
+}

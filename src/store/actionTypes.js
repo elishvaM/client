@@ -1,0 +1,11 @@
+//users
+export const LOG_OUT="LOG_OUT";
+export const LOG_IN="LOG_IN";
+export const SIGN_IN="SIGN_IN";
+//attractio
+export const SAVE_ATTRACTIONS="SAVE_ATTRACTIONS";
+export const ADD_ATTRACTION="ADD_ATTRACTION";
+export const DELETE_ATTRACTION="DELETE_ATTRACTION";
+export const UPDATE_ATTRACTION="UPDATE_ATTRACTION";
+export const SELECT_ATTRACTION="SELECT_ATTRACTION";
+export const UPDATE_FILTERING="UPDATE_FILTERING";

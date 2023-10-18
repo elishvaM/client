@@ -1,0 +1,48 @@
+$form-lable-direction: rtl;
+
+.form {
+    InputLabel {
+        direction: $form-lable-direction;
+    }
+}
+// buttons
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    width: 100% !important;
+    background-color:  #003b95 !important;
+    //margin: 1rem !important;
+    color: white !important;
+}
+//inputs line
+.css-q0jhri-MuiInputBase-root-MuiInput-root{
+    width:100% !important;
+    margin: 4px !important;
+}
+//icons
+.css-i4bv87-MuiSvgIcon-root{
+    margin: 5px !important;
+}
+
+// content
+.css-ypiqx9-MuiDialogContent-root{
+width:100% !important;
+display: flex !important;
+flex-wrap: wrap !important;
+}
+.dialog{
+border: 2px solid red;
+}
+.DialogTitle{
+color: black;
+margin: auto;
+}
+DialogActions{
+    width: 100%;
+    display: flex !important;
+    flex-wrap: wrap !important;
+}
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    width: fit-content !important;
+}
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root{
+    margin: auto !important;
+}

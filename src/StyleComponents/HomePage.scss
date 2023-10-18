@@ -1,0 +1,29 @@
+.search{
+    margin:auto;
+}
+.text{
+    font-size: xx-small;
+}
+.sin{
+    z-index: 1;
+    background-color: gray;
+    width: 21vw;
+    height: 30vw;
+    margin:auto;
+    background-color: rgb(179, 225, 226);
+    border-radius: 30px;
+}
+.ul-dest{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: auto;
+    // width: max-content;
+}
+// .li{
+//  margin:4px;
+// }
+.conteiner{
+    padding: 3px;
+    margin: auto;
+}

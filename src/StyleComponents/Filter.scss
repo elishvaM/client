@@ -1,0 +1,21 @@
+
+// .list{
+//     margin:auto;
+// }
+.li{ 
+     margin: 2vw;
+}
+.ul{
+    list-style-type: none;
+    display:flex;
+    flex-wrap: wrap;
+   
+}
+.x{
+   border: none;
+   font-size: large;
+//    לסדר מרגינ זה לא טוב במסכים קטנים.....
+// ולמה כרב מרגינ אוטו לא שם באמצע ???? !!!!
+   margin-left: 14vw;
+//    margin: auto;
+}
