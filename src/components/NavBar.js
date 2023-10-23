@@ -1,29 +1,21 @@
 import { Link } from "react-router-dom";
 import "../StyleComponents/NavBar.scss";
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import LoginIcon from '@mui/icons-material/Login';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+// import BottomNavigation from '@mui/material/BottomNavigation';
+// import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+// import LoginIcon from '@mui/icons-material/Login';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
 import AttractionsIcon from '@mui/icons-material/Attractions';
-import Face6Icon from '@mui/icons-material/Face6';
+// import Face6Icon from '@mui/icons-material/Face6';
 import { useNavigate } from "react-router-dom";
-import LuggageIcon from '@mui/icons-material/Luggage';
-import ListIcon from '@mui/icons-material/List';
-import { useDispatch, useSelector } from "react-redux";
-import Avatar from '@mui/material/Avatar';
-import { deepOrange, deepPurple } from '@mui/material/colors';
-import AttractionsOutlinedIcon from '@mui/icons-material/AttractionsOutlined';
+import { useSelector } from "react-redux";
 import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { VerifiedUserOutlined } from "@mui/icons-material";
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { tooltipClasses } from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import { useEffect } from "react";
 import { usersFromServer } from "../services/user";
@@ -32,9 +24,8 @@ import Slide from '@mui/material/Slide';
 
 export default function NavBar() {
     useEffect(() => { usersFromServer().then(res => console.log(res)) }, [])
-    const [value, setValue] = React.useState(0);
+    // const [value, setValue] = React.useState(0);
     let mynavigate = useNavigate();
-    let user = useSelector(state => state.user.currentUser);
     const LightTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
     ))(({ theme }) => ({
@@ -54,12 +45,16 @@ export default function NavBar() {
     const Transition = React.forwardRef(function Transition(props, ref) {
         return <Slide direction="up" ref={ref} {...props} />;
     })
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
+    //current user
+    let currentUser = useSelector(state => state.user.currentUser);
     return (
         <>
             {/* header, nav bar */}
+            {currentUser != null && console.log("cur us",currentUser)}
+            {currentUser != null && <div>שלום {currentUser.name}</div>}
             <div className="header-navbar">
                 <header>
                     <nav className="headers-erea">
@@ -79,7 +74,7 @@ export default function NavBar() {
                                 </LightTooltip>
 
                                 {/*לא אמורים לקרוא לקומפוננטה */}
-                                <Login open={open} TransitionComponent={Transition}/>
+                                <Login open={open} TransitionComponent={Transition} />
 
                             </div>
                             <div>  <LightTooltip title="בקשת אטרקציה" className="addAtt"><Button size="large" variant="contained">  בקשת אטרקציה</Button></LightTooltip>

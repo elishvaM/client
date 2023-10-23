@@ -1,13 +1,12 @@
 import "../StyleComponents/Login.scss";
 import { useForm } from "react-hook-form";
 import Button from '@mui/material/Button';
-import { useState } from "react";
+// import { useState } from "react";
 import * as React from 'react';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutline from '@mui/icons-material/MailOutline';
 import PasswordOutlined from '@mui/icons-material/PasswordOutlined';
-import { useDispatch } from "react-redux";
 import { saveUser } from "../store/actions/user";
 import { useNavigate } from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
@@ -15,12 +14,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { styled } from '@mui/material/styles';
-import { tooltipClasses } from '@mui/material/Tooltip';
-import Tooltip from '@mui/material/Tooltip';
-import Slide from '@mui/material/Slide';
+import { useDispatch } from "react-redux";
+// import { styled } from '@mui/material/styles';
+// import { tooltipClasses } from '@mui/material/Tooltip';
+// import Tooltip from '@mui/material/Tooltip';
+// import Slide from '@mui/material/Slide';
 import { loginFromServer } from "../services/user";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -39,27 +37,23 @@ export default function Login({ open, Transition }) {
         resolver: yupResolver(schema)
 
     });
-    let [msg, setMsg] = useState();
+    // let [msg, setMsg] = useState();
     let mynavigate = useNavigate();
 
     let dispatch = useDispatch();
+    //the current user
     const save = (user) => {
-        // alert(user.Password)
         loginFromServer(user).then(res => {
-            // if(res.data)
-            console.log(res)
-            console.log("data", res.data)
-            console.log("user", res.data)
-            dispatch(saveUser(user))
-        }).catch(err => { console.log(err); console.log("faild") })
+            console.log("enter user:", res.data)
+            dispatch(saveUser(res.data))
+         
 
+        }).catch(err => { console.log(err.response.data) })
         // חזרה לדף ההבית
         mynavigate("destinations")
     }
-
     //submit/cancel-dialog
     const [open2, setOpen] = React.useState(false);
-
     // const handleClickOpen = () => {
     //     setOpen(true);
     // };
@@ -73,18 +67,15 @@ export default function Login({ open, Transition }) {
         setOpen(false);
         open = open2;
     };
-    let cnt = 0;
-
-
-    const LightTooltip = styled(({ className, ...props }) => (
-        <Tooltip {...props} classes={{ popper: className }} />
-    ))(({ theme }) => ({
-        [`& .${tooltipClasses.tooltip}`]: {
-            backgroundColor: theme.palette.common.black,
-            boxShadow: theme.shadows[1],
-            fontSize: 13,
-        },
-    }));
+    // const LightTooltip = styled(({ className, ...props }) => (
+    //     <Tooltip {...props} classes={{ popper: className }} />
+    // ))(({ theme }) => ({
+    //     [`& .${tooltipClasses.tooltip}`]: {
+    //         backgroundColor: theme.palette.common.black,
+    //         boxShadow: theme.shadows[1],
+    //         fontSize: 13,
+    //     },
+    // }));
 
     return (<>
         <div>
@@ -118,7 +109,7 @@ export default function Login({ open, Transition }) {
                                 />
                                 <div className="error">{errors.Email?.message}</div>
 
-                                <input />
+
                                 {/* {errors.Email?.type == "required" && <div className="error">
                                     מייל הוא שדה חובה
                                 </div>}

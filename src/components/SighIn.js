@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch } from "react-redux";
 import Input from '@mui/material/Input';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,10 +13,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 // import  {addUser}  from "../store/actions/user";
-import { saveUser } from "../store/actions/user";
+// import { saveUser } from "../store/actions/user";
 export default function Register() {
     let { register, handleSubmit, getValues, formState: { errors } } = useForm({ mode: "onSubmit" });
-    let dispatch = useDispatch(state=>state.user);
+    // let dispatch = useDispatch(state=>state.user);
     //  let [msg, setMsg] = useState();
     //פונקציות של העין בסיסמא
     const [showPassword, setShowPassword] = React.useState(false);
@@ -66,25 +66,25 @@ export default function Register() {
                     }
                 />
             </FormControl>
-            {errors.Name && errors.Name.type == "required" &&
+            {errors.Name && errors.Name.type === "required" &&
                     <div className="error">
                         שם משתמש שדה חובה
                     </div>}
-                {errors.Name?.type == "minLength" &&
+                {errors.Name?.type === "minLength" &&
                     <div className="error">
                         שם משתמש לפחות 2 תויים
                     </div>}
-                {errors.Name?.type == "maxLength" &&
+                {errors.Name?.type === "maxLength" &&
                     <div className="error">
                         שם משתמש מקסימום 15 תוים
                     </div>}
             <br />
             <div>
                 <TextField id="outlined-basic" label="מייל" required="true" variant="outlined" {...register("Email", { required: true, pattern: /^[0-9A-Za-z]{1,}@gmail.com$/ })} />
-                {errors.Email?.type == "required" && <div className="error">
+                {errors.Email?.type === "required" && <div className="error">
                     מייל הוא שדה חובה
                 </div>}
-                {errors.Email?.type == "pattern" && <div className="error">
+                {errors.Email?.type === "pattern" && <div className="error">
                     מייל לא בתבנית הנכונה
                 </div>}
             </div>
@@ -92,17 +92,17 @@ export default function Register() {
             <div>
                 <TextField id="outlined-basic" required="true" label="אימות מייל" variant="outlined" {...register("confirmEmail", {
                     required: true, pattern: /^[0-9A-Za-z]{1,}@gmail.com$/, validate: (valu) => {
-                        return valu == getValues("email");
+                        return valu === getValues("email");
                     }
                 })} />
 
-                {errors.confirmEmail?.type == "required" && <div className="error">
+                {errors.confirmEmail?.type === "required" && <div className="error">
                     אימות מייל הוא שדה חובה
                 </div>}
-                {errors.confirmEmail?.type == "pattern" && <div className="error">
+                {errors.confirmEmail?.type === "pattern" && <div className="error">
                     אימות מייל לא בתבנית הנכונה
                 </div>}
-                {errors.confirmEmail?.type == "validate" && errors.confirmEmail.dirtyFields && <div className="error">מייל לא תואם</div>}
+                {errors.confirmEmail?.type === "validate" && errors.confirmEmail.dirtyFields && <div className="error">מייל לא תואם</div>}
             </div>
             <br />
             <FormControl sx={{ m: 1, width: '24ch' }} variant="outlined"  >
@@ -130,15 +130,15 @@ export default function Register() {
 
 
             </FormControl>
-            {errors.password && errors.password.type == "required" &&
+            {errors.password && errors.password.type === "required" &&
                 <div className="error">
                     סיסמא היא שדה חובה
                 </div>}
-            {errors.password?.type == "minLength" &&
+            {errors.password?.type === "minLength" &&
                 <div className="error">
                     סיסמא לפחות 5 תויים
                 </div>}
-            {errors.password?.type == "maxLength" &&
+            {errors.password?.type === "maxLength" &&
                 <div className="error">
                     סיסמא מקסימום 15 תוים
                 </div>}
