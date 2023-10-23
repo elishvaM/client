@@ -28,8 +28,8 @@ import * as yup from "yup";
 
 // { minLength: 2, maxLength: 15, required: true }
 const schema = yup.object({
-    Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15",x => x.length >= 2 && x.length <= 15),
-    Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25",x => x.length >= 2 && x.length <= 25).email('מייל לא תקין'),
+    Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
+    Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25", x => x.length >= 2 && x.length <= 25).email('מייל לא תקין'),
 }).required();
 
 
@@ -48,8 +48,8 @@ export default function Login({ open, Transition }) {
         loginFromServer(user).then(res => {
             // if(res.data)
             console.log(res)
-            console.log("data" , res.data)
-            console.log("user" , res.data)
+            console.log("data", res.data)
+            console.log("user", res.data)
             dispatch(saveUser(user))
         }).catch(err => { console.log(err); console.log("faild") })
 
@@ -97,38 +97,28 @@ export default function Login({ open, Transition }) {
                     <DialogContentText>
                         <form className="form" onSubmit={handleSubmit(save)} >
                             <div>
-                                {/* <InputLabel htmlFor="input-with-icon-adornment">
-                                        סיסמא
-                                    </InputLabel> */}
+
                                 <Input
                                     label="סיסמא"
+                                    error={errors.Password}
                                     {...register("Password")}
-                                    id="input-with-icon-adornment"
                                     startAdornment={
                                         <InputAdornment position="start">
                                             <PasswordOutlined />
                                         </InputAdornment>
                                     } />
-
-                                {/* errors.Password && errors.Password.type == "required" && */}
-                                <div className="error">{ errors.Password?.message}</div>
-
-                               
-
-                                {/* מייל */}
-                                {/* <InputLabel htmlFor="input-with-icon-adornment">
-                                    מייל
-                                </InputLabel> */}
+                                <div className="error">{errors.Password?.message}</div>
                                 <Input
                                     {...register("Email")}
-                                    id="input-with-icon-adornment"
                                     startAdornment={
                                         <InputAdornment position="start">
                                             <MailOutline />
                                         </InputAdornment>
                                     }
                                 />
-                                 <div className="error">{ errors.Email?.message}</div>
+                                <div className="error">{errors.Email?.message}</div>
+
+                                <input />
                                 {/* {errors.Email?.type == "required" && <div className="error">
                                     מייל הוא שדה חובה
                                 </div>}
