@@ -11,16 +11,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CardActionArea } from '@mui/material';
 export default function OneDestination({ attraction }) {
   return (<>
-    <Card className='card' >
-      {/* כרטיס לא לחיץ */}
-    {/* onClick={() => alert("ff")} */}
-      <CardActionArea >
+    <Card className='card'  >
+
+      <CardActionArea onClick={() => alert("ff")} >
         <div className='photo-erea'>
           מקום לתמונה
           <CardMedia
             sx={{ height: 100 }}
             //???אין תמונה
-            // image= ".../imgs/items/aw1.jpg"
+            image="../imgs/items/aw1.jpg"
             title="green iguana"
           />
         </div>
@@ -33,7 +32,7 @@ export default function OneDestination({ attraction }) {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-         </CardActionArea>
+      </CardActionArea>
     </Card>
 
   </>)

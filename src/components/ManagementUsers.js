@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { usersFromServer } from "../services/user"
 export default function ManagementUsers() {
-    let [users, setUsers] = useState()
+    const [users, setUsers] = useState([])
     useEffect(() => {
         usersFromServer().then(res => {
             //???למה לא נכנס למערך
