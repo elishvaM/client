@@ -1,0 +1,49 @@
+.myimg{
+    width: 100px;
+    height: 80px;
+    border-radius: 15px 15px 5px 5px;
+}
+.li-myitem{ 
+    // border-radius: 15px 15px 5px 5px;
+     margin: 30px;
+     min-width: 100px;
+     min-height: 100px;
+     max-width: 100px;
+     max-height: 100px;
+}
+.ul-myitem{
+    position:absolute;
+    top: 350px;
+    max-height: 400px;
+    width: 66vw;
+    list-style-type: none;
+    display:flex;
+    flex-wrap: wrap;
+}
+.doneIcon{
+    background-color: lawngreen;
+    border-radius: 15px;
+    position: relative;
+    bottom: 120px;
+}
+.pressed-p{
+    border-bottom: 6px solid lawngreen;
+    border-right: 6px solid lawngreen;
+    border-left: 6px solid lawngreen;
+    margin: 0px;
+    max-height: 20px;
+    font-size: small;
+    opacity: 0.6;
+    // border-radius: 0px 0px 9px 9px;
+}
+.pressed-img{
+    opacity: 0.6;
+}
+.myimg-del{
+    opacity: 0.6;
+    background-color: deepskyblue;
+    padding: 10px;
+}
+.list{
+    display: block;
+}
