@@ -6,10 +6,47 @@ import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { useEffect } from "react";
 import { useRef } from 'react';
-import "../StyleComponents/Filter.scss";
-import { updateFiltering } from '../store/actions/attraction';
+import "../StyleComponents/Destination.scss";
+import { changeSwitch, updateFiltering } from '../store/actions/attraction';
 import { Box } from '@mui/material';
+//סלקט התחלה
+import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Slider from '@mui/material/Slider';
+  function not(a, b) {
+    return a.filter((value) => b.indexOf(value) === -1);
+  }
+  
+  function intersection(a, b) {
+    return a.filter((value) => b.indexOf(value) !== -1);
+  }
+  
+  function union(a, b) {
+    return [...a, ...not(b, a)];
+  }
+//סלקט סוף
+//start slider
+  function valuetext(value) {
+    return `${value}°C`;
+  }
+//end slider
 export default function Filter(){
+  //start slider
+  const [value, setValue] = React.useState([0, 1000]);//? לשנות למקס פרייס
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    xx(1);
+  };
+  //end slider
     let dispatch = useDispatch()
     let { handleSubmit } = useForm(); 
     let x = useRef();
@@ -18,42 +55,28 @@ export default function Filter(){
     let attractions = useSelector(state=> state.attraction.attractions);
     //שליפת כל אפשרויות הסינון
     let attractionTypes = useSelector(state=> state.attraction.attractionTypes);
-    let countries = useSelector(state=> state.attraction.countries);
-    let person = useSelector(state=> state.attraction.person);
-
-
-
+    let countries = useSelector(state=> state.attraction.countries); 
+    let person = useSelector(state=> state.attraction.person); 
     let filtered = [...attractions];
-    // let [filtered, setFiltered] = useState([...attractions])
-
     let [arrays, setArrays] = useState([[],[],[]]);
-    
-    let names = ["attractionTypes","countries","person"]
-    let isPressed = [0, 0, 0]
-
-
+    let [first, setFirst] = useState(true);
     const xx= (checkbox)=> {
-        // let ff = [[],[],[]];
-        // let u = [...ff]
-        // u[0]=[2]
-        // console.log("u", u)
-        // u[0] = [2, 3]
-        // console.log("u", u)
-
+        if (first) {dispatch(changeSwitch()); setFirst(false)}//? למה צריך לשים בסטייט
+        if(checkbox != 1){
         if (checkbox.target.checked == false){
             deleteFromFiltering(checkbox)      
         }
         else{
             addToFiltering(checkbox)
-        }
+        }}
+        priceF();
         for(let i=0; i<arrays.length; i++){
             if(i == 0)
             attractionTypesF(arrays[i])
             else if(i == 1)
             countriesF(arrays[i]) 
             else if(i == 2)
-            personF(arrays[i])
-            
+            personF(arrays[i])            
         }
         console.log("filtered", filtered)
         dispatch(updateFiltering(filtered))
@@ -70,6 +93,7 @@ export default function Filter(){
                 return
             }
         temp = []
+        console.log("person be l "+filtered.length)
         for(let i=0; i<filtered.length; i++){
             for(let j=0; j<arr.length; j++){
                 console.log(filtered[i].TypeId == arr[j])
@@ -80,8 +104,8 @@ export default function Filter(){
                     }
             }
         }
+        
         filtered = temp
-        console.log("filtereeeeee", filtered)
         // setFiltered(temp)
         // console.log("attractionTypesF", filtered )
     }
@@ -125,57 +149,163 @@ export default function Filter(){
         }
         
         filtered = temp
-        
+        console.log("person af", filtered)
     }
+    const priceF=()=>{
+      // if(arr.length == 0)
+      // {
+      //     console.log("null from price")
+      //     return
+      // }
+      //? אפשר  לשנו תהערה ולעשות פה שאם זה עומד מהמחיר המינימלי עד המקסימלי שיצא
+      temp = [] 
+      console.log("temp ", temp);
+      for(let i=0; i<filtered.length; i++)  
+         if(filtered[i].Price >= value[0] && filtered[i].Price <= value[1])
+            temp = [...temp, filtered[i]];
+      
+      console.log("filteredddddd be",filtered);
+      filtered = temp
+      console.log("filteredddddd af",filtered);
+      
+  }
     const addToFiltering = (checkbox)=>{
         let temp = [...arrays[checkbox.target.name], checkbox.target.value]//העתקת המערך הקטן והוספת הערך הנלחץ
-        // let arr = [...arrays]
-        // arr[checkbox.target.name] = [...temp]
-        // console.log("arr", arr)
-        // setArrays([...arr])
         arrays[checkbox.target.name] = temp // החלפתי את זה עם 3 שורות קודמות בפועל זה לא אמור להיות טוב חייב לערוך בסט סטייט ??
-        console.log("arrays", arrays)
      }
     const deleteFromFiltering = (checkbox)=>{
        let temp = arrays[checkbox.target.name].filter(x => x != checkbox.target.value)
-    //    let arr = [...arrays]
-    //    arr[checkbox.target.name] = [...temp]
-    //    console.log("arr", arr)
-    //    setArrays([...arr])
-          arrays[checkbox.target.name] = temp
-    //    console.log("arrays", arrays)
+       arrays[checkbox.target.name] = temp
     }
-    // const xx= (checkbox)=> {
-    //     console.log(checkbox.target.name)
-    //     console.log("*")
-    //     if (checkbox.target.checked == false)
-    //         {
-    //             deleteFromFiltering(checkbox.target.value)
-    //             return
-    //         }
 
-    //     let temp = [...type, checkbox.target.value]
-    //     setType([...temp])
-    //     // console.log("temp",temp)
+//הסלקט התחלה
+const [checked, setChecked] = React.useState([]);
+// const [left, setLeft] = React.useState([0, 1, 2, 3]);
+// const [right, setRight] = React.useState([4, 5, 6, 7]);
 
-    //     for(let i=0; i<attractions.length; i++){
-    //         if (attractions[i].TypeId == checkbox.target.value)
-    //         {
-    //             filtering = [...filtering, attractions[i]]
-    //         }
-    //     }
-    //     console.log("filtering", filtering)
-    //     dispatch(updateFiltering(filtering))
+// const leftChecked = intersection(checked, left);
+// const rightChecked = intersection(checked, right);
 
-    // }
+const handleToggle = (value) => () => {
+  const currentIndex = checked.indexOf(value);
+  const newChecked = [...checked];
 
+  if (currentIndex === -1) {
+    newChecked.push(value);
+  } else {
+    newChecked.splice(currentIndex, 1);
+  }
+
+  setChecked(newChecked);
+};
+
+const numberOfChecked = (items) => intersection(checked, items).length;
+
+const handleToggleAll = (items) => () => {
+  if (numberOfChecked(items) === items.length) {
+    setChecked(not(checked, items));
+  } else {
+    setChecked(union(checked, items));
+  }
+};
+
+// const handleCheckedRight = () => {
+//   setRight(right.concat(leftChecked));
+//   setLeft(not(left, leftChecked));
+//   setChecked(not(checked, leftChecked));
+// };
+
+// const handleCheckedLeft = () => {
+//   setLeft(left.concat(rightChecked));
+//   setRight(not(right, rightChecked));
+//   setChecked(not(checked, rightChecked));
+// };
+const customList = (title, items, inds) => (
+    <Card>
+      <CardHeader          
+          sx={{ px: 2, py: 1 }}
+        // avatar={
+        //   <Checkbox
+        //     onClick={handleToggleAll(items)}
+        //     checked={// sign plus (-if all checked)
+        //       numberOfChecked(items) === items.length && items.length !== 0}
+        //     indeterminate={// sign minus* or empty** (-if at least one checked* or no one**)  
+        //       numberOfChecked(items) !== items.length && numberOfChecked(items) !== 0}          
+        //     disabled={items.length === 0}
+        //     inputProps={{
+        //       'aria-label': 'all items selected',
+        //     }}
+        //   />
+        // }
+        title={title}
+        subheader={`${numberOfChecked(items)}/${items.length} נבחרו`}
+      />
+      <Divider />
+      <List
+        sx={{
+          width: 200,
+          height: 150,
+          bgcolor: 'background.paper',
+          overflow: 'auto',
+        }}
+        dense
+        component="div"
+        role="list"
+      >
+        {items.map((value) => {
+          const labelId = `transfer-list-all-item-${value.Id}-label`;//Id
+
+          return (
+            <ListItem
+              key={value.Id}//Id
+              role="listitem"
+              button
+              onClick={handleToggle(value)}
+            >
+              <ListItemIcon>
+                <Checkbox
+                  name={inds} value={value.Id} onClick={xx}//
+                  // checked={checked.indexOf(value) !== -1}//Id
+                  // tabIndex={-1}
+                  // disableRipple
+                  // inputProps={{
+                  //   'aria-labelledby': labelId,
+                  // }}
+                />
+              </ListItemIcon>
+              <ListItemText id={labelId} primary={title=="סוג אטרקציה"?`${value.Type}`:
+                title=="קהל"?`${value.Person}`:null } /> 
+            </ListItem>
+          );
+        })}
+      </List>
+    </Card>
+  );
+//הסלקט סוף
     return(<>
-    
-        <form name="myForm2" ref={x} >
+
+      <Grid container spacing={2} justifyContent="center" alignItems="center" display="block">
+      <Grid item >{customList('קהל', person, 2)}</Grid>{/* width="min-content" */}
+      <Grid item >{customList('סוג אטרקציה', attractionTypes, 0)}</Grid> 
+      </Grid>
+      <Box sx={{ width: 300 }}>
+        <p>מחיר</p>
+      <Slider
+        max={1000} min={0}
+        getAriaLabel={() => 'Temperature range'}
+        value={value}
+        onChange={handleChange}
+        valueLabelDisplay="auto"
+        getAriaValueText={valuetext}
+      />
+      <div style={{display:'flex'}}><p> ש"ח </p><p>{' '} {value[0]+" - "+value[1]}</p></div>
+    </Box>
+        {/* <form name="myForm2"  > */}
             {/* onSubmit={handleSubmit(save)} */}
-        <ul>
-        <label>סוג אטרקציה</label><br/>
-        {/* סוגי אטרקציות */}
+            {/* ref={x} */}
+        {/*  <ul>
+       <label>סוג אטרקציה</label><br/>
+       
         {attractionTypes.map(item=>
             <li key={item.Id}>
                 <input type="checkbox" className={item.Type} name={0} value={item.Id} onClick={xx}/>
@@ -185,7 +315,7 @@ export default function Filter(){
          </ul>
          <ul>
          <label>מדינות</label><br/>
-        {/* מדינות */}
+       
         {countries.map(item=>
             <li key={item.Id}>
                 <input type="checkbox" className={item.Country} name={1} value={item.Id} onClick={xx}/>
@@ -195,7 +325,7 @@ export default function Filter(){
         </ul>
         <ul>
         <label>גילאים</label><br/>
-        {/* גילאים */}
+       
         {person.map(item=>
             <li key={item.Id}>
                 <input type="checkbox" className={item.Person} name={2} value={item.Id} onClick={xx}/>
@@ -205,13 +335,13 @@ export default function Filter(){
         </ul>
         <input type="submit" value="Submit" />
         <input type="reset"  value="אפס"></input>
-        {/* {x.current.value} */}
+       
        
 
-        </form>
+        </form> */}
     {/* <FormGroup>
        <ul>
-            {arr.map(item=> <li><FormControlLabel control={<Checkbox defaultChecked />} label={item.Type} /></li>)}
+            {countries.map(item=> <li><FormControlLabel control={<Checkbox defaultChecked />} label={item.Type} /></li>)}
       </ul>
     </FormGroup> */}
     </>)
