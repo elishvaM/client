@@ -9,7 +9,7 @@ import NavBar from './components/NavBar';
 import Destinations from './components/Destinations';
 import MyList from './components/MyList';
 import ManagementUsers from './components/ManagementUsers';
-//import { Link } from "react-router-dom";
+// app first page
 function App() {
   return (
     <div className="App">
@@ -24,8 +24,6 @@ function App() {
         <Route path="destinations" element={<Destinations />} />
         <Route path="mylist/:id" element={<MyList />} />
         <Route path="managementUsers" element={<ManagementUsers />} />
-
-        
         <Route path="*" element={<Destinations />} />
       </Routes>
     </div>
