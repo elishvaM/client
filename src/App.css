@@ -2,12 +2,8 @@
   text-align: center;
 }
 
-.App2 {
-  text-align: center;
-}
-
 .App-logo {
-  height: 50vmin;
+  height: 40vmin;
   pointer-events: none;
 }
 
@@ -39,4 +35,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+.mypage{
+  display: flex;
+}
+.ul{
+ list-style-type: none;
 }
