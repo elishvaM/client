@@ -2,10 +2,24 @@
 export const LOG_OUT="LOG_OUT";
 export const LOG_IN="LOG_IN";
 export const SIGN_IN="SIGN_IN";
-//attractio
+//enter or go out from private region
+export const PRIVATE_REGION="PRIVATE_REGION";
+
+//attractions
 export const SAVE_ATTRACTIONS="SAVE_ATTRACTIONS";
 export const ADD_ATTRACTION="ADD_ATTRACTION";
 export const DELETE_ATTRACTION="DELETE_ATTRACTION";
 export const UPDATE_ATTRACTION="UPDATE_ATTRACTION";
 export const SELECT_ATTRACTION="SELECT_ATTRACTION";
 export const UPDATE_FILTERING="UPDATE_FILTERING";
+export const CHANGE_SWITCH="CHANGE_SWITCH";
+export const ADD_LOVED_ATTRACION="ADD_LOVED_ATTRACION";
+//items
+export const ADD_ITEM="ADD_ITEM";
+export const REMOVE_ITEM_FROM_MY_LIST="REMOVE_ITEM_FROM_MY_LIST";
+export const ADD_ITEM_TO_MY_LIST="ADD_ITEM_TO_MY_LIST";
+export const REMOVE_ITEM="REMOVE_ITEM";
+export const UPDATE_ITEMS_SELECTED="UPDATE_ITEMS_SELECTED";
+export const SAVE_ITEMS = "SAVE_ITEMS";
+//
+export const SAVE_DATES = "SAVE_DATES";

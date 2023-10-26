@@ -5,43 +5,49 @@ import { DataGrid } from '@mui/x-data-grid';
 const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
-    field: 'firstName',
-    headerName: 'First name',
+    field: 'name',
+    headerName: 'NAME',
     width: 150,
     editable: true,
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
+    field: 'comment',
+    headerName: 'COMMENT',
     width: 150,
     editable: true,
   },
   {
-    field: 'age',
-    headerName: 'Age',
+    field: 'amount',
+    headerName: 'AMOUNT',
     type: 'number',
     width: 110,
     editable: true,
   },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
+  // {
+  //   field: 'fullName',
+  //   headerName: 'Full name',
+  //   description: 'This column has a value getter and is not sortable.',
+  //   sortable: false,
+  //   width: 160,
+  //   valueGetter: (params) =>
+  //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+  // },
 ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
- 
-
+  // { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+  { id: 1, name: 'קרם', comment: 'לקנות', amount: 1 },
+  { id: 2, name: 'בקבוק', comment: 'להקפיא', amount: 3 },
+  { id: 3, name: 'כובע', comment: 'לכבס אותו', amount: 1 },
+  { id: 4, name: 'כובע', comment: 'לכבס אותו', amount: 1 },
+  { id: 5, name: 'כובע', comment: 'לכבס אותו', amount: 1 },
+  { id: 6, name: 'כובע', comment: 'לכבס אותו', amount: 1 },
+  { id: 7, name: 'כובע', comment: 'לכבס אותו', amount: 1 },
+  { id: 8, name: 'כובע', comment: 'לכבס אותו', amount: 1 },
 ];
 export default function DataGridDemo() {
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 400, width: '100%', position:"relative",left:"20rem", top:"7rem" }}>
       <DataGrid
         rows={rows}
         columns={columns}

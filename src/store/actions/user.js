@@ -16,3 +16,11 @@ export const logOut = ()=>{
     }
     
 }
+//כניסת/יציאת המשתמש ל/מ איזור האישי
+export const privateRegion = ()=>{
+    
+    return {
+        type:types.PRIVATE_REGION,
+    }
+    
+}

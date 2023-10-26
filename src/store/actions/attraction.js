@@ -41,5 +41,15 @@ export const updateFiltering = (arr)=>{
         payload: arr
     }
 } 
-
+export const changeSwitch = ()=>{
+    return {
+        type: types.CHANGE_SWITCH,
+    }
+}
+export const addLovedAttraction = (x)=>{
+    return {
+        type: types.ADD_LOVED_ATTRACION,
+        payload: x
+    }
+}
 

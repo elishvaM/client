@@ -1,12 +1,35 @@
+// .ul-dest{
+//     // background-color: darksalmon;
+//     display: flex;
+//     flex-wrap: wrap;
+//     list-style: none;
+//     // margin:auto;//למה לא שם את הכל באמצע ??
+//     margin: 2px;
+//     // width: calc(100% - 30px);
+//     width: "29vw";
+//     // padding: 20px;
+// }
+// .li{
+//     // width: 300px;
+//     margin: 2vw;
+// }
 .ul-dest{
     display: flex;
     flex-wrap: wrap;
+    width:80em;
+    // margin-top: 0px;
     list-style: none;
     margin:auto;//למה לא שם את הכל באמצע ??
 }
 .li{
-    // איך יתכן שאין הבדל בין פדינג למרגינג ???
+        // איך יתכן שאין הבדל בין פדינג למרגינג ???
  margin: 2vw;
+    list-style-type: none;
+    // width: em;
+    // padding: 150px;
+    // margin: 220px;
+    margin-right: 70px;
+    margin-bottom: 70px;
 }
 .attraction-content{
     background-color: #003b95;
@@ -15,4 +38,21 @@
     top:0px;
     ///??? למה אין רווח רק כשיש בורגר
      border: 1px solid  #003b95;
+}
+.all{  
+    display: flex;
+    // background-color: bisque;
+    width:100%;
+}
+.asinun{
+//    background-color: rgb(39, 183, 130);
+border-radius: 30px;
+background-color: palevioletred;
+// background-color: rgb(178, 122, 213);
+   padding:40px;//
+//    position: fixed;
+   top: 16.8em;
+   right: 0.2em;
+   position: absolute;
+   color:antiquewhite ;
 }

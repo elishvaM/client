@@ -9,11 +9,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { combineReducers, createStore } from 'redux';
 import attractionReducer from "./store/reducers/attraction";
 import userReducer from "./store/reducers/user";
+import itemReducer from "./store/reducers/item";
 import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const myStore = createStore(combineReducers({ attraction: attractionReducer, user: userReducer }));
+const myStore = createStore(combineReducers({ attraction: attractionReducer, user: userReducer, item:itemReducer }));
 
 root.render(
   <React.StrictMode>
