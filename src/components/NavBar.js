@@ -53,7 +53,7 @@ export default function NavBar() {
     return (
         <>
             {/* header, nav bar */}
-            {currentUser != null && console.log("cur us",currentUser)}
+            {currentUser != null && console.log("cur us", currentUser)}
             {currentUser != null && <div>שלום {currentUser.name}</div>}
             <div className="header-navbar">
                 <header>
@@ -73,7 +73,7 @@ export default function NavBar() {
                                     <Button size="large" onClick={handleClickOpen}>< AccountCircleOutlinedIcon /> </Button>
                                 </LightTooltip>
 
-                                {/*לא אמורים לקרוא לקומפוננטה */}
+                                {/* לבדוק*/}
                                 <Login open={open} TransitionComponent={Transition} />
 
                             </div>
@@ -91,6 +91,8 @@ export default function NavBar() {
                                     variant="filled" >   <InfoOutlinedIcon />   קצת עלינו   </Button></li>
                                 <li className="button-nav"> <Button className="links-nav" size="small" onClick={() => mynavigate("contact")}
                                     variant="filled"  >   <ContactSupportOutlinedIcon />  צור קשר </Button></li>
+                                <li className="button-nav"> <Button className="links-nav" size="small" onClick={() => mynavigate("managementUsers")}
+                                    variant="filled"  >   <ContactSupportOutlinedIcon /> ניהול משמתמשים </Button></li>
                             </ul>
                         </div>
                     </nav>

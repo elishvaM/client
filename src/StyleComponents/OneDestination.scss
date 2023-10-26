@@ -1,12 +1,22 @@
-.card{
-    border: 2px solid rgb(115, 115, 228);
-    width: 50vw;
-}
+
+// .card{
+//   //  border: 2px solid rgb(115, 115, 228);
+//     width:50vw;
+//     height:max-content;
+//     direction: rtl;
+// }
 .photo-erea{
-    border: 2px solid #ff0202;
-    width: 20vw;
-    height: 20vh;
+     border: 2px solid #d88e8e;
+    // width: 49vw;
+    // height: 20vh;
+    // margin: auto;
 }
 .content{
-    float: inline-start;
+font-size: 10px;
+}
+//vf
+.css-bhp9pd-MuiPaper-root-MuiCard-root{
+    direction: rtl !important;
+    width: 50vw !important;
+   // height: 30vh !important;
 }
