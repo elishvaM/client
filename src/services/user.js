@@ -19,3 +19,6 @@ export const usersFromServer = () => {
     return axios.get(`https://localhost:7114/api/User/GetAllUsers`);
 }
 
+export const changeStatusFromServer=(user)=>{
+    return axios.put(`https://localhost:7114/api/User/UpDateStatusById/`,user)
+}
