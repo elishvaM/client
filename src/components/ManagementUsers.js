@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { usersFromServer } from "../services/user"
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
+// import Switch from '@mui/material/Switch';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 import { Button } from "@mui/base";
 import { useDispatch } from "react-redux";
 import { changeStatusFromServer } from "../services/user"
@@ -14,8 +14,9 @@ export default function ManagementUsers() {
         //מביא הערה על המערך הריק שכאן
     }, []);
     let dispatch = useDispatch();
+    //לא משנה את הסטטוס
     const handleChange = (user) => {
-        console.log(user.id)
+        console.log(user)
         changeStatusFromServer(user).then(res => {
             console.log(res);
         }).catch(err => { console.log("error", err) });
