@@ -10,17 +10,18 @@ export default function ManagementUsers() {
     useEffect(() => {
         usersFromServer().then(res => {
             setUsers(res.data)
+            console.log("before:",res.data)
         }).catch(err => console.log(err))
         //מביא הערה על המערך הריק שכאן
     }, []);
-    let dispatch = useDispatch();
+    // let dispatch = useDispatch();
     //לא משנה את הסטטוס
     const handleChange = (user) => {
-        console.log(user)
-        changeStatusFromServer(user).then(res => {
-            console.log(res);
+        console.log("uu",user.user)
+        changeStatusFromServer(user.user).then(res => {
+            console.log("res",res);
+            console.log("after:", users);
         }).catch(err => { console.log("error", err) });
-        console.log("all users", users);
     };
     return (<>
         <ul>

@@ -20,5 +20,5 @@ export const usersFromServer = () => {
 }
 
 export const changeStatusFromServer=(user)=>{
-    return axios.put(`https://localhost:7114/api/User/UpDateStatusById/`,user)
+    return axios.put(`https://localhost:7114/api/User/UpDateStatusById`,user)
 }
