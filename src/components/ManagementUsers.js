@@ -14,8 +14,7 @@ export default function ManagementUsers() {
         }).catch(err => console.log(err))
         //מביא הערה על המערך הריק שכאן
     }, []);
-    // let dispatch = useDispatch();
-    //לא משנה את הסטטוס
+    //משנה סטטוס בשרת ולא בתצוגה
     const handleChange = (user) => {
         console.log("uu",user.user)
         changeStatusFromServer(user.user).then(res => {

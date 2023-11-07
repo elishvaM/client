@@ -39,9 +39,9 @@ export default function NavBar() {
     //submit/cancel-dialog
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
     const Transition = React.forwardRef(function Transition(props, ref) {
         return <Slide direction="up" ref={ref} {...props} />;
     })
@@ -70,7 +70,7 @@ export default function NavBar() {
                             </div>
                             <div >
                                 <LightTooltip title="כניסה">
-                                    <Button size="large" onClick={handleClickOpen}>< AccountCircleOutlinedIcon /> </Button>
+                                    <Button size="large">< AccountCircleOutlinedIcon /> </Button>
                                 </LightTooltip>
 
                                 {/* לבדוק*/}
