@@ -66,7 +66,7 @@ export default function NavBar() {
                             </div>
                         </div>
                         <div className="user-erea">
-                            <div>  <LightTooltip title="הרשמה"><Button size="large" >  < VpnKeyOutlinedIcon /> </Button></LightTooltip>
+                            <div>  <LightTooltip title="הרשמה"><Button size="large" onClick={() => mynavigate("signin")} >  < VpnKeyOutlinedIcon /> </Button></LightTooltip>
                             </div>
                             <div >
                                 <LightTooltip title="כניסה">
