@@ -79,7 +79,7 @@ export default function NavBar() {
             <div className="user-erea">
               <div>
                 {" "}
-                <LightTooltip title="הרשמה">
+                <LightTooltip title="ההההרשמה">
                   <Button size="large" onClick={() => mynavigate("signin")}>
                     {" "}
                     <VpnKeyOutlinedIcon />{" "}
