@@ -13,12 +13,15 @@ const initialState={
       {Id:4, Name:"מברשת"     , IsDuplicated:0 , ProductTypeId:2 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/מברשת.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
       {Id:5, Name:"מצלמה"     , IsDuplicated:0 , ProductTypeId:3 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/camera.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null}
 ], 
+
+
     allitems:[
 
       ],  
-    productTypes:[{Id:1, Type:"אביזר"},{Id:2, Type:"ביגוד"},
-        {Id:3, Type:"מזון"},{Id:4, Type:"אסטטיקה"},{Id:5, Type:"רפואי"} 
+    productTypes:[{Id:1, Type:"ביגוד"},
+        {Id:2, Type:"מזון"},{Id:3, Type:"אסטטיקה"},{Id:4, Type:"רפואי"} 
     ],
+    // {Id:1, Type:"אביזר"},
     storageTypes:[
         {Id:1, Type:"קפאון"},{Id:2, Type:"קרור"},  
         {Id:3, Type:"צל"},{Id:4, Type:"חימום"}
@@ -38,12 +41,14 @@ const itemReducer= (state = initialState, action)=>{
             itemsSelected: [...state.itemsSelected, action.payload]
         }
         case types.REMOVE_ITEM_FROM_MY_LIST:
+            let item = state.itemsSelected.find(item => item.Id != action.payload);
+            item.isSelected = false;
             //מחיקת הפריט מהרשימה
             let arr = state.itemsSelected.filter(item => item.Id != action.payload);
             //שינוי תכונת פריט זה ל-לא נבחר
-            for(let i=0; i < state.allitems.length; i++)
-                if(state.allitems[i].Id == action.payload)
-                   state.allitems[i].isSelected = false;
+            // for(let i=0; i < state.allitems.length; i++)
+            //     if(state.allitems[i].Id == action.payload)
+            //        state.allitems[i].isSelected = false;
             return {
             ...state,
             itemsSelected: arr,

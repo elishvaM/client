@@ -21,7 +21,6 @@ import { useEffect } from "react";
 import { usersFromServer } from "../services/user";
 import Login from "../components/Login";
 import Slide from '@mui/material/Slide';
-
 export default function NavBar() {
     useEffect(() => { usersFromServer().then(res => console.log(res)) }, [])
     // const [value, setValue] = React.useState(0);
@@ -49,6 +48,10 @@ export default function NavBar() {
     //     setOpen(false);
     // };
     //current user
+    const personalRegion = () =>{
+
+        mynavigate("/mytrip")
+    }
     let currentUser = useSelector(state => state.user.currentUser);
     return (
         <>
@@ -74,10 +77,14 @@ export default function NavBar() {
                                 </LightTooltip>
 
                                 {/* לבדוק*/}
-                                <Login open={open} TransitionComponent={Transition} />
+                                <Login open={open} setOpen={setOpen} TransitionComponent={Transition} />
 
                             </div>
                             <div>  <LightTooltip title="בקשת אטרקציה" className="addAtt"><Button size="large" variant="contained">  בקשת אטרקציה</Button></LightTooltip>
+                            </div>
+                            <div>  
+                                <LightTooltip title="לאיזור האישי" className=""><Button size="large" variant="contained"
+                             onClick={()=> personalRegion()}> לאיזור האישי </Button></LightTooltip>
                             </div>
 
                         </div>

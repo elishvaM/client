@@ -83,7 +83,7 @@ export default function MyTrip() {
     // console.log(days)
   },[date])
   return (<div style={{display:'block'}}>
-  <PicNavBar sx={{marginLeft:200}} setDetails={setDetails} />
+  <PicNavBar setDetails={setDetails} />
     {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
       {/* <DateCalendar /> */}
       {/* <img src="/imgs/product23_image1_2021-03-29_11-25-56.jpg" style={{width:280, height:350}}className='dragData' draggable="true" onDragStart={(e)=>drag(e)}/> */}
@@ -94,7 +94,7 @@ export default function MyTrip() {
         {children? children:null}
       </div> */}
       <ul style={{listStyleType:'none', display:'flex', flexWrap:'wrap', maxWidth:1060
-    , direction:'rtl'}}>
+    , direction:'rtl', position:'absolute', left:'1rem', top:'22rem'}}>
       
       {days.map((i, key)=> <li key={key}
            style={{backgroundColor:'white', minWidth:280, minHeight:350, margin:20,

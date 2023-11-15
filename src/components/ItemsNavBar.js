@@ -62,7 +62,7 @@ export default function ItemsNavBar(){
 
     return( <>
     {/* ?? צריך בשורה הבאה את הצבע רקע בעצם הוא שייך לחיצים הקטנים */}
-    <Box sx={{ maxWidth: { xs: 320, sm: 680 }, bgcolor: 'background.paper',  mx:"auto" , display:"block", position:"absolute"}}>
+    <Box sx={{ maxWidth: { xs: 320, sm: 680 }, bgcolor: 'background.paper',  mx:"auto" , display:"block", position:"absolute",left:"1rem"}}>
       <Tabs
         value={value}
         //key={}//???  

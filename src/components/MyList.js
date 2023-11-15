@@ -21,6 +21,7 @@ import Beauty from "./Beauty";
 import ItemsOptions from "./ItemsOptions";
 import { saveItems } from '../store/actions/item';
 import { useDispatch } from 'react-redux';
+import { getAllProducts } from "../services/item";
 export default function MyList(){
     //////////מיובא
     const [checked, setChecked] = React.useState([1]);
@@ -78,22 +79,28 @@ export default function MyList(){
    let dispatch = useDispatch();
    let allitems = useSelector(s => s.item.allitems);//??? מה קורה מאחורי הקלעים אם הלך לשרת ואם לא
    React.useEffect(() => {
+    if(allitems.length == 0)
+    getAllProducts().then(res=>{
+       console.log("res",res.data)
     //קריאה לשרת להביא כל המוצרים אם המערך לא ריק 
     //צריך לשנות שזה לא יקרא כל פעם!!! זה צריך להיות כנראה ברדיוסר
-    if(allitems.length == 0)
-    dispatch(saveItems([
-      {Id:1, Name:"כובע שמש"  , IsDuplicated:0 , ProductTypeId:2 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/כובע שמש.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:2, Name:"משקפי שמש" , IsDuplicated:0 , ProductTypeId:1 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/משקפי שמש.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:3, Name:"קרם הגנה"  , IsDuplicated:0 , ProductTypeId:4 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/קרם הגנה.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:4, Name:"מברשת"      , IsDuplicated:0 , ProductTypeId:1 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/מברשת.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:5, Name:"מצלמה"     , IsDuplicated:0 , ProductTypeId:1 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/camera.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:6, Name:"נעלי ספורט"  , IsDuplicated:0 , ProductTypeId:2 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/1.JPG" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:7, Name:"עדשות" , IsDuplicated:0 , ProductTypeId:5 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/scleral_slide.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:8, Name:"לחמניות"  , IsDuplicated:0 , ProductTypeId:3 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/לחמניות.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:9, Name:"חטיפים"      , IsDuplicated:0 , ProductTypeId:3 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/חטיפים.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-      {Id:10, Name:"פירות"    , IsDuplicated:0 , ProductTypeId:3 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/p-1.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
-    ]))
-  })
+    //
+     dispatch(saveItems(res.data))
+    //res.data
+    //   [{Id:1, Name:"כובע שמש"  , IsDuplicated:0 , ProductTypeId:2 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/כובע שמש.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:2, Name:"משקפי שמש" , IsDuplicated:0 , ProductTypeId:1 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/משקפי שמש.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:3, Name:"קרם הגנה"  , IsDuplicated:0 , ProductTypeId:4 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/קרם הגנה.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:4, Name:"מברשת"      , IsDuplicated:0 , ProductTypeId:1 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/מברשת.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:5, Name:"מצלמה"     , IsDuplicated:0 , ProductTypeId:1 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/camera.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:6, Name:"נעלי ספורט"  , IsDuplicated:0 , ProductTypeId:2 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/1.JPG" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:7, Name:"עדשות" , IsDuplicated:0 , ProductTypeId:5 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/scleral_slide.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:8, Name:"לחמניות"  , IsDuplicated:0 , ProductTypeId:3 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/לחמניות.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:9, Name:"חטיפים"      , IsDuplicated:0 , ProductTypeId:3 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/חטיפים.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //   {Id:10, Name:"פירות"    , IsDuplicated:0 , ProductTypeId:3 , StorageTypeId:1 , IsNeedAssurants:0 , Img:"/imgs/items/p-1.jpg" , IsImgConfirm:1 , IsConfirm:1 ,Amount:2, Status:null},
+    //]
+    }
+    ).catch(error => {console.log("error in get products")})
+  },[])
     return(<>
     <ItemsNavBar/>
     <div className='list'>

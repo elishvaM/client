@@ -9,11 +9,18 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 // import OneAttraction from './OneAttraction';
 import { CardActionArea } from '@mui/material';
-export default function OneDestination({ attraction }) {
-  return (<>
-    <Card className='card'  >
+import { useDispatch } from 'react-redux';
+import { addLovedAttraction, removeLovedAttraction } from '../store/actions/attraction';
+import { useNavigate } from 'react-router-dom';
 
-      <CardActionArea onClick={() => alert("ff")} >
+export default function OneDestination({ attraction }) {
+  let mydispatch = useDispatch();
+  let mynavigate = useNavigate();
+  const Vaar=()=>{mynavigate("/mytrip")}
+  return (<>
+    <Card className='card'>
+
+      <CardActionArea onClick={() => console.log("ff")} >
         <div className='photo-erea'>
           מקום לתמונה
           <CardMedia
@@ -29,8 +36,12 @@ export default function OneDestination({ attraction }) {
           <h2>{attraction.desc}</h2>
           {/* </Typography> */}
         </CardContent>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" 
+                    onClick={() => {attraction.isLoved?
+                      mydispatch(removeLovedAttraction(attraction.id)):
+                    mydispatch(addLovedAttraction(attraction))
+                      } }>
+          <FavoriteIcon color={attraction.isLoved?"error":"none"}/>
         </IconButton>
       </CardActionArea>
     </Card>

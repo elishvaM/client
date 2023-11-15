@@ -40,8 +40,9 @@ export default function Items({type, setValuefrom , valuefrom}) {
   const descriptionElementRef = React.useRef(null);
  
   let allitems = useSelector(s => s.item.allitems);//??? מה קורה מאחורי הקלעים אם הלך לשרת ואם לא
-  let itemsByType = allitems.filter(item => item.ProductTypeId == valuefrom);
+  let itemsByType = allitems.filter(item => item.productTypeId == valuefrom);
   React.useEffect(() => {  
+    console.log("items", valuefrom)
     setOpen(true);
     // handleClickOpen();
   }, []);

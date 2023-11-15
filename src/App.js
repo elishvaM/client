@@ -9,6 +9,9 @@ import NavBar from './components/NavBar';
 import Destinations from './components/Destinations';
 import MyList from './components/MyList';
 import ManagementUsers from './components/ManagementUsers';
+import MyTrip from './components/MyTrip';
+import MyPage from './components/MyPage';
+
 // app first page
 function App() {
   return (
@@ -22,6 +25,7 @@ function App() {
         <Route path="signin" element={<SighIn />} />
         <Route path="login" element={<Login />} />
         <Route path="destinations" element={<Destinations />} />
+        <Route path="mytrip" element={<div className='mypage'><MyTrip/><MyPage /></div>} />
         <Route path="mylist/:id" element={<MyList />} />
         <Route path="managementUsers" element={<ManagementUsers />} />
         <Route path="*" element={<Destinations />} />

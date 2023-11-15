@@ -18,6 +18,8 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { attractionFromServer } from '../services/attraction';
 import { saveAttractions } from '../store/actions/attraction';
+import { savedAttractionByUserIdFromServer } from "../services/attraction";
+
 const BootstrapButton = styled(Button)({
   boxShadow: 'none',
   textTransform: 'none',
@@ -64,12 +66,17 @@ export default function Destination() {
     options: arrSelector,
     getOptionLabel: (option) => option.Name
   };
-
+  let lovedAttractions;
+  let id = 8;
   useEffect(() => {
+    if(attractions.length == 0){
+    savedAttractionByUserIdFromServer(id).then(res =>{console.log(res)
+      lovedAttractions = res.data; }).catch(err=> console.log(err))
     //fatch all the attraction from server
     attractionFromServer().then(res => {
-      dispatch(saveAttractions(res.data));
+      dispatch(saveAttractions(res.data, lovedAttractions));
     }).catch(err => { console.log(err) })
+  }
   }, []);
 
   let attractions = useSelector(state => state.attraction.attractions);
@@ -83,9 +90,7 @@ export default function Destination() {
       <div className='attraction-header'><h1>אטרקציות,חוויות ופעילויות</h1>
         <h2>בואו לבחור את החוויה הבאה</h2>
       </div>
-
-
-
+      
     </div>
     <Stack spacing={1} sx={{ width: 300 }} onClick={m} >
       <Autocomplete
@@ -106,13 +111,14 @@ export default function Destination() {
 
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder=" ? לאן נוסעים"
+        placeholder="  לאן נוסעים ? "
         inputProps={{ 'aria-label': 'search google maps' }}
       />
       <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>
+    
     {/* הסינון */}
     <BootstrapButton variant="contained" disableRipple
       sx={{ marginLeft: '63vw' }} onClick={() => { setDisplayFilter(true); }}>
@@ -122,8 +128,11 @@ export default function Destination() {
       <Filter /> : null}
     {/* הצגת האטרקציות */}
     <ul className='ul-dest'>
-      {attractions.length !== 0 ? <div>{attractions.map(item => <li key={item.id}><OneDestination attraction={item} /></li>)}</div> : null}
+      {/* למה השורה הבאה שבהערה לא עבדה ??? */}
+      {/* {attractions.length!== 0?attractions.map(i => <li key={i.id}><h1>{i.isLoved}</h1></li>):null} */}
+      {attractions.length !== 0 ? <div>{attractions.map(item => <li key={item.id}>{console.log("s "+item.isLoved)}<OneDestination attraction={item} /></li>)}</div> : null}
     </ul>
+    {attractions.map(i => console.log(i.id+" "+i.isLoved))}{console.log("ui",attractions)}
   </>
   )
 }

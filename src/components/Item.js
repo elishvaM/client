@@ -49,13 +49,14 @@ export default function Item({item, all, setCntfrom, cntfrom}){
     }
     return(<>
     {console.log(item.isSelected)}
+    {console.log(item)}
             <li 
             // className={flag?'li-item li-pressed-item':'li-item'} 
 
             // className={flag?isdeleted():'li-item'} 
             className={flag?'li-item li-pressed-item':'li-item'} 
 
-            key={item.Id}
+            key={item.id}
             //???הסט לא משנה זה עובד לי הפוך כשפולס...
             //אפשר לגשת לסייט ולעדכנו בו זמנית במשתנים פרימיטיבייםtempFlag=!tempFlag
             onClick={()=>check()}>
@@ -63,8 +64,8 @@ export default function Item({item, all, setCntfrom, cntfrom}){
                    borderRadius:"15px 15px 5px 5px"}}>
                 <CardActionArea>
 
-              <img src={item.Img} className='img' alt=""/>
-              <p className='p'>{item.Name}</p>
+              <img src={item.img} className='img' alt=""/>
+              <p className='p'>{item.name}</p>
               </CardActionArea>
               </Card>
             </li>

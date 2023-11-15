@@ -31,7 +31,7 @@ const schema = yup.object({
 }).required();
 
 
-export default function Login({ open, Transition }) {
+export default function Login({ open, setOpen, Transition }) {
     let { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onSubmit",
         resolver: yupResolver(schema)
@@ -49,11 +49,12 @@ export default function Login({ open, Transition }) {
          
 
         }).catch(err => { console.log(err.response.data) })
+        setOpen(false);
         // חזרה לדף ההבית
         mynavigate("destinations")
     }
     //submit/cancel-dialog
-    const [open2, setOpen] = React.useState(false);
+    //const [open2, setOpen] = React.useState(false);
     // const handleClickOpen = () => {
     //     setOpen(true);
     // };
@@ -63,9 +64,11 @@ export default function Login({ open, Transition }) {
     //??? דיאלוג לא נסגר
 
     const handleClose = () => {
-        alert(open2 + " " + open)
-        setOpen(false);
-        open = open2;
+        // alert(open2 + " " + open)
+         setOpen(false);
+        // open = open2;
+
+
     };
     // const LightTooltip = styled(({ className, ...props }) => (
     //     <Tooltip {...props} classes={{ popper: className }} />
