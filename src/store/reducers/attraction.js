@@ -13,21 +13,18 @@ const initialState = {
 const attractionReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.SAVE_ATTRACTIONS:
-            // let j = 0;
-            // for(let i=0; i<action.payload.length; i++){
-            //     for(j = 0; j<state.lovedattractions.length; j++){
-            //         if(action.payload[i].id == state.lovedattractions[j].attractionId){         
-            //            action.payload[i].isLoved = true; break;
-            //         }
-            //     }
-            //     if(j == state.lovedattractions.length)
-            //        action.payload[i].isLoved = false;
-            // }
             let lovedAttractions = [], i = 0, j = 0;
-            for(; i < action.payload[0].length; i++){
+            //כיון ששלחנו מאקשיין 2 דברים 
+            //אחד מערך רגיל והשני מערך אהוב
+            //אז ניתן לגשת לפיילוד במקום ה 0 או 1
+            if(action.payload[2] != null){
+            for(; i < action.payload[0].length; i++){               
                 for(j = 0; j < action.payload[1].length; j++){
+                    //כאן בדקנו האם אטרקציה נמצאת גם במערך האטרקציות האהובות
                     if(action.payload[0][i].id == action.payload[1][j].attractionId){
+                        //הוספנו שדה כדי שנוכל לדעת אם היא אהובה 
                         action.payload[0][i].isLoved = true;
+                        //הוספת האטרקציה למערך האטרקציה
                         lovedAttractions = [...lovedAttractions, action.payload[0][i]];
                         //:מאחורי הקלעים יוצר מערך חדש ארר??? וגם לוודא שלא צריך את האוביקטים המקוריים של השליפה
                         //{id: attractionId: userId:}
@@ -36,33 +33,23 @@ const attractionReducer = (state = initialState, action) => {
                         break;
                     }
                 }
+                //אם הגענו לסוף מערך אטרקציות אהובות זה אומר שהאטרקציה לא אהובה 
+                //ולכן נהיה חייבים לקבוע ערך שלילי לשדה אי לובד
                 if(j == action.payload[1].length){
                     action.payload[0][i].isLoved = false;
                 }
             }
-            console.log("attttttttt")
-            console.log(action.payload[0])
-            console.log(lovedAttractions)
+        }
+        else{
+            action.payload[0].map(i => i.isLoved = false);
+            
+        }
             return {
                 ...state,
                 attractions: action.payload[0],
                 lovedAttractions: lovedAttractions
             }
-        // case types.SAVE_LOVED_ATTRACTIONS:
-        //     let x = 0, y = 0, arr2 = [];
-        //     for(; x < action.payload.length; x++){
-        //         for(y = 0; y < state.attractions.length; y++){
-        //             if(action.payload[x].attractionId == state.attractions[y]){
-        //                arr2 = [...arr2, state.attractions[y]];
-
-        //                break;
-        //             }
-        //         }
-        //     }
-        //     return {
-        //             ...state,
-        //             lovedAttractions: arr,
-        //     }         
+       
         case types.ADD_ATTRACTION:
             return {
                 ...state,
@@ -79,12 +66,11 @@ const attractionReducer = (state = initialState, action) => {
             copy.map(i => i.id == action.payload.id? i.isLoved = true: null)//מיפוי משנה ???
             return {
                     ...state,
+                    //הוספת האטרקציה לצערך אהבתי
                     lovedAttractions: [...state.lovedAttractions, action.payload],
                     attractions: copy      
             }
         case types.REMOVE_LOVED_ATTRACION:
-            console.log("remove ")
-            console.log(state.attractions)
             //הוצאת האטרקציה מהאטרקציות האהובות
             let lovedAttractions2 = state.lovedAttractions.filter(item => item.id != action.payload);
             //מציאת האטרקציה שצריך להסיר כדי להפוך את השדה לפולס
@@ -92,7 +78,9 @@ const attractionReducer = (state = initialState, action) => {
             copy2.map(i => i.id == action.payload? i.isLoved = false: null)
             return {
                     ...state,
+                    //כיוון שהוסרה אטרקציה ממערך זה 
                     lovedAttractions: lovedAttractions2, 
+                    //כיון שעודכנה אטרקציה ממערך זה
                     attractions: copy2     
             }
         default: { return state }

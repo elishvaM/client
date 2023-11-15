@@ -1,9 +1,9 @@
 import * as types from "../actionTypes";
 
-export const saveAttractions = (attractions, lovedAttractions)=>{
+export const saveAttractions = (attractions, lovedAttractions, user)=>{
     return {
         type: types.SAVE_ATTRACTIONS,
-        payload: [attractions, lovedAttractions]//??? באיזה שיטה להשתמש
+        payload: [attractions, lovedAttractions, user]//??? באיזה שיטה להשתמש
     }
 }
 export const saveLovedAttractions = (lovedAttractions)=>{
