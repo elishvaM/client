@@ -27,7 +27,8 @@ import * as yup from "yup";
 // { minLength: 2, maxLength: 15, required: true }
 const schema = yup.object({
     Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
-    Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25", x => x.length >= 2 && x.length <= 25).email('מייל לא תקין'),
+    Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25", x => x.length >= 2 && x.length <= 25)
+    .email('מייל לא תקין'),
 }).required();
 
 
