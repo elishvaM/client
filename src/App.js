@@ -11,7 +11,7 @@ import MyList from './components/MyList';
 import ManagementUsers from './components/ManagementUsers';
 import MyTrip from './components/MyTrip';
 import MyPage from './components/MyPage';
-
+import LovedAttractions from './components/LovedAttractions';
 // app first page
 function App() {
   return (
@@ -25,9 +25,11 @@ function App() {
         <Route path="signin" element={<SighIn />} />
         <Route path="login" element={<Login />} />
         <Route path="destinations" element={<Destinations />} />
-        <Route path="mytrip" element={<div className='mypage'><MyTrip/><MyPage /></div>} />
+        <Route path="mytrip" element={<div className='mypage'><MyTrip/></div>} />
         <Route path="mylist/:id" element={<MyList />} />
         <Route path="managementUsers" element={<ManagementUsers />} />
+        <Route path="lovedattractions" element={<><LovedAttractions /></>} />
+        <Route path="mypage" element={<MyPage />} />
         <Route path="*" element={<Destinations />} />
       </Routes>
     </div>

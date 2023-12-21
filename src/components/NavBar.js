@@ -52,9 +52,7 @@ export default function NavBar() {
   //     setOpen(false);
   // };
   //current user
-  const personalRegion = () => {
-    mynavigate("/mytrip");
-  };
+
   return (
     <>
       {/* header, nav bar */}
@@ -121,20 +119,22 @@ export default function NavBar() {
                   </Button>
                 </LightTooltip>
               </div>
-              {currentUser ? (<>
+              {/* {currentUser ? */}
+               (<>
                 <div>
                   <LightTooltip title="לאיזור האישי" className="">
                     <Button
                       size="large"
                       variant="contained"
-                      onClick={() => personalRegion()}>
+                      onClick={() => mynavigate("/mypage")}>
                       {" "}
                       לאיזור האישי{" "}
                     </Button>
                   </LightTooltip>
                 </div>
 
-             </> )  : null}
+             </> )  
+              {/* : null} */}
             </div>
           
           </nav>

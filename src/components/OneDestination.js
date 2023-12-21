@@ -26,6 +26,7 @@ export default function OneDestination({ attraction }) {
   let lovedAttraction;
   const onClick = () => {
     lovedAttraction = { UserId: user?.id, AttractionId: attraction.id };
+
     if (!attraction.isLoved) {
       if (user != null) {
         AddLovedAttractionFromServer(lovedAttraction)
@@ -48,19 +49,19 @@ export default function OneDestination({ attraction }) {
   };
   return (
     <>
+     {console.log("!!!",attraction.img)}
       <Card className="card">
         <CardActionArea>
           <div className="photo-erea">
             <CardMedia
               sx={{ height: 100 }}
               image={`/imgs/att/${attraction.img}`}
-              title="green iguana"
-            />
+              title={attraction.name} />
           </div>
           <CardContent className="content">
-            <h1>{attraction.name}</h1>
+            <h1>{attraction?.name}</h1>
             {/* <Typography  color="text.primary"> */}
-            <h2>{attraction.desc}</h2>
+            <h2>{attraction?.desc}</h2>
             {/* </Typography> */}
           </CardContent>
           <IconButton aria-label="add to favorites" onClick={() => onClick()}>

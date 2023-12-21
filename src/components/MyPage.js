@@ -191,6 +191,7 @@ import LuggageIcon from '@mui/icons-material/Luggage';
 import AddBigList from './AddBigList';
 import { useEffect } from 'react';
 import { set } from 'react-hook-form';
+import LovedAttractions from './LovedAttractions';
 
 const FireNav = styled(List)({
   '& .MuiListItemButton-root': {
@@ -212,9 +213,9 @@ export default function MyPage() {
   },[]);
   let [data, setData] = useState([
     //אולי אפשר לעשות שיבחר הוא את האיקון של הטיול שלו ?
-    { icon: <LuggageIcon />, label: 'תאילנד' },
-    { icon: <LuggageIcon />, label: 'דובאי' },
-    { icon: <LuggageIcon />, label: 'המזרח הרחוק' },
+    { id:1, icon: <LuggageIcon />, label: 'תאילנד' },
+    { id:2, icon: <LuggageIcon />, label: 'דובאי' },
+    { id:3, icon: <LuggageIcon />, label: 'המזרח הרחוק' },
     // { icon: <People />, label: 'דובאי' },
     // { icon: <Dns />, label: 'Database' },
     // { icon: <PermMedia />, label: 'Storage' },
@@ -223,7 +224,9 @@ export default function MyPage() {
   const [openCreateTrip, setOpenCreateTrip] = React.useState(false);
   const [open, setOpen] = React.useState(true);
   let mynavigate = useNavigate();
+  let [directChose, setDirectChose] = useState("LovedAttractions");
   return (
+    <>
     <Box sx={{ display: 'flex', position:"absolute", right:"1rem", height:500 }}>
       <ThemeProvider
         theme={createTheme({
@@ -236,7 +239,7 @@ export default function MyPage() {
           },
           palette: {
             mode: 'dark',
-            primary: { main: 'rgb(102, 157, 246)' },
+            primary: { main: 'rgb(102, 157, 300)' },
             background: { paper: 'rgb(5, 30, 52)' },
           },
         })}
@@ -315,7 +318,10 @@ export default function MyPage() {
               {/* loved attraction  */}
               <ListItemButton
                 alignItems="flex-start"
-                onClick={() => mynavigate('/lovedattractions')}
+                onClick={() => 
+                  setDirectChose("LovedAttractions")
+                  // mynavigate('/lovedattractions')
+              }
                 sx={{
                   px: 3,
                   pt: 2.5,
@@ -361,7 +367,7 @@ export default function MyPage() {
                 }}
               >
                 <ListItemText
-                  primary="הרשימות שלי"
+                  primary="הטיולים שלי"
                   primaryTypographyProps={{
                     fontSize: 15,
                     fontWeight: 'medium',
@@ -392,7 +398,7 @@ export default function MyPage() {
                   <ListItemButton
                     key={item.label}
                     sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)' }}
-                    onClick={()=>{mynavigate('/mytrip')}}
+                    onClick={()=>{setDirectChose("/mytrip/"+)}}
                   >
                     <ListItemIcon sx={{ color: 'inherit' }}>
                       {item.icon}
@@ -428,6 +434,10 @@ export default function MyPage() {
         </Paper>
       </ThemeProvider>
     </Box>
+    <div> {directChose==="LovedAttractions"? <LovedAttractions/>:
+           directChose===
+    :null}</div>
+    </>
   );
 }
 
