@@ -399,7 +399,7 @@ export default function MyPage() {
                   <ListItemButton
                     key={item.label}
                     sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)' }}
-                    onClick={()=>{setDirectChose("/mytrip/"+)}}
+                    onClick={()=>{setDirectChose("/mytrip/")}}
                   >
                     <ListItemIcon sx={{ color: 'inherit' }}>
                       {item.icon}
