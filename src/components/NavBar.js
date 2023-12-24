@@ -120,7 +120,7 @@ export default function NavBar() {
                 </LightTooltip>
               </div>
               {/* {currentUser ? */}
-               (<>
+               <>
                 <div>
                   <LightTooltip title="לאיזור האישי" className="">
                     <Button
@@ -133,8 +133,7 @@ export default function NavBar() {
                   </LightTooltip>
                 </div>
 
-             </> )  
-              {/* : null} */}
+             </> 
             </div>
           
           </nav>

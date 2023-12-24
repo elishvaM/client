@@ -21,7 +21,6 @@ export default function PicNavBar({setDetails}) {
   //   {Id:7, src:"אטרקציות-בפריז.webp", Name:"פריז", Adress:""},
   //   {Id:8, src:"אטרקציות-לירח-דבש-לרומא.jpg", Name:"ירח דבש", Adress:""},
   // ])
-  let att = useSelector(state => state.attraction.lovedAttractions);
   let [id, setId] = useState(0);
   function drag(e){
     console.log("kmhtmyj")
@@ -42,7 +41,6 @@ console.log(e.dataTransfer)
         position:'absolute',left:"1rem"
       }}
     >
-      {console.log(att)}
       <Tabs
         value={value}
         onChange={handleChange}
@@ -56,8 +54,7 @@ console.log(e.dataTransfer)
         }}
       >
         {/* צריך להיות כרשימה li ??? */}
-        {att.map(i=><>
-         {/* <div key={i.Id}> */}
+        {/* {att.map(i=><>
         {console.log("iiiii")}
         {console.log(i)}
             <img src={`/imgs/att/${i.img}`}
@@ -66,7 +63,7 @@ console.log(e.dataTransfer)
              className='dragData' draggable="true" onDragStart={(e)=>drag(e)}/></>
             //  <p>{i.Name}</p>  
             // </div>
-            )}
+            )} */}
               
                   
         {/* <Tab label="Item Seven" /> */}

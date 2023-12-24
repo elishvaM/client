@@ -183,7 +183,7 @@ import People from '@mui/icons-material/People';
 import PermMedia from '@mui/icons-material/PermMedia';
 import Dns from '@mui/icons-material/Dns';
 import Public from '@mui/icons-material/Public';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -331,6 +331,7 @@ export default function MyPage() {
               >
                 <ListItemText
                   primary="אטרקציות שאהבתי"
+                  onClick={()=>mynavigate('love')}
                   primaryTypographyProps={{
                     fontSize: 15,
                     fontWeight: 'medium',
@@ -434,9 +435,13 @@ export default function MyPage() {
         </Paper>
       </ThemeProvider>
     </Box>
+    <Outlet/>
     <div> {directChose==="LovedAttractions"? <LovedAttractions/>:
-           directChose===
-    :null}</div>
+    ///??? האם נכון כך להמשיך עבור כל האופציות שבאזור האישי
+          //  directChose=== //
+             null}
+    </div>
+    
     </>
   );
 }

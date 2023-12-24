@@ -1,15 +1,15 @@
 import * as types from "../actionTypes";
 
-export const saveAttractions = (attractions, lovedAttractions, user)=>{
+export const saveAttractions = (attractions)=>{
     return {
         type: types.SAVE_ATTRACTIONS,
-        payload: [attractions, lovedAttractions, user]//??? באיזה שיטה להשתמש
+        payload: attractions//??? באיזה שיטה להשתמש
     }
 }
-export const saveLovedAttractions = (lovedAttractions)=>{
+export const saveLovedAttractions = (lovedAttractions,isuSer)=>{
     return {
         type: types.SAVE_LOVED_ATTRACTIONS,
-        payload: lovedAttractions
+        payload:{isuSer:isuSer,loved: lovedAttractions}
     }
 }
 export const addAttraction = (attraction) => {

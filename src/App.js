@@ -25,11 +25,14 @@ function App() {
         <Route path="signin" element={<SighIn />} />
         <Route path="login" element={<Login />} />
         <Route path="destinations" element={<Destinations />} />
-        <Route path="mytrip" element={<div className='mypage'><MyTrip/></div>} />
+        <Route path="mytrip" element={<div className='mypage'><MyTrip /></div>} />
         <Route path="mylist/:id" element={<MyList />} />
         <Route path="managementUsers" element={<ManagementUsers />} />
         <Route path="lovedattractions" element={<><LovedAttractions /></>} />
-        <Route path="mypage" element={<MyPage />} />
+        <Route path="mypage" element={<MyPage />} >
+          <Route path='love' element={<Destinations />} />
+
+        </Route>
         <Route path="*" element={<Destinations />} />
       </Routes>
     </div>

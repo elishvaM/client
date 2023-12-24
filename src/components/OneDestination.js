@@ -29,12 +29,14 @@ export default function OneDestination({ attraction }) {
 
     if (!attraction.isLoved) {
       if (user != null) {
+        //רק במקרה של מחובר תשמור בשרת
         AddLovedAttractionFromServer(lovedAttraction)
           .then((res) => {
             console.log("res loved ", res.data);
           })
           .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
       }
+      //ובכל מקרה תשמור בתצוגה
       mydispatch(addLovedAttraction(attraction));
     } else {
       if(user != null){
@@ -42,7 +44,7 @@ export default function OneDestination({ attraction }) {
         .then((res) => {
           console.log("res not loved ", res.data);
         })
-        .catch((error) => console.log(":שגיאה במחיקת אטרקציה אהובה", error));
+        .catch((error) => console.log("שגיאה במחיקת אטרקציה אהובה", error));
     }
     mydispatch(removeLovedAttraction(attraction.id));
   }

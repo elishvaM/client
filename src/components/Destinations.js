@@ -17,8 +17,9 @@ import "../StyleComponents/HomePage.scss";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { attractionFromServer } from "../services/attraction";
-import { saveAttractions } from "../store/actions/attraction";
+import { saveAttractions, saveLovedAttractions } from "../store/actions/attraction";
 import { savedAttractionByUserIdFromServer } from "../services/attraction";
+import { useLocation } from "react-router-dom";
 
 const BootstrapButton = styled(Button)({
   boxShadow: "none",
@@ -58,47 +59,53 @@ const BootstrapButton = styled(Button)({
 
 export default function Destination() {
   // let arr = useSelector(state => state.attraction.filtering);
-  let dispatch = useDispatch();
-  let arrSelector = useSelector((state) => state.attraction.attractions);
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  console.log(pathname)
+
+  const arrSelector = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
 
   const defaultProps = {
     // val: (option) => option.Id,
     options: arrSelector,
     getOptionLabel: (option) => option.Name,
   };
-  let lovedAttractions;
-  let id = 8;
-  let user = useSelector((state) => state.user.currentUser);
-  let lovedAttraction = useSelector((state) => state.attraction.lovedAttractions);
+
+  const user = useSelector((state) => state.user.currentUser);
   useEffect(() => {
-    //כל פעם שהקומפו נקראת היוז אפקט פועל שוב ולא נרצה לשלוף שוב את הכל אלא כבר שמור לנו בסטייט הכללי
-    //זה פשוט מיותר -
-    //אבל לגבי משתמש לא רשום בשליפה נוספת יתרעננו האטרקציות ולא נראה את מה שאהב
-    //??? אם הוא התחבר אבל לא שמר אטרקציות ילך כל פעם לשלוף
-    if (user != null && lovedAttraction.length === 0) {
-        savedAttractionByUserIdFromServer(id)
-          .then((res) => {
-            console.log(res.data);
-            lovedAttractions = res.data;
-            dispatch(saveAttractions(attractions, lovedAttractions, user));
-          })
-          .catch((err) => console.log(err));
-    }
-     if (attractions.length == 0) {
+
+    if (!attractions.length) {
       //fatch all the attraction from server
       attractionFromServer()
         .then((res) => {
           //שליחת מערך אטרקציות רגיל ואטרקציות אהובות
-          dispatch(saveAttractions(res.data, lovedAttractions, user));
+          console.log(res.data)
+          dispatch(saveAttractions(res.data));
         })
         .catch((err) => {
           console.log(err);
         });
-      }
-  }, []);
+    }
+    //כל פעם שהקומפו נקראת היוז אפקט פועל שוב ולא נרצה לשלוף שוב את הכל אלא כבר שמור לנו בסטייט הכללי
+    //זה פשוט מיותר -
+    //אבל לגבי משתמש לא רשום בשליפה נוספת יתרעננו האטרקציות ולא נראה את מה שאהב
+    //??? אם הוא התחבר אבל לא שמר אטרקציות ילך כל פעם לשלוף
+    if (user != null) {
+      savedAttractionByUserIdFromServer(user.id)
+        .then((res) => {
+          console.log(res.data);
+          dispatch(saveLovedAttractions(res.data, true));
+        })
+        .catch((err) => console.log(err));
+    }
+    else {
+      dispatch(saveLovedAttractions([], false));
+    }
 
-  let attractions = useSelector((state) => state.attraction.attractions);
-  let [displayFilter, setDisplayFilter] = useState(false);
+  }, [user]);
+
+  const attractions = useSelector((state) => state.attraction.attractions);
+  const [displayFilter, setDisplayFilter] = useState(false);
   const m = (x) => {
     console.log("mmmm", x.target);
     // console.log("mmmm", x.target.val)
