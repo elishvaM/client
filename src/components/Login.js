@@ -23,7 +23,7 @@ import { loginFromServer } from "../services/user";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
-
+import { useState } from "react";
 // { minLength: 2, maxLength: 15, required: true }
 const schema = yup.object({
     Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
@@ -38,17 +38,21 @@ export default function Login({ open, setOpen, Transition }) {
         resolver: yupResolver(schema)
 
     });
-    // let [msg, setMsg] = useState();
-    let mynavigate = useNavigate();
+    const [msg, setMsg] = useState([]);
+    const mynavigate = useNavigate();
 
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
     //the current user
     const save = (user) => {
         loginFromServer(user).then(res => {
+            if(res.data.status===true){
+                dispatch(saveUser(res.data))
+            }
+            else
             console.log("enter user:", res.data)
-            dispatch(saveUser(res.data))
-         
-
+            console.log(msg)
+         setMsg("משתמש הושהה");
+         console.log("after: ",msg)
         }).catch(err => { console.log(err.response.data) })
         setOpen(false);
         // חזרה לדף ההבית

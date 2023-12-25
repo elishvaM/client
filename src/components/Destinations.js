@@ -20,7 +20,7 @@ import { attractionFromServer } from "../services/attraction";
 import { saveAttractions, saveLovedAttractions } from "../store/actions/attraction";
 import { savedAttractionByUserIdFromServer } from "../services/attraction";
 import { useLocation } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 const BootstrapButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
@@ -62,7 +62,7 @@ export default function Destination() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   console.log(pathname)
-
+  const mynavigate = useNavigate();
   const arrSelector = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
 
   const defaultProps = {
@@ -165,7 +165,7 @@ export default function Destination() {
         {attractions.length !== 0 ? (
           <div>
             {attractions.map((item) => (
-              <li key={item.id}>
+              <li key={item.id}   onClick={() => mynavigate('oneDestinationDetails')} >
                 <OneDestination attraction={item} />
               </li>
             ))}

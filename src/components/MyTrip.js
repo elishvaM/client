@@ -24,9 +24,12 @@ import Popper from '@mui/material/Popper';
 import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
+import { useParams } from 'react-router-dom';
 //end popper
 // import '../StyleComponents/MyTrip.scss';
 export default function MyTrip() {
+  const { travelingDate, backingDate } = useParams();
+ // const { trip } = this.props.route.params;
   const [isHover, setIsHover] = useState(false);
   const [isHoverOne, setIsHoverOne] = useState(false);
   const [isContextMenu, setIsContextMenu] = useState(false);
@@ -59,13 +62,16 @@ export default function MyTrip() {
 
     e.preventDefault();
   }
-  let date = useSelector(s=> s.item.date)
+  const date = [new Date({travelingDate}), new Date(backingDate)]
   let d;
+  let temp;
+  let day;
   React.useEffect(()=>{
-    let temp;
-    let day;
+    console.log("day")
+    {alert("camee")}
     d = date[0];
     day = d.getDay();
+    console.log("day", day)
     day = day == 0 ? "יום ראשון" : day == 1 ? "יום שני" : day == 2 ? "יום שלישי" : day 
           == 3 ? "יום רביעי" : day == 4 ? "יום חמישי" : day == 5 ? "יום שישי" : "יום שבת";
     temp = [moment(d).format('DD/MM/YYYY')+" "+day]
@@ -79,10 +85,14 @@ export default function MyTrip() {
       setDays(temp)
     }
     // console.log("lllll",temp)
-    //setDays(temp)//רציתי לעשות פעם  אחת פה אחרי הכל למה לא עובד  ???
+    // setDays(temp)//רציתי לעשות פעם  אחת פה אחרי הכל למה לא עובד  ???
     // console.log(days)
-  },[date])
+  },[])//date 
   return (<div style={{display:'block'}}>
+    {console.log("tripop")}
+    <h1>ברוך ה שהגענו לכאן</h1>
+    {console.log("tempgygyg", days)}
+    <h1>{temp}</h1>
   <PicNavBar setDetails={setDetails} />
     {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
       {/* <DateCalendar /> */}

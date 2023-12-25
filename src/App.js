@@ -12,25 +12,32 @@ import ManagementUsers from './components/ManagementUsers';
 import MyTrip from './components/MyTrip';
 import MyPage from './components/MyPage';
 import LovedAttractions from './components/LovedAttractions';
+import OneDestinationDetails from './components/OneDestinationDetails';
+
+
 // app first page
 function App() {
   return (
     <div className="App">
       <NavBar />
       <Routes>
-        {/* home page */}
+        {/* כללי */}
         <Route path="homepage" element={<HomePage />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="destinations" element={<Destinations />} />
+        <Route path="oneDestinationDetails" element={<OneDestinationDetails />} />
         <Route path="signin" element={<SighIn />} />
         <Route path="login" element={<Login />} />
-        <Route path="destinations" element={<Destinations />} />
-        <Route path="mytrip" element={<div className='mypage'><MyTrip /></div>} />
+        {/* אישי */}
         <Route path="mylist/:id" element={<MyList />} />
-        <Route path="managementUsers" element={<ManagementUsers />} />
-        <Route path="lovedattractions" element={<><LovedAttractions /></>} />
         <Route path="mypage" element={<MyPage />} >
-          <Route path='love' element={<Destinations />} />
+        <Route path='love' element={<LovedAttractions />} />
+        <Route path="mytrip/:travelingDate/:backingDate" element={<MyTrip />} />
+        {/* מנהל */}
+        <Route path="managementUsers" element={<ManagementUsers />} />
+        {/* הוספת אטרקציה עדכון  */}
+
 
         </Route>
         <Route path="*" element={<Destinations />} />
