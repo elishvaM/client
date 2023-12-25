@@ -6,26 +6,25 @@ import { Button } from "@mui/base";
 import { useDispatch } from "react-redux";
 import { changeStatusFromServer } from "../services/user"
 export default function ManagementUsers() {
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState([]);
+    let copy = [...users]
     useEffect(() => {
         usersFromServer().then(res => {
             setUsers(res.data)
-            console.log("before:",res.data)
         }).catch(err => console.log(err))
         //מביא הערה על המערך הריק שכאן
     }, []);
     //משנה סטטוס בשרת ולא בתצוגה
     const handleChange = (user) => {
-        console.log("uu",user.user)
         changeStatusFromServer(user.user).then(res => {
-            console.log("res",res);
-            console.log("after:", users);
+            copy.map(x => x.id === user.user.id ? x.status = !x.status : null)
+            setUsers(copy)
         }).catch(err => { console.log("error", err) });
     };
     return (<>
         <ul>
-            {users.map(user => <li key={user.id}>{user.name+" "+user.status}
-                 <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
+            {users.map(user => <li key={user.id}>{user.name + " " + user.status}
+                <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
 
                 {/* {user.status === false ? <FormControlLabel
                     control={

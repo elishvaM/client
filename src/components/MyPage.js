@@ -192,7 +192,8 @@ import AddBigList from './AddBigList';
 import { useEffect } from 'react';
 import { set } from 'react-hook-form';
 import LovedAttractions from './LovedAttractions';
-
+import { GetAllTripListsByUserIdFromServer } from '../services/attraction';
+import { useSelector } from 'react-redux';
 const FireNav = styled(List)({
   '& .MuiListItemButton-root': {
     paddingLeft: 24,
@@ -208,8 +209,15 @@ const FireNav = styled(List)({
 });
 
 export default function MyPage() {
+  let user = useSelector(s => s.user.currentUser);
   useEffect(()=>{
+    console.log("llll",user)
     // שליםה משרת כל הליסטים של המשתמש למשתנה דטה
+    GetAllTripListsByUserIdFromServer(user.id).then(res=>
+    console.log("jjj", res)
+      //console.log("jjhj", res.data)
+      )
+      
   },[]);
   let [data, setData] = useState([
     //אולי אפשר לעשות שיבחר הוא את האיקון של הטיול שלו ?
