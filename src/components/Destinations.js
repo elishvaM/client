@@ -61,7 +61,6 @@ export default function Destination() {
   // let arr = useSelector(state => state.attraction.filtering);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  console.log(pathname)
   const mynavigate = useNavigate();
   const arrSelector = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
 

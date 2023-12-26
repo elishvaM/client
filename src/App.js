@@ -27,7 +27,7 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="destinations" element={<Destinations />} />
         <Route path="oneDestinationDetails" element={<OneDestinationDetails />} />
-        <Route path="signin" element={<SighIn />} />
+        <Route path="sighin" element={<SighIn />} />
         <Route path="login" element={<Login />} />
         {/* אישי */}
         <Route path="mylist/:id" element={<MyList />} />

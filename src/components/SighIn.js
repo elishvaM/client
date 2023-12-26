@@ -15,10 +15,33 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { saveUser } from "../store/actions/user";
 import { sighinFromServer } from "../services/user";
 import { useDispatch } from "react-redux";
+import DialogActions from '@mui/material/DialogActions';
+import MailOutline from '@mui/icons-material/MailOutline';
+import PasswordOutlined from '@mui/icons-material/PasswordOutlined';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import * as yup from "yup";
+import { getTodayDate } from "@mui/x-date-pickers/internals";
 // import { saveUser } from "../store/actions/user";
-export default function Register() {
-    let { register, handleSubmit, getValues, formState: { errors } } = useForm({ mode: "onSubmit" });
-    let dispatch = useDispatch(state => state.user);
+const schema = yup.object({
+    Name: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
+    DateBorn: yup.date().required("שדה חובה").test('validDate', 'תאריך שגוי', x => x.getValues <= new Date().getDate()),
+    Phone: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
+    Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 9 && x.length <= 10),
+    Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25", x => x.length >= 2 && x.length <= 25)
+        .email('מייל לא תקין'),
+}).required();
+export default function SighIn({ open, setOpen, Transition }) {
+    let { register, handleSubmit, getValues, formState: { errors } } = useForm({
+        mode: "onSubmit",
+        resolver: yupResolver(schema)
+    });
+    let dispatch = useDispatch();
+    // let dispatch = useDispatch(state => state.user);
     //  let [msg, setMsg] = useState();
     //פונקציות של העין בסיסמא
     const [showPassword, setShowPassword] = React.useState(false);
@@ -32,124 +55,39 @@ export default function Register() {
         alert("הגיע")
         // //הוספת משתמש
         sighinFromServer(details).then(res => {
-            console.log(res);
+            console.log("sighin", res);
             dispatch(saveUser(res));
             alert("נרשם בהצלחה!" + details.Name)
-        }).catch(err => { console.log("err"); })
+        }).catch(err => { console.log(err); })
     }
-
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (<>
-        <div className='formdiv'><form onSubmit={handleSubmit(save)}>
-            {/* <div>
-                <TextField id="outlined-basic" required="true" label="שם מלא" variant="outlined" {...register("name", { minLength: 2, maxLength: 15, required: true })} />
-                {errors.name && errors.name.type == "required" &&
-                    <div className="error">
-                        שם משתמש שדה חובה
-                    </div>}
-                {errors.name?.type == "minLength" &&
-                    <div className="error">
-                        שם משתמש לפחות 2 תויים
-                    </div>}
-                {errors.name?.type == "maxLength" &&
-                    <div className="error">
-                        שם משתמש מקסימום 15 תוים
-                    </div>}
-            </div> */}
-            <FormControl variant="standard">
-                <InputLabel htmlFor="input-with-icon-adornment">
-                    שם מלא
-                </InputLabel>
-                <Input
-                    {...register("Name", { minLength: 2, maxLength: 15, required: true })}
-                    id="input-with-icon-adornment"
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <AccountCircle />
-                        </InputAdornment>
-                    }
-                />
-            </FormControl>
-            {errors.Name && errors.Name.type === "required" &&
-                <div className="error">
-                    שם משתמש שדה חובה
-                </div>}
-            {errors.Name?.type === "minLength" &&
-                <div className="error">
-                    שם משתמש לפחות 2 תויים
-                </div>}
-            {errors.Name?.type === "maxLength" &&
-                <div className="error">
-                    שם משתמש מקסימום 15 תוים
-                </div>}
-            <br />
-            <div>
-                <TextField id="outlined-basic" label="מייל" required="true" variant="outlined" {...register("Email", { required: true, pattern: /^[0-9A-Za-z]{1,}@gmail.com$/ })} />
-                {errors.Email?.type === "required" && <div className="error">
-                    מייל הוא שדה חובה
-                </div>}
-                {errors.Email?.type === "pattern" && <div className="error">
-                    מייל לא בתבנית הנכונה
-                </div>}
-            </div>
-            <br />
-            {/* <div>
-                <TextField id="outlined-basic" required="true" label="אימות מייל" variant="outlined" {...register("confirmEmail", {
-                    required: true, pattern: /^[0-9A-Za-z]{1,}@gmail.com$/, validate: (valu) => {
-                        return valu === getValues("email");
-                    }
-                })} />
-
-                {errors.confirmEmail?.type === "required" && <div className="error">
-                    אימות מייל הוא שדה חובה
-                </div>}
-                {errors.confirmEmail?.type === "pattern" && <div className="error">
-                    אימות מייל לא בתבנית הנכונה
-                </div>}
-                {errors.confirmEmail?.type === "validate" && errors.confirmEmail.dirtyFields && <div className="error">מייל לא תואם</div>}
-            </div> */}
-            <br />
-            <FormControl sx={{ m: 1, width: '24ch' }} variant="outlined"  >
-                <InputLabel required="true" >סיסמא</InputLabel>
-                <OutlinedInput
-
-                    {...register("Password", { minLength: 4, maxLength: 20, required: true })}
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-
-                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                    label="סיסמא"
-                />
-
-
-            </FormControl>
-            {errors.password && errors.password.type === "required" &&
-                <div className="error">
-                    סיסמא היא שדה חובה
-                </div>}
-            {errors.password?.type === "minLength" &&
-                <div className="error">
-                    סיסמא לפחות 5 תויים
-                </div>}
-            {errors.password?.type === "maxLength" &&
-                <div className="error">
-                    סיסמא מקסימום 15 תוים
-                </div>}
-            <br />
-            <Button type="submit" variant="outlined">הרשם</Button>
-        </form>
-        </div>
-        <br />
-        {/* {msg ? <Alert severity="error" className="alert">{msg}</Alert> : null} */}
+        <Dialog className="dialog" open={open} onClose={handleClose} TransitionComponent={Transition}>
+            <DialogTitle>שמחים שבאת</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    <form onSubmit={handleSubmit(save)}>
+                        <div className='formdiv'>
+                            <TextField id="outlined-basic" label="שם" variant="outlined"   {...register("Name")} />
+                            <div className="error">{errors.Name?.message}</div>
+                            <TextField id="outlined-basic" label="מייל" variant="outlined"   {...register("Email")} />
+                            <div className="error">{errors.Email?.message}</div>
+                            <TextField id="outlined-basic" label="טלפון" variant="outlined"   {...register("Phone")} />
+                            <div className="error">{errors.Phone?.message}</div>
+                            <TextField id="outlined-basic" label="תאריך לידה" variant="outlined"   {...register("DateBorn")} />
+                            <div className="error">{errors.DateBorn?.message}</div>
+                            <TextField id="outlined-basic" label="סיסמא" variant="outlined"   {...register("Password")} />
+                            <div className="error">{errors.Password?.message}</div>
+                            <DialogActions >
+                                <Button onClick={handleClose}>ביטול</Button>
+                                <Button type="submit">הרשם</Button>
+                            </DialogActions>
+                        </div>
+                    </form>
+                </DialogContentText>
+            </DialogContent>
+        </Dialog>
     </>)
 }

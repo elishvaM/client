@@ -22,11 +22,12 @@ import { useEffect } from "react";
 import { usersFromServer } from "../services/user";
 import Login from "../components/Login";
 import Slide from "@mui/material/Slide";
+import SighIn from "./SighIn";
 export default function NavBar() {
   const currentUser = useSelector((state) => state.user.currentUser);
-  useEffect(() => {
-    usersFromServer().then((res) => console.log(res));
-  }, []);
+  // useEffect(() => {
+  //   usersFromServer().then((res) => console.log(res));
+  // }, []);
   // const [value, setValue] = React.useState(0);
   let mynavigate = useNavigate();
   const LightTooltip = styled(({ className, ...props }) => (
@@ -41,6 +42,7 @@ export default function NavBar() {
 
   //submit/cancel-dialog
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
   // const handleClickOpen = () => {
   //     setOpen(true);
@@ -48,11 +50,6 @@ export default function NavBar() {
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
-  // const handleClose = () => {
-  //     setOpen(false);
-  // };
-  //current user
-
   return (
     <>
       {/* header, nav bar */}
@@ -76,36 +73,30 @@ export default function NavBar() {
             </div>
             <div className="user-erea">
               <div>
-                {" "}
                 <LightTooltip title="הרשמה">
-                  <Button size="large" onClick={() => mynavigate("signin")}>
-                    {" "}
-                    <VpnKeyOutlinedIcon />{" "}
+                  <Button size="large" onClick={() => {
+                  //??? עדיף ניתוב??
+                  // mynavigate("sighin")
+                  setOpen2(true); }}>
+                    <VpnKeyOutlinedIcon />
                   </Button>
                 </LightTooltip>
+                {open2?<SighIn open={open2} setOpen={setOpen2} TransitionComponent={Transition}/> :null}
               </div>
               {currentUser === null? <div>
                  <LightTooltip title="כניסה">
-                   <Button size="large">
+                   <Button size="large"  onClick={() => { setOpen(true);   }}>                 
                      <AccountCircleOutlinedIcon
-                       onClick={() => {
-                         setOpen(true);
-                       }}
                      />{" "}
                    </Button>
                  </LightTooltip>
- 
-                 {/* לבדוק*/}
-                 {open ? (
-                   <Login
+               </div> :null}
+
+              {open?<Login
                      open={open}
                      setOpen={setOpen}
                      TransitionComponent={Transition}
-                   />
-                 ) : null}
-               </div> :null}
-
-
+                   />:null}
 
 
 

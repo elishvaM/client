@@ -55,7 +55,6 @@ export default function Login({ open, setOpen, Transition }) {
                 setMsg("מצטרים, עקב דיווח רב על תגובותיך חשבונך הושהה");
             console.log("after: ", msg)
         }).catch(err => { setMsg(err.response.data); console.log(err.response.data) })
-        alert("עברתי השרת")
         handleClick({ vertical: 'top', horizontal: 'center' })
        // setOpen(false);
         // חזרה לדף ההבית
@@ -95,8 +94,10 @@ export default function Login({ open, setOpen, Transition }) {
     });
     const { vertical, horizontal, open2 } = state;
     const handleClick = (newState) => () => {
-        alert("came")
-        setState({ ...newState, open2: true });
+        console.log("handle click here")
+        setState({ ...newState, open2: true });//??? לא מחליף לטרו
+        console.log("state", state)
+
     };
 
     const handleClose2 = () => {
@@ -108,7 +109,6 @@ export default function Login({ open, setOpen, Transition }) {
             {/* <LightTooltip title="כניסה">
                <Button size="large" onClick={handleClickOpen}>< AccountCircleOutlinedIcon /> </Button>
             </LightTooltip> */}
-            <h1>lghghgll</h1>
             <Dialog className="dialog" open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <DialogTitle>שמחים שחזרת :)</DialogTitle>
                 <DialogContent>
@@ -118,7 +118,7 @@ export default function Login({ open, setOpen, Transition }) {
 
                                 <Input
                                     label="סיסמא"
-                                    error={errors.Password}
+                                    // error={errors.Password}
                                     {...register("Password")}
                                     startAdornment={
                                         <InputAdornment position="start">
