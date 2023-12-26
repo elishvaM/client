@@ -17,7 +17,7 @@ import "../StyleComponents/HomePage.scss";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { attractionFromServer } from "../services/attraction";
-import { saveAttractions, saveLovedAttractions } from "../store/actions/attraction";
+import { saveAttractions, saveLovedAttractions, selectAttraction } from "../store/actions/attraction";
 import { savedAttractionByUserIdFromServer } from "../services/attraction";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -165,7 +165,7 @@ export default function Destination() {
         {attractions.length !== 0 ? (
           <div>
             {attractions.map((item) => (
-              <li key={item.id}   onClick={() => mynavigate('oneDestinationDetails')} >
+              <li key={item.id} onClick={() =>{dispatch(selectAttraction(item));mynavigate('oneDestinationDetails')}}>
                 <OneDestination attraction={item} />
               </li>
             ))}

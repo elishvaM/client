@@ -26,3 +26,5 @@ export const UPDATE_ITEMS_SELECTED="UPDATE_ITEMS_SELECTED";
 export const SAVE_ITEMS = "SAVE_ITEMS";
 //
 export const SAVE_DATES = "SAVE_DATES";
+//lists
+export const SAVE_TRIP_LIST = "SAVE_TRIP_LIST";

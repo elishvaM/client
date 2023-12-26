@@ -194,6 +194,8 @@ import { set } from 'react-hook-form';
 import LovedAttractions from './LovedAttractions';
 import { GetAllTripListsByUserIdFromServer } from '../services/attraction';
 import { useSelector } from 'react-redux';
+import { saveTripList } from '../store/actions/list';
+import { useDispatch } from 'react-redux';
 const FireNav = styled(List)({
   '& .MuiListItemButton-root': {
     paddingLeft: 24,
@@ -209,16 +211,16 @@ const FireNav = styled(List)({
 });
 
 export default function MyPage() {
+  const dispatch = useDispatch();
   const user = useSelector(s => s.user.currentUser);
-  const [data, setData] = useState([]);
+  const data = useSelector(s=> s.list.allTripList);
   useEffect(() => {
-    console.log("llll", user)
     // שליםה משרת כל הליסטים של המשתמש למשתנה דטה
     GetAllTripListsByUserIdFromServer(user.id).then(res => {
       console.log("trip:", res.data)
-      setData(res.data)
+      dispatch(saveTripList(res.data));
     })
-  }, []);
+  }, [user]);
   const [openCreateTrip, setOpenCreateTrip] = React.useState(false);
   const [open, setOpen] = React.useState(true);
   let mynavigate = useNavigate();
@@ -392,7 +394,7 @@ export default function MyPage() {
                     <ListItemButton
                       key={item.name}
                       sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)' }}
-                      onClick={() => { mynavigate(`mytrip/${item.travelingDate}/${item.backingDate}`); console.log("mytrip/:"+1) }}
+                      onClick={() => { mynavigate(`mytrip/${item.id}`); console.log("mytrip/:",{item}) }}
                     >
                       <ListItemIcon sx={{ color: 'inherit' }}>
                        
@@ -419,9 +421,9 @@ export default function MyPage() {
                     primaryTypographyProps={{ fontSize: 14, fontWeight: 'medium' }}
                   />
                 </ListItemButton>
-                {openCreateTrip ? <AddBigList setOpen={setOpenCreateTrip}
+                {/* {openCreateTrip ? <AddBigList setOpen={setOpenCreateTrip}
                   open={openCreateTrip} data={data} setData={setData} />
-                  : null}
+                  : null} */}
 
               </Box>
             </FireNav>

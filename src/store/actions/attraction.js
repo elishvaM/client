@@ -1,15 +1,15 @@
 import * as types from "../actionTypes";
 
-export const saveAttractions = (attractions)=>{
+export const saveAttractions = (attractions) => {
     return {
         type: types.SAVE_ATTRACTIONS,
         payload: attractions//??? באיזה שיטה להשתמש
     }
 }
-export const saveLovedAttractions = (lovedAttractions,isuSer)=>{
+export const saveLovedAttractions = (lovedAttractions, isuSer) => {
     return {
         type: types.SAVE_LOVED_ATTRACTIONS,
-        payload:{isuSer:isuSer,loved: lovedAttractions}
+        payload: { isuSer: isuSer, loved: lovedAttractions }
     }
 }
 export const addAttraction = (attraction) => {
@@ -18,47 +18,48 @@ export const addAttraction = (attraction) => {
         payload: attraction
     }
 }
-export const deleteAttraction = (id)=>{
+export const deleteAttraction = (id) => {
     return {
         type: types.DELETE_ATTRACTION,
         payload: id
     }
-}    
+}
 //???
 //מה עם מצב שרוצים לשנות מספר שדות 
 //או שלשנות תמיד את כל השדות
-export const updateAttraction = (id, fieldName, newValue)=>{//???איזה אטרקציה לשנות, איזה שדה ומה הערך החדש 
+export const updateAttraction = (id, fieldName, newValue) => {//???איזה אטרקציה לשנות, איזה שדה ומה הערך החדש 
     return {
         type: types.UPDATE_ATTRACTION,
-        payload:{ id:id, fieldName:fieldName, newValue:newValue }
+        payload: { id: id, fieldName: fieldName, newValue: newValue }
     }
 }
 
 //סינון
-export const selectAttraction = (id)=>{
+export const selectAttraction = (attraction) => {
     return {
         type: types.SELECT_ATTRACTION,
-        payload: id
+        
+        payload: attraction
     }
-} 
-export const updateFiltering = (arr)=>{
+}
+export const updateFiltering = (arr) => {
     return {
         type: types.UPDATE_FILTERING,
         payload: arr
     }
-} 
-export const changeSwitch = ()=>{
+}
+export const changeSwitch = () => {
     return {
         type: types.CHANGE_SWITCH,
     }
 }
-export const addLovedAttraction = (x)=>{
+export const addLovedAttraction = (x) => {
     return {
         type: types.ADD_LOVED_ATTRACION,
         payload: x
     }
 }
-export const removeLovedAttraction = (id)=>{
+export const removeLovedAttraction = (id) => {
     return {
         type: types.REMOVE_LOVED_ATTRACION,
         payload: id

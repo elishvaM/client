@@ -33,7 +33,7 @@ function App() {
         <Route path="mylist/:id" element={<MyList />} />
         <Route path="mypage" element={<MyPage />} >
         <Route path='love' element={<LovedAttractions />} />
-        <Route path="mytrip/:travelingDate/:backingDate" element={<MyTrip />} />
+        <Route path="mytrip/:tripId" element={<MyTrip />} />
         {/* מנהל */}
         <Route path="managementUsers" element={<ManagementUsers />} />
         {/* הוספת אטרקציה עדכון  */}
