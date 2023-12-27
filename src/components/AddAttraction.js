@@ -28,6 +28,7 @@ export default function AddAttraction({setOpenAddItem}) {
 
   return (
     <div>
+      {console.log("add")}
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"

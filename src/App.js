@@ -13,7 +13,7 @@ import MyTrip from './components/MyTrip';
 import MyPage from './components/MyPage';
 import LovedAttractions from './components/LovedAttractions';
 import OneDestinationDetails from './components/OneDestinationDetails';
-
+import AddAttraction from './components/AddAttraction';
 
 // app first page
 function App() {
@@ -36,6 +36,7 @@ function App() {
         <Route path="mytrip/:tripId" element={<MyTrip />} />
         {/* מנהל */}
         <Route path="managementUsers" element={<ManagementUsers />} />
+        <Route path="addAttraction" element={<AddAttraction />} />
         {/* הוספת אטרקציה עדכון  */}
 
 

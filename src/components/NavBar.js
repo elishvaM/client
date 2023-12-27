@@ -71,6 +71,7 @@ export default function NavBar() {
                 </span>
               </div>
             </div>
+            <div><Button onClick={()=>mynavigate("addAttraction")}>+</Button></div>
             <div className="user-erea">
               <div>
                 <LightTooltip title="הרשמה">

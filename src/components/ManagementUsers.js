@@ -22,6 +22,7 @@ export default function ManagementUsers() {
         }).catch(err => { console.log("error", err) });
     };
     return (<>
+      {console.log("mng")}
         <ul>
             {users.map(user => <li key={user.id}>{user.name + " " + user.status}
                 <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
