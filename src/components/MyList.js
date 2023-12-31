@@ -4,19 +4,19 @@ import "../StyleComponents/Item.scss";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Checkbox from '@mui/material/Checkbox';
-import Avatar from '@mui/material/Avatar';
-import ItemInList from './ItemInList';
-import Item from './Item';
+// import List from '@mui/material/List';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemButton from '@mui/material/ListItemButton';
+// import ListItemText from '@mui/material/ListItemText';
+// import ListItemAvatar from '@mui/material/ListItemAvatar';
+// import Checkbox from '@mui/material/Checkbox';
+// import Avatar from '@mui/material/Avatar';
+// import ItemInList from './ItemInList';
+// import Item from './Item';
 import ItemsNavBar from "./ItemsNavBar";
-import Plus from "./Plus";
+// import Plus from "./Plus";
 import { useSelector } from 'react-redux';
-import OneList2 from "./OneList2";
+// import OneList2 from "./OneList2";
 import Beauty from "./Beauty";
 import ItemsOptions from "./ItemsOptions";
 import { saveItems } from '../store/actions/item';
@@ -26,18 +26,18 @@ export default function MyList(){
     //////////מיובא
     const [checked, setChecked] = React.useState([1]);
 
-    const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
+    // const handleToggle = (value) => () => {
+    //   const currentIndex = checked.indexOf(value);
+    //   const newChecked = [...checked];
   
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
+    //   if (currentIndex === -1) {
+    //     newChecked.push(value);
+    //   } else {
+    //     newChecked.splice(currentIndex, 1);
+    //   }
   
-      setChecked(newChecked);
-    };
+    //   setChecked(newChecked);
+    // };
     /////////סוף מיובא
     let attractionListProduct = [
         //שלפנו מהדטה בייס את כל המוצרים של האטרקציה הספציפית שנלחצה

@@ -5,7 +5,6 @@ export const loginFromServer = (user) => {
 }
 export const sighinFromServer = (user) => {
     console.log("userrrrr:", user)
-    user.aaa = "sss";
     return axios.post(`https://localhost:7114/api/User/SignIn`, user);
 }
 export const usersFromServer = () => {

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+//import Tab from '@mui/material/Tab';
+//import { useState } from 'react';
+//import { useSelector } from 'react-redux';
 
 export default function PicNavBar({setDetails}) {
   const [value, setValue] = React.useState(0);
@@ -21,16 +21,16 @@ export default function PicNavBar({setDetails}) {
   //   {Id:7, src:"אטרקציות-בפריז.webp", Name:"פריז", Adress:""},
   //   {Id:8, src:"אטרקציות-לירח-דבש-לרומא.jpg", Name:"ירח דבש", Adress:""},
   // ])
-  let [id, setId] = useState(0);
-  function drag(e){
-    console.log("kmhtmyj")
-    setId(id+1)
-    console.log(id)//??? כדאי להעביר ל דרופ כדי שלא סתם יעלה ב ת"ז
-    setDetails({Id:id, AttractionId :e.target.key, Name:e.target.name, Status:false});
-    e.dataTransfer.setData("text", e.target.className);
-console.log(e.dataTransfer)
-    // e.dataTransfer.setData("text", e.target.name);
-  }
+ // let [id, setId] = useState(0);
+//   function drag(e){
+//     console.log("kmhtmyj")
+//     setId(id+1)
+//     console.log(id)//??? כדאי להעביר ל דרופ כדי שלא סתם יעלה ב ת"ז
+//     setDetails({Id:id, AttractionId :e.target.key, Name:e.target.name, Status:false});
+//     e.dataTransfer.setData("text", e.target.className);
+// console.log(e.dataTransfer)
+//     // e.dataTransfer.setData("text", e.target.name);
+//   }
   return (
     <Box
       sx={{

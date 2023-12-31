@@ -6,16 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+// import Card from '@mui/material/Card';
+// import CardContent from '@mui/material/CardContent';
+// import CardMedia from '@mui/material/CardMedia';
+// import Typography from '@mui/material/Typography';
+// import { CardActionArea } from '@mui/material';
 import { useState } from 'react';
 import "../StyleComponents/Filter.scss";
 import Item from './Item';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveItems } from '../store/actions/item';
+// import { saveItems } from '../store/actions/item';
 
 export default function Items({type, setValuefrom , valuefrom}) {
   let dispatch = useDispatch();
@@ -40,7 +40,7 @@ export default function Items({type, setValuefrom , valuefrom}) {
   const descriptionElementRef = React.useRef(null);
  
   let allitems = useSelector(s => s.item.allitems);//??? מה קורה מאחורי הקלעים אם הלך לשרת ואם לא
-  let itemsByType = allitems.filter(item => item.productTypeId == valuefrom);
+  let itemsByType = allitems.filter(item => item.productTypeId === valuefrom);
   React.useEffect(() => {  
     console.log("items", valuefrom)
     setOpen(true);

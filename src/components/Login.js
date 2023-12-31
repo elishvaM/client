@@ -20,8 +20,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
 import { useState } from "react";
-// { minLength: 2, maxLength: 15, required: true }
-import Grid from '@mui/material/Grid';
+// import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 const schema = yup.object({

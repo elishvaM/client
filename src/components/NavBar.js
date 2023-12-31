@@ -18,17 +18,11 @@ import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { tooltipClasses } from "@mui/material/Tooltip";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
-import { useEffect } from "react";
-import { usersFromServer } from "../services/user";
 import Login from "../components/Login";
 import Slide from "@mui/material/Slide";
 import SighIn from "./SighIn";
 export default function NavBar() {
   const currentUser = useSelector((state) => state.user.currentUser);
-  // useEffect(() => {
-  //   usersFromServer().then((res) => console.log(res));
-  // }, []);
-  // const [value, setValue] = React.useState(0);
   let mynavigate = useNavigate();
   const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -155,24 +149,20 @@ export default function NavBar() {
                   </Button>
                 </li>
                 <li className="button-nav">
-                  {" "}
                   <Button
                     className="links-nav"
                     size="small"
                     onClick={() => mynavigate("contact")}
                     variant="filled">
-                    {" "}
                     <ContactSupportOutlinedIcon /> צור קשר{" "}
                   </Button>
                 </li>
                 <li className="button-nav">
-                  {" "}
                   <Button
                     className="links-nav"
                     size="small"
                     onClick={() => mynavigate("managementUsers")}
                     variant="filled">
-                    {" "}
                     <ContactSupportOutlinedIcon /> ניהול משתמשים{" "}
                   </Button>
                 </li>

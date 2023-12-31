@@ -42,7 +42,7 @@ const attractionReducer = (state = initialState, action) => {
         // break;
         case types.ADD_LOVED_ATTRACION:
             let copy = [...state.attractions];//??? הסבר מתי ולמה עושים 3 נקודות מה היה קורה אם לא עשיתי 3 נק ואם הייתי עושה כך בריטרן מאחורי הקלעים
-            copy.map(i => i.id == action.payload.id ? i.isLoved = true : null)//מיפוי משנה ???
+            copy.map(i => i.id === action.payload.id ? i.isLoved === true : null)//מיפוי משנה ???
             return {
                 ...state,
                 //הוספת האטרקציה לצערך אהבתי
@@ -52,7 +52,7 @@ const attractionReducer = (state = initialState, action) => {
             //הוצאת האטרקציה מהאטרקציות האהובות
             //מציאת האטרקציה שצריך להסיר כדי להפוך את השדה לפולס
             let copy2 = [...state.attractions];
-            copy2.map(i => i.id == action.payload ? i.isLoved = false : null)
+            copy2.map(i => i.id === action.payload ? i.isLoved === false : null)
             return {
                 ...state,
                 //כיון שעודכנה אטרקציה ממערך זה
