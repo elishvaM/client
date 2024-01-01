@@ -80,7 +80,6 @@ export default function MyTrip() {
   }, [])
 
   return (<div style={{ display: 'block' }}>
-    <h1>ברוך ה שהגענו לכאן</h1>
     <h1>{temp}</h1>
     <ul style={{
       listStyleType: 'none', display: 'flex', flexWrap: 'wrap', maxWidth: 1060

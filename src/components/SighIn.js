@@ -2,22 +2,10 @@ import { useForm } from "react-hook-form";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-// import { useDispatch } from "react-redux";
-import Input from '@mui/material/Input';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import { saveUser } from "../store/actions/user";
 import { sighinFromServer } from "../services/user";
 import { useDispatch } from "react-redux";
 import DialogActions from '@mui/material/DialogActions';
-import MailOutline from '@mui/icons-material/MailOutline';
-import PasswordOutlined from '@mui/icons-material/PasswordOutlined';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -25,8 +13,6 @@ import Dialog from '@mui/material/Dialog';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { getTodayDate } from "@mui/x-date-pickers/internals";
-// import { saveUser } from "../store/actions/user";
 const schema = yup.object({
     Name: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
     DateBorn: yup.date().required("שדה חובה").test('validDate', 'תאריך שגוי', x => x <= new Date()),
@@ -36,7 +22,7 @@ const schema = yup.object({
         .email('מייל לא תקין'),
 }).required();
 export default function SighIn({ open, setOpen, Transition }) {
-    let { register, handleSubmit, getValues, formState: { errors } } = useForm({
+    let { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onSubmit",
         resolver: yupResolver(schema)
     });
@@ -53,15 +39,13 @@ export default function SighIn({ open, setOpen, Transition }) {
         event.preventDefault();
     };
     const save = (details) => {
-        alert("הגיע")
-        console.log("uuu", details)
-        // //הוספת משתמש
+        //הוספת משתמש
         sighinFromServer(details).then(res => {
-            console.log("sighin", res);
-            dispatch(saveUser(res));
-            alert("נרשם בהצלחה!" + details.Name)
+            console.log("sighin:", res.data);
+            dispatch(saveUser(res.data));
         }).catch(err => { console.log("error", err); })
         mynavigate("destinations")
+        handleClose();
     }
     const handleClose = () => {
         setOpen(false);

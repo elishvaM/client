@@ -18,7 +18,8 @@ export default function OneDestination({ attraction }) {
   //let mynavigate = useNavigate();
   let user = useSelector((state) => state.user.currentUser);
   let lovedAttraction;
-  const onClick = () => {
+  const onClick = (event) => {
+    event.stopPropagation();
     lovedAttraction = { UserId: user?.id, AttractionId: attraction.id };
 
     if (!attraction.isLoved) {
@@ -60,7 +61,7 @@ export default function OneDestination({ attraction }) {
             <h2>{attraction?.desc}</h2>
             {/* </Typography> */}
           </CardContent>
-          <IconButton aria-label="add to favorites" onClick={() => onClick()}>
+          <IconButton aria-label="add to favorites" onClick={onClick}>
             <FavoriteIcon color={attraction.isLoved ? "error" : "none"} />
           </IconButton>
         </CardActionArea>

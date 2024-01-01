@@ -29,35 +29,52 @@ const schema = yup.object({
         .email('מייל לא תקין'),
 }).required();
 
+// 
+export default function Login({  setOpen, Transition }) {
+    const [openDialog, setOpenDialog] = React.useState(true);
+    const [openSnack, setOpenSnack] = React.useState(false);
 
-export default function Login({ open, setOpen, Transition }) {
-    let { register, handleSubmit, formState: { errors } } = useForm({
+    const vertical = 'top';
+    const horizontal = 'center';
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onSubmit",
         resolver: yupResolver(schema)
 
     });
-    const [msg, setMsg] = useState([]);
+    const [msg, setMsg] = useState("");
     const mynavigate = useNavigate();
+    React.useEffect(() => {
 
+        if (!openDialog && !openSnack) {
+            setOpen(false)
+        }
+    }, [openDialog, openSnack])
     const dispatch = useDispatch();
     //the current user
     const save = (user) => {
         loginFromServer(user).then(res => {
             console.log("ans", res)
             if (res.data.status === true) {
+                console.log("enter:", res)
                 dispatch(saveUser(res.data))
                 setMsg(res.data.name + " טוב שחזרת ")
             }
-
             else
                 //???מתי נשנה לפעיל
                 setMsg("מצטרים, עקב דיווח רב על תגובותיך חשבונך הושהה");
             console.log("after: ", msg)
-        }).catch(err => { setMsg(err.response.data); console.log(err.response.data) })
-        handleClick({ vertical: 'top', horizontal: 'center' })
-       // setOpen(false);
+        }).catch(err => {
+            setMsg(err.response.data);
+            console.log(err.response.data)
+        }).finally(()=>{
+
+            setOpenSnack(true)
+            setOpenDialog(false)
+        })
+
         // חזרה לדף ההבית
-        mynavigate("destinations")
+        // mynavigate("destinations")
     }
     //submit/cancel-dialog
     //const [open2, setOpen] = React.useState(false);
@@ -69,13 +86,7 @@ export default function Login({ open, setOpen, Transition }) {
     // })
     //??? דיאלוג לא נסגר
 
-    const handleClose = () => {
-        // alert(open2 + " " + open)
-        setOpen(false);
-        // open = open2;
 
-
-    };
     // const LightTooltip = styled(({ className, ...props }) => (
     //     <Tooltip {...props} classes={{ popper: className }} />
     // ))(({ theme }) => ({
@@ -86,29 +97,27 @@ export default function Login({ open, setOpen, Transition }) {
     //     },
     // }));
     //start msg
-    const [state, setState] = React.useState({
-        open2: false,
-        vertical: 'top',
-        horizontal: 'center',
-    });
-    const { vertical, horizontal, open2 } = state;
-    const handleClick = (newState) => () => {
-        console.log("handle click here")
-        setState({ ...newState, open2: true });//??? לא מחליף לטרו
-        console.log("state", state)
 
-    };
 
-    const handleClose2 = () => {
-        setState({ ...state, open2: false });
-    };
+
     //end msg
     return (<>
         <div>
             {/* <LightTooltip title="כניסה">
                <Button size="large" onClick={handleClickOpen}>< AccountCircleOutlinedIcon /> </Button>
             </LightTooltip> */}
-            <Dialog className="dialog" open={open} onClose={handleClose} TransitionComponent={Transition}>
+
+            {/* <Box sx={{ width: 500 }}>
+                <h1>jghghh</h1> */}
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={openSnack}
+                onClose={() => setOpenSnack(false)}
+                message={msg}
+                key={vertical + horizontal}
+            />
+            {/* </Box> */}
+            <Dialog className="dialog" open={openDialog} onClose={() => setOpenDialog(false)} TransitionComponent={Transition}>
                 <DialogTitle>שמחים שחזרת :)</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -136,7 +145,7 @@ export default function Login({ open, setOpen, Transition }) {
                                 <div className="error">{errors.Email?.message}</div>
                                 <br />
                                 <DialogActions >
-                                    <Button onClick={handleClose}>ביטול</Button>
+                                    <Button onClick={() => setOpenDialog(false)}>ביטול</Button>
                                     <Button type="submit">התחבר</Button>
                                 </DialogActions>
                             </div>
@@ -144,17 +153,8 @@ export default function Login({ open, setOpen, Transition }) {
                     </DialogContentText>
                 </DialogContent>
             </Dialog>
-                          {/* msg */}
-            <Box sx={{ width: 500 }}>
-                <h1>jghghh</h1>
-                <Snackbar
-                    anchorOrigin={{ vertical, horizontal }}
-                    open={open2}
-                    onClose={handleClose2}
-                    message={msg}
-                    key={vertical + horizontal}
-                />
-            </Box>
+            {/* msg */}
+
         </div>
     </>);
 }

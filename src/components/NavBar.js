@@ -65,33 +65,33 @@ export default function NavBar() {
                 </span>
               </div>
             </div>
-            <div><Button onClick={()=>mynavigate("addAttraction")}>+</Button></div>
+            <div><Button onClick={() => mynavigate("addAttraction")}>+</Button></div>
             <div className="user-erea">
               <div>
                 <LightTooltip title="הרשמה">
                   <Button size="large" onClick={() => {
-                  //??? עדיף ניתוב??
-                  // mynavigate("sighin")
-                  setOpen2(true); }}>
+                    //??? עדיף ניתוב??
+                    // mynavigate("sighin")
+                    setOpen2(true);
+                  }}>
                     <VpnKeyOutlinedIcon />
                   </Button>
                 </LightTooltip>
-                {open2?<SighIn open={open2} setOpen={setOpen2} TransitionComponent={Transition}/> :null}
+                {open2 ? <SighIn open={open2} setOpen={setOpen2} TransitionComponent={Transition} /> : null}
               </div>
-              {currentUser === null? <div>
-                 <LightTooltip title="כניסה">
-                   <Button size="large"  onClick={() => { setOpen(true);   }}>                 
-                     <AccountCircleOutlinedIcon
-                     />{" "}
-                   </Button>
-                 </LightTooltip>
-               </div> :null}
+              {currentUser === null ? <div>
+                <LightTooltip title="כניסה">
+                  <Button size="large" onClick={() => { setOpen(true); }}>
+                    <AccountCircleOutlinedIcon
+                    />{" "}
+                  </Button>
+                </LightTooltip>
+              </div> : null}
 
-              {open?<Login
-                     open={open}
-                     setOpen={setOpen}
-                     TransitionComponent={Transition}
-                   />:null}
+              {open ? <Login
+                setOpen={setOpen}
+                TransitionComponent={Transition}
+              /> : null}
 
 
 
@@ -106,7 +106,7 @@ export default function NavBar() {
                 </LightTooltip>
               </div>
               {/* {currentUser ? */}
-               <>
+              <>
                 <div>
                   <LightTooltip title="לאיזור האישי" className="">
                     <Button
@@ -119,9 +119,9 @@ export default function NavBar() {
                   </LightTooltip>
                 </div>
 
-             </> 
+              </>
             </div>
-          
+
           </nav>
           <nav className="links-erea">
             <div className="ul-erea">
