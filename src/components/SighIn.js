@@ -23,7 +23,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { getTodayDate } from "@mui/x-date-pickers/internals";
 // import { saveUser } from "../store/actions/user";
@@ -40,7 +40,8 @@ export default function SighIn({ open, setOpen, Transition }) {
         mode: "onSubmit",
         resolver: yupResolver(schema)
     });
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const mynavigate = useNavigate();
     // let dispatch = useDispatch(state => state.user);
     //  let [msg, setMsg] = useState();
     //פונקציות של העין בסיסמא
@@ -53,19 +54,20 @@ export default function SighIn({ open, setOpen, Transition }) {
     };
     const save = (details) => {
         alert("הגיע")
-        console.log("uuu",details)
+        console.log("uuu", details)
         // //הוספת משתמש
         sighinFromServer(details).then(res => {
             console.log("sighin", res);
             dispatch(saveUser(res));
             alert("נרשם בהצלחה!" + details.Name)
-        }).catch(err => { console.log("error",err); })
+        }).catch(err => { console.log("error", err); })
+        mynavigate("destinations")
     }
     const handleClose = () => {
         setOpen(false);
     };
     return (<>
-   {console.log("ddd: ",new Date().toDateString)}
+        {console.log("ddd: ", new Date().toDateString)}
         <Dialog className="dialog" open={open} onClose={handleClose} TransitionComponent={Transition}>
             <DialogTitle>שמחים שבאת</DialogTitle>
             <DialogContent>
