@@ -20,38 +20,47 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import moment from "moment";
 import { saveDates } from '../store/actions/item';
-export default function AddBigList({setOpen, open, data, setData}) {
-  let { register, handleSubmit, getValues, formState: { errors } } = useForm({ mode: "onSubmit" });
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AddTripListFromServer } from '../services/list';
+export default function AddBigList({ setOpen, open, data, setData }) {
+
   let user = useSelector(s => s.user.currentUser);
-  let [date, setDate] = React.useState(['','']);
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+  let [date, setDate] = React.useState(['', '']);
+  const schema = yup.object({
+    Name: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
+    //TravelingDate: yup.date().required("שדה חובה"),
+    //BackingDate: yup.string().required("שדה חובה")
+  }).required();
+
+  let { register, handleSubmit, formState: { errors } } =
+    useForm({ mode: "onSubmit", resolver: yupResolver(schema) });
 
   const handleClose = () => {
     setOpen(false);
   };
-let dispatch = useDispatch()
-  let xdata;
+  let dispatch = useDispatch()
+  let copy;
   const createTripList = (details) => {
-    // console.log("det ")
-    // console.log(details)
+    details.UserId = user.id;
+    details.BackingDate=date[1];
+    details.TravelingDate=date[0];
+    console.log("trip", details)
+    AddTripListFromServer(details).then(res => {
+      console.log("ressss")
+      console.log(res)
+      console.log(res.data)
+          // {console.log(" be xdata",xdata)}
+    copy = [...data, res.data]
+    setData(copy);
+      })
+    .catch(err => console.log("err", err))
     setOpen(false);
-    
-    // {console.log("be data",data)}
-    details.UserId = user.Id;
-    details.AddingDate = new Date().toLocaleString() + "";
-    console.log(details.AddingDate)
-    // {console.log(" be xdata",xdata)}
-    xdata = [...data, { icon: <LuggageIcon />, label: details.Name }]
-    // {console.log(" af xdata",xdata)}
-    setData(xdata);
-    // {console.log(" af data",data)}
-    console.log("date", date)
-     dispatch(saveDates(date))
+    //dispatch(saveDates(date))
   };
-  // useEffect(()=>{setOpen(true);},[])
-  return(
+  // { icon: <LuggageIcon />, label: details.Name }
+  useEffect(() => { setOpen(true); }, [])
+  return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
       ארגן טיול 
@@ -61,70 +70,42 @@ let dispatch = useDispatch()
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        sx={{width:"100%" }}
+        sx={{ width: "100%" }}
       >
         <DialogTitle id="alert-dialog-title">
           {"מלא את הפרטים"}
         </DialogTitle>
-        <Divider/>
+        <Divider />
         <form onSubmit={handleSubmit(createTripList)}>
-        <DialogContent sx={{padding:5}} >
-            <div>
-      <TextField id="standard-basic" label="שם הרשימה" variant="standard"     
-         color="warning"  sx={{marginBottom:5}}  focused
-         {...register("Name", { minLength: 2, maxLength: 60, required: true, 
-            existsName: (val) => { let s = data.find(i => i.label == val)
-             return s != undefined;// ??? dont work
-            }
-          })}
-          />
+          <DialogContent sx={{ padding: 5 }} >
+            <TextField id="outlined-basic" label="שם הטיול" variant="outlined"   {...register("Name")} />
+            <div className="error">{errors.Name?.message}</div>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DateRangePicker']}>
+                <DateRangePicker
+                  localeText={{ start: 'תאריך יציאה', end: 'תאריך חזרה' }}
+                  format={'DD/MM/YYYY'}
+                  onChange={(e) => {  
+                   // setDate([moment(e[0]).format('DD-MM-YYYY'), moment(e[1]).format('DD-MM-YYY')])
+                   //??? אומר שגיאה כשממלאים תיבת תאריך אחת ועדיין השניה ריקה
+                   setDate([e[0]?.$d, e[1]?.$d])
+                  // console.log([e[0].$d, e[1].$d])
+                    //console.log(typeof (moment(e[0]).format('DD/MM/YYYY')))
+                  }}
+                  // {...register("BackingDate")}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </DialogContent>
 
-         {errors.Name && errors.Name.type == "required" &&
-                    <div className="error">
-                        שם הרשימה הוא שדה חובה
-                    </div>}
-                {errors.Name?.type == "minLength" &&
-                    <div className="error">
-                        שם הרשימה לפחות 2 תוים
-                    </div>}
-                {errors.Name?.type == "maxLength" &&
-                    <div className="error">
-                        מספר התווים מוגבל
-                    </div>}
-                    {errors.Name?.type == "existsName" &&
-                    <div className="error">
-                      יש לך רשימה בשם זה
-                    </div>}
-            </div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DateRangePicker']}>
-        <DateRangePicker
-         localeText={{ start: 'תאריך יציאה', end: 'תאריך חזרה' }} 
-         onChange={(e)=>{
-          //setDate([moment(e[0]).format('YYYY-MM-DD'), moment(e[1]).format('YYYY-MM-DD')])
-          setDate([e[0].$d, e[1].$d])
-          console.log(typeof(moment(e[0]).format('DD/MM/YYYY')))
-        }}
-        //  {...register("Date"
-        //  , { 
-        //   // minLength: 2, maxLength: 60, required: true, 
-        //   // existsName: (val) => { let s = data.find(i => i.label == val)
-        //   //  return s != undefined; }// ??? dont work
-        //   }
-        // )}
-         />
-      </DemoContainer>
-    </LocalizationProvider>   
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose}>בטל</Button>
-          <Button type="submit"
-          //  onClick={handleClose}
-           autoFocus>
-            שמור
-          </Button>
-        </DialogActions> 
+          <DialogActions>
+            <Button onClick={()=>setOpen(false)}>בטל</Button>
+            <Button type="submit"
+              // onClick={createTripList}
+              autoFocus>
+              שמור
+            </Button>
+          </DialogActions>
         </form>
       </Dialog>
     </div>

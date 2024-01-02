@@ -188,11 +188,11 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import LuggageIcon from '@mui/icons-material/Luggage';
-// import AddBigList from './AddBigList';
+import AddBigList from './AddBigList';
 import { useEffect } from 'react';
 // import { set } from 'react-hook-form';
 // import LovedAttractions from './LovedAttractions';
-import { GetAllTripListsByUserIdFromServer } from '../services/attraction';
+import { GetAllTripListsByUserIdFromServer } from '../services/list';
 import { useSelector } from 'react-redux';
 import { saveTripList } from '../store/actions/list';
 import { useDispatch } from 'react-redux';
@@ -213,12 +213,13 @@ const FireNav = styled(List)({
 export default function MyPage() {
   const dispatch = useDispatch();
   const user = useSelector(s => s.user.currentUser);
-  const data = useSelector(s=> s.list.allTripList);
+  const [data,setData] = React.useState([]);
   useEffect(() => {
-    // שליםה משרת כל הליסטים של המשתמש למשתנה דטה
     GetAllTripListsByUserIdFromServer(user.id).then(res => {
+      dispatch(saveTripList(res.data))
       console.log("trip:", res.data)
-      dispatch(saveTripList(res.data));
+    // שליםה משרת כל הליסטים של המשתמש למשתנה דטה
+      setData(res.data);
     })
   }, [user]);
   const [openCreateTrip, setOpenCreateTrip] = React.useState(false);
@@ -389,7 +390,6 @@ export default function MyPage() {
                 </ListItemButton>
                 {console.log("data", data)}
                 {open &&
-             
                   data.map((item) => (
                     <ListItemButton
                       key={item.name}
@@ -409,7 +409,6 @@ export default function MyPage() {
                   ))
                 }
                 <ListItemButton
-                  // key={item.label}
                   sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)', marginTop: 5 }}
                   onClick={() => { setOpenCreateTrip(true) }}
                 >
@@ -421,10 +420,9 @@ export default function MyPage() {
                     primaryTypographyProps={{ fontSize: 14, fontWeight: 'medium' }}
                   />
                 </ListItemButton>
-                {/* {openCreateTrip ? <AddBigList setOpen={setOpenCreateTrip}
+                {openCreateTrip ? <AddBigList setOpen={setOpenCreateTrip}
                   open={openCreateTrip} data={data} setData={setData} />
-                  : null} */}
-
+                  : null}
               </Box>
             </FireNav>
           </Paper>

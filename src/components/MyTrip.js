@@ -59,7 +59,6 @@ export default function MyTrip() {
     chosenTripList = allTripList.find(x => x.id == tripId);
     date = [new Date(chosenTripList.travelingDate), new Date(chosenTripList.backingDate)];
     console.log("choosen trip", chosenTripList)
-    console.log("dd", date)
     d = date[0];
     day = d.getDay();
     day = day == 0 ? "יום ראשון" : day == 1 ? "יום שני" : day == 2 ? "יום שלישי" : day

@@ -13,7 +13,4 @@ export const AddLovedAttractionFromServer = (lovedAttraction) => {
 export const RemoveLovedAttractionFromServer = (lovedAttraction) => {
     return axios.put(`https://localhost:7114/api/SavedAttraction/RemoveLovedAttraction`,lovedAttraction );
 }
-export const GetAllTripListsByUserIdFromServer = (userId) => {
-console.log("u",userId)
-    return axios.get(`https://localhost:7114/api/TripList/GetAll/${userId}`);
-}
+

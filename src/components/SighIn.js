@@ -28,8 +28,6 @@ export default function SighIn({ open, setOpen, Transition }) {
     });
     const dispatch = useDispatch();
     const mynavigate = useNavigate();
-    // let dispatch = useDispatch(state => state.user);
-    //  let [msg, setMsg] = useState();
     //פונקציות של העין בסיסמא
     const [showPassword, setShowPassword] = React.useState(false);
 
