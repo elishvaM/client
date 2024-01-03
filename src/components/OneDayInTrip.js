@@ -27,20 +27,16 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-export default function OneDayInTrip({ oneDay, attractionsDay }) {
+export default function OneDayInTrip({ oneDay, attractionsDay, dayinWeek }) {
   const [expanded, setExpanded] = React.useState(false);
   //הצגת תאריך ככותרת
-  const daysWeek = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "יום שישי", "יום שבת"]
-  //const day = daysWeek[oneDay.getDay()];
-  
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+
   const lovedattractions = useSelector(state => state.attraction.attractions.filter(x => x.isLoved));
   lovedattractions.map(x => { x.label = x.name });
-  return <> 
-  {console.log("attractionsDay", attractionsDay)}
-    <Card sx={{ maxWidth: 345 }}>
+  return <>
+    <h1>{dayinWeek} ביום {oneDay.toString("MM-dd")}</h1>
+    
+    {attractionsDay.map(attractio => <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -52,7 +48,7 @@ export default function OneDayInTrip({ oneDay, attractionsDay }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={oneDay}
+        title={dayinWeek}
         subheader=""
       />
       <CardMedia
@@ -83,12 +79,12 @@ export default function OneDayInTrip({ oneDay, attractionsDay }) {
         <CardContent>
           <Typography paragraph>אטרקציות:</Typography>
           <Typography paragraph>
-            
+
           </Typography>
         </CardContent>
       </Collapse>
     </Card>
-
+    )}
     {/* Autocomplete */}
     <Autocomplete
       disablePortal

@@ -32,12 +32,13 @@ function App() {
         <Route path="destinations" element={<Destinations />} />
         <Route path="oneDestinationDetails" element={<OneDestinationDetails />} />
         <Route path="sighin" element={<SighIn />} />
-        {/* <Route path="login" element={<Login />} /> */}
+        <Route path="login" element={<Login />} />
         {/* אישי */}
         <Route path="mylist/:id" element={<MyList />} />
-        <Route path="mypage" element={<MyPage />} />
-        <Route path='mypage/love' element={<LovedAttractions />} />
-        <Route path="mypage/mytrip/:tripId" element={<MyTrip />} />
+        <Route path="mypage" element={<MyPage />} >
+          <Route path='love' element={<LovedAttractions />} />
+          <Route path="mytrip/:tripId" element={<MyTrip />} />
+        </Route>
         {/* מנהל */}
         <Route path="managementUsers" element={<><ManagementUsers /></>} />
         <Route path="addAttraction" element={<AddAttraction />} />

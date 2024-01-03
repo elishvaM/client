@@ -37,18 +37,11 @@ export default function NavBar() {
   //submit/cancel-dialog
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-
-  // const handleClickOpen = () => {
-  //     setOpen(true);
-  // };
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
   return (
     <>
-      {/* header, nav bar */}
-      {currentUser != null && console.log("cur us", currentUser)}
-      {currentUser != null && <div>שלום {currentUser.name}</div>}
       <div className="header-navbar">
         <header>
           <nav className="headers-erea">
@@ -83,7 +76,7 @@ export default function NavBar() {
                 <LightTooltip title="כניסה">
                   <Button size="large" onClick={() => { setOpen(true); }}>
                     <AccountCircleOutlinedIcon
-                    />{" "}
+                    />
                   </Button>
                 </LightTooltip>
               </div> : null}
@@ -92,15 +85,9 @@ export default function NavBar() {
                 setOpen={setOpen}
                 TransitionComponent={Transition}
               /> : null}
-
-
-
-
               <div>
-                {" "}
                 <LightTooltip title="בקשת אטרקציה" className="addAtt">
                   <Button size="large" variant="contained">
-                    {" "}
                     בקשת אטרקציה
                   </Button>
                 </LightTooltip>
@@ -113,39 +100,32 @@ export default function NavBar() {
                       size="large"
                       variant="contained"
                       onClick={() => mynavigate("/mypage")}>
-                      {" "}
-                      לאיזור האישי{" "}
+                      לאיזור האישי
                     </Button>
                   </LightTooltip>
                 </div>
-
               </>
             </div>
-
           </nav>
           <nav className="links-erea">
             <div className="ul-erea">
               <ul className="links-ul">
                 <li className="button-nav">
-                  {" "}
                   <Button
                     className="links-nav"
                     size="small"
                     onClick={() => mynavigate("destinations")}
                     variant="filled">
-                    {" "}
-                    <AttractionsIcon /> אטרקציות{" "}
+                    <AttractionsIcon /> אטרקציות
                   </Button>
                 </li>
                 <li className="button-nav">
-                  {" "}
                   <Button
                     className="links-nav"
                     size="small"
                     onClick={() => mynavigate("about")}
                     variant="filled">
-                    {" "}
-                    <InfoOutlinedIcon /> קצת עלינו{" "}
+                    <InfoOutlinedIcon /> קצת עלינו
                   </Button>
                 </li>
                 <li className="button-nav">
@@ -163,7 +143,7 @@ export default function NavBar() {
                     size="small"
                     onClick={() => mynavigate("managementUsers")}
                     variant="filled">
-                    <ContactSupportOutlinedIcon /> ניהול משתמשים{" "}
+                    <ContactSupportOutlinedIcon /> ניהול משתמשים
                   </Button>
                 </li>
               </ul>
