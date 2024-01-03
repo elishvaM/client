@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from "react-redux";
 import { Autocomplete } from "@mui/material";
-import {TextField} from '@mui/material';
+import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -18,24 +18,28 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  }));
-export default function OneDayInTrip({oneDay}){
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-      setExpanded(!expanded);
-    };
-    const lovedattractions = useSelector(state => state.attraction.attractions.filter(x => x.isLoved));
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
+export default function OneDayInTrip({ oneDay, attractionsDay }) {
+  const [expanded, setExpanded] = React.useState(false);
+  //הצגת תאריך ככותרת
+  const daysWeek = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "יום שישי", "יום שבת"]
+  //const day = daysWeek[oneDay.getDay()];
+  
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+  const lovedattractions = useSelector(state => state.attraction.attractions.filter(x => x.isLoved));
   lovedattractions.map(x => { x.label = x.name });
-    return<>
+  return <> 
+  {console.log("attractionsDay", attractionsDay)}
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
@@ -59,7 +63,7 @@ export default function OneDayInTrip({oneDay}){
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-        אטרקציות
+          אטרקציות
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -72,19 +76,14 @@ export default function OneDayInTrip({oneDay}){
           aria-expanded={expanded}
           aria-label="show more"
         > */}
-          {/* <ExpandMoreIcon />
+        {/* <ExpandMoreIcon />
         </ExpandMore> */}
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
+          <Typography paragraph>אטרקציות:</Typography>
           <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
+            
           </Typography>
         </CardContent>
       </Collapse>
@@ -98,5 +97,5 @@ export default function OneDayInTrip({oneDay}){
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Attraction" />}
     />
-    </>
+  </>
 }

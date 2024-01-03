@@ -33,8 +33,9 @@ export default function MyTrip() {
   const [isHoverOne, setIsHoverOne] = useState(false);
   const [isContextMenu, setIsContextMenu] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [days, setDays] = useState([]);
   const allTripList = useSelector(s => s.list.allTripList);
+  //הטיול הנבחר
+  const chosenTripList = allTripList.find(x => x.id == tripId);
   const [daysAtt, setDaysAtt] = useState([[], [], [], [], [], [], [], []]); //length of days supposed to be
   let arr = [26, 27, 28, 29, 30, 1, 2, 3, 4, 5, 6, 7];
   let [details, setDetails] = useState();
@@ -50,97 +51,57 @@ export default function MyTrip() {
     console.log("agree");
     e.preventDefault();
   }
-  let chosenTripList = null;
+  //האטרקציות לאותו טיול
+  const attractions = chosenTripList.attractionList;
+  const sortttractions = [];
+  let sorted = chosenTripList.attractionList?.sort((a, b) => a.exitDate - b.exitDate);
+  //  new Date(...a.exitDate.split('/').reverse())
+  //  - new Date(...b.exitDate.split('/').reverse()));
   let date;
   let d;
-  let temp;
-  let day;
+  let [days, setDays] = useState([]);
+  let copy;
   React.useEffect(() => {
-    chosenTripList = allTripList.find(x => x.id == tripId);
     date = [new Date(chosenTripList.travelingDate), new Date(chosenTripList.backingDate)];
-    console.log("choosen trip", chosenTripList)
+    //יציאה לטיול
     d = date[0];
-    day = d.getDay();
-    day = day == 0 ? "יום ראשון" : day == 1 ? "יום שני" : day == 2 ? "יום שלישי" : day
-      == 3 ? "יום רביעי" : day == 4 ? "יום חמישי" : day == 5 ? "יום שישי" : "יום שבת";
-    temp = [moment(d).format('DD/MM/YYYY') + " " + day]
-    console.log(temp)
+    //טמפ מאותחל כך כדי שבפעם הראשונה של הלולאה הוא יעבור ליום הבא ולא ידלג על יום ראשון
+    copy = [moment(d).format('DD/MM/YYYY')];
+    console.log("copy", copy)
+    // setDays(copy);
+    //דחיפת כל ימי הטיול לטמפ
     while (d - date[1] != 0)//like it because the reference object is different
     {
-      console.log("hhhhhhhhh")
       d.setDate(d.getDate() + 1);
-      day = d.getDay();
-      day = day == 0 ? "יום ראשון" : day == 1 ? "יום שני" : day == 2 ? "יום שלישי" : day
-        == 3 ? "יום רביעי" : day == 4 ? "יום חמישי" : day == 5 ? "יום שישי" : "יום שבת";
-      temp = [...temp, moment(d).format('DD/MM/YYYY') + " " + day];
-      setDays(temp)
+      copy = [...copy, moment(d).format('DD/MM/YYYY')];
+      setDays(copy);
     }
-    setDays(temp)//רציתי לעשות פעם  אחת פה אחרי הכל למה לא עובד  ???
+    setDays(copy)
+   
   }, [])
+let attractionsDay;
+const findAttractionsDay=(i)=>{
+  console.log("day0",days[0])
+  console.log("exit",attractions[0].exitDate)
+  console.log("exit",moment(attractions[0].exitDate).format('DD/MM/YYYY'))
+  attractionsDay =  attractions.map(x=> console.log(x.exitDate ===  moment(i).format('DD/MM/YYYY')))
 
-  return (<div style={{ display: 'block' }}>
-    <h1>{temp}</h1>
-    <ul style={{
-      listStyleType: 'none', display: 'flex', flexWrap: 'wrap', maxWidth: 1060
-      , direction: 'rtl', position: 'absolute', left: '1rem', top: '22rem'
-    }}>
-
-      {days.map((i, key) =>
-        <li key={key}><OneDayInTrip oneDay={i} /></li>
-        // <li key={key}
-        //   style={{
-        //     backgroundColor: 'white', minWidth: 280, minHeight: 350, margin: 20,
-        //     borderRadius: 15, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', display: 'block'
-        //   }}>
-        //   <p>{i}</p>
-        //   <img src="/imgs/product23_image1_2021-03-29_11-25-56.jpg"
-        //     style={{ borderRadius: '15px 15px 0px 0px', width: 280, height: 100 }}
-        //   />
-        //   {/* {i} */}
-        //   <div style={{
-        //     height: 200, paddingBottom: 5
-        //   }}
-        //     onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={key}//{+i} 
-        //   >
-        //     {daysAtt[key].length != 0 ? daysAtt[key].map((i, key2) =>//{console.log(i)}??? למה לא משנה את i.status
-        //       <><div style={{ display: 'flex' }}
-        //         onMouseEnter={() => setIsHoverOne(!isHoverOne)}
-        //         onMouseLeave={() => setIsHoverOne(!isHoverOne)} onContextMenu={() => setIsContextMenu(!isContextMenu)}>
-        //         <IconButton sx={{ marginX: 3, height: 40, marginY: 'auto' }}
-        //           onClick={() => {
-        //             setIsDone(!isDone)
-        //             //console.log(daysAtt[key].Status+ " aa "+i.Status)//???מה הוא לא מרנדר והאם נכון לגשת למערך כשיש לי את זה פה
-        //             daysAtt[key][key2].Status = !daysAtt[key][key2].Status
-        //             //console.log(daysAtt[key].Status+ " bb "+i.Status)
-        //           }}>{/*??? סתם השתמשתי במשתנה כדי שירענן*/}
-
-        //           {console.log(daysAtt[key])}
-        //           {daysAtt[key][key2].Status ? <>{console.log(i.Status)}<DoneIcon sx={{
-        //             borderRadius: 15
-        //             , backgroundColor: 'green', color: 'white'
-        //           }} /></> : <>{console.log(i.Status)}<CircleOutlinedIcon /></>}
-        //         </IconButton>
-        //         <p style={{ textDecoration: daysAtt[key][key2].Status ? 'line-through' : 'none', fontSize: 17 }}>
-        //           {i.Name}
-        //         </p>
-        //         {!isHoverOne ?
-        //           <p style={{
-        //             position: 'relative', right: 20// marginRight:60
-        //           }}> 2:30 </p>
-        //           : <div style={{
-        //             marginLeft: -6, marginTop: 7
-        //           }}>
-        //             <Tooltip title="צור רשימה"><IconButton><CreateIcon onClick={() => mynavigate("/mylist/" + i.Id)} /></IconButton></Tooltip>
-        //             <Tooltip title="הזכר לי"><IconButton><NotificationsIcon /></IconButton></Tooltip>
-        //             <Tooltip title="מחק"><IconButton><GridDeleteIcon /></IconButton></Tooltip></div>}
-        //       </div><Divider /></>)
-        //       : <>     ריק        
-        //       </>}
-        //   </div>
-        // </li>
-      )}
-    </ul>
-  </div>
-
-  );
+  attractionsDay = attractions.filter(x => x.exitDate ===  moment(i).format('DD/MM/YYYY'))
+}
+  return (<>
+    {console.log("c2", days)}
+    <div style={{ display: 'block' }}>
+      איפה הבעיה?
+      <ul style={{
+        listStyleType: 'none', display: 'flex', flexWrap: 'wrap', maxWidth: 1060
+        , direction: 'rtl', position: 'absolute', left: '1rem', top: '22rem'
+      }}>
+        {days?.map((i, key) =>
+          { findAttractionsDay(i);
+          <li key={key}><OneDayInTrip oneDay={i} attractionsDay={attractionsDay}/></li>
+          }
+        )}
+      </ul>
+    </div>
+  </>);
 }
