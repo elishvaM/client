@@ -1,4 +1,4 @@
-export default function OneDestination({ attraction }) {
+export default function OneAttraction({ attraction }) {
     return(<>
     <h2>{attraction.name}</h2>
     <h3>{attraction.desc}</h3>

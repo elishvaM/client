@@ -27,16 +27,9 @@ export default function MyTrip() {
     }
     console.log(arr)
     setattractionsDay(arr);
-
   }, [chosenTripList])
-
-
-
   return (<>
-
-
     <div style={{ display: 'block' }}>
-      איפה הבעיה?
       <ul style={{
         listStyleType: 'none', display: 'flex', flexWrap: 'wrap', maxWidth: 1060
         , direction: 'rtl', position: 'absolute', left: '1rem', top: '22rem'

@@ -217,7 +217,6 @@ export default function MyPage() {
   useEffect(() => {
     GetAllTripListsByUserIdFromServer(user.id).then(res => {
       dispatch(saveTripList(res.data))
-      console.log("trip:", res.data)
     // שליםה משרת כל הליסטים של המשתמש למשתנה דטה
       setData(res.data);
     })
@@ -388,13 +387,12 @@ export default function MyPage() {
                     }}
                   />
                 </ListItemButton>
-                {console.log("data", data)}
                 {open &&
                   data.map((item) => (
                     <ListItemButton
                       key={item.name}
                       sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)' }}
-                      onClick={() => { mynavigate(`mytrip/${item.id}`); console.log("mytrip/:",{item}) }}
+                      onClick={() => { mynavigate(`mytrip/${item.id}`)}}
                     >
                       <ListItemIcon sx={{ color: 'inherit' }}>
                        
@@ -429,12 +427,6 @@ export default function MyPage() {
         </ThemeProvider>
       </Box>
       <Outlet />
-      {/* <div> {directChose==="LovedAttractions"? <LovedAttractions/>:
-    ///??? האם נכון כך להמשיך עבור כל האופציות שבאזור האישי
-          //  directChose=== //
-             null}
-    </div> */}
-
     </>
   );
 }

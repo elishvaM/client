@@ -67,7 +67,6 @@ export default function ManagementUsers() {
 
 
   return (<>
-  {console.log("users",users)}
     <ul>
       {users.map(user => <li key={user.id}>{user.name + " " + user.status+" "+user.type}
         <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>

@@ -78,7 +78,6 @@ export default function Destination() {
       attractionFromServer()
         .then((res) => {
           //שליחת מערך אטרקציות רגיל ואטרקציות אהובות
-          console.log(res.data)
           dispatch(saveAttractions(res.data));
         })
         .catch((err) => {
@@ -92,7 +91,6 @@ export default function Destination() {
     if (user != null) {
       savedAttractionByUserIdFromServer(user.id)
         .then((res) => {
-          console.log(res.data);
           dispatch(saveLovedAttractions(res.data, true));
         })
         .catch((err) => console.log(err));
@@ -106,8 +104,6 @@ export default function Destination() {
   const attractions = useSelector((state) => state.attraction.attractions);
   const [displayFilter, setDisplayFilter] = useState(false);
   const m = (x) => {
-    console.log("mmmm", x.target);
-    // console.log("mmmm", x.target.val)
   };
   return (
     <>

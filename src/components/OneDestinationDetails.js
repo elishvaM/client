@@ -5,7 +5,6 @@ export default function OneDestinationDetails() {
     //דרך הניתוב יותר פשוט לשמור בסטייט  Id  במקום לשלוח
     return (
         <>
-        {console.log(chosenAttraction)}
             <h1>ברוך ה שהגענו לפה</h1>
             <h1>{chosenAttraction.name}</h1>
             <h1>{chosenAttraction.desc}</h1>

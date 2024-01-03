@@ -46,7 +46,6 @@ export default function OneDestination({ attraction }) {
   };
   return (
     <>
-      {console.log("!!!", attraction.img)}
       <Card className="card">
         <CardActionArea>
           <div className="photo-erea">
@@ -57,9 +56,7 @@ export default function OneDestination({ attraction }) {
           </div>
           <CardContent className="content">
             <h1>{attraction?.name}</h1>
-            {/* <Typography  color="text.primary"> */}
             <h2>{attraction?.desc}</h2>
-            {/* </Typography> */}
           </CardContent>
           <IconButton aria-label="add to favorites" onClick={onClick}>
             <FavoriteIcon color={attraction.isLoved ? "error" : "none"} />
