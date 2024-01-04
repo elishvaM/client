@@ -109,7 +109,7 @@ export default function Destination() {
     <>
       <div className="attraction-content">
         <div className="attraction-header">
-          <h1>אטרקציות,חוויות ופעילויות</h1>
+        <div> <h1>אטרקציות,חוויות ופעילויות</h1></div>  
           <h2>בואו לבחור את החוויה הבאה</h2>
         </div>
       </div>

@@ -70,7 +70,7 @@ export default function OneDayInTrip({ oneDay, attractionsDay, dayinWeek }) {
                 label="הוסף אטרקציות ליום"
                 placeholder="בחר"
                 {...setChoosenAttraction(params)}
-                {...console.log("att", params)}
+                // {...console.log("att", params)}
               />
             )}
           />

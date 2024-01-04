@@ -14,29 +14,32 @@ export default function MyTrip() {
 
 
   React.useEffect(() => {
-
-
     const arr = []
     for (let date = new Date(chosenTripList.travelingDate); date <= new Date(chosenTripList.backingDate); date.setDate(date.getDate() + 1)) {
-      console.log(date, attractionsDay,chosenTripList)
+      console.log(date, attractionsDay, chosenTripList)
       arr.push({
         date: date,
         dayinWeek: daysWeek[date.getDay()],
         trips: chosenTripList.attractionList.filter(x => new Date(x.exitDate).getDate() === date.getDate())
       })
     }
-    console.log(arr)
+    console.log("arr",arr)
     setattractionsDay(arr);
   }, [chosenTripList])
-  return (<>
-    <div style={{ display: 'block' }}>
-      <ul style={{
-        listStyleType: 'none', display: 'flex', flexWrap: 'wrap', maxWidth: 1060
-        , direction: 'rtl', position: 'absolute', left: '1rem', top: '22rem'
-      }}>
-        {attractionsDay?.map((attractions, key) => <li key={key}><OneDayInTrip dayinWeek={attractions.dayinWeek} oneDay={attractions.date} attractionsDay={attractions.trips} /></li>
-        )}
-      </ul>
-    </div>
-  </>);
+  return (
+    <>
+      {console.log("camee")}
+      {console.log("att", attractionsDay)}
+      <div style={{ display: 'block' }}>
+        <ul style={{
+          listStyleType: 'none', display: 'flex', flexWrap: 'wrap', maxWidth: 1060
+          , direction: 'rtl', position: 'absolute', left: '1rem', top: '22rem'
+        }}>
+          {attractionsDay?.map((attractions, key) => <li key={key}><OneDayInTrip
+            dayinWeek={attractions.dayinWeek} oneDay={attractions.date} attractionsDay={attractions.trips}
+          /></li>
+          )}
+        </ul>
+      </div>
+    </>);
 }

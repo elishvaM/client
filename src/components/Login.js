@@ -118,7 +118,7 @@ export default function Login({  setOpen, Transition }) {
             />
             {/* </Box> */}
             <Dialog className="dialog" open={openDialog} onClose={() => setOpenDialog(false)} TransitionComponent={Transition}>
-                <DialogTitle>שמחים שחזרת :)</DialogTitle>
+                <DialogTitle>שמחים שחזרת</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         <form className="form" onSubmit={handleSubmit(save)} >
@@ -143,9 +143,7 @@ export default function Login({  setOpen, Transition }) {
                                     }
                                 />
                                 <div className="error">{errors.Email?.message}</div>
-                                <br />
                                 <DialogActions >
-                                    <Button onClick={() => setOpenDialog(false)}>ביטול</Button>
                                     <Button type="submit">התחבר</Button>
                                 </DialogActions>
                             </div>
