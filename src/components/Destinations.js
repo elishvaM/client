@@ -145,32 +145,31 @@ export default function Destination() {
           <SearchIcon />
         </IconButton>
       </Paper>
-
-      {/* הסינון */}
-      <BootstrapButton
-        variant="contained"
-        disableRipple
-        sx={{ marginLeft: "63vw" }}
-        onClick={() => {
-          setDisplayFilter(true);
-        }}>
-        סינון
-      </BootstrapButton>
-      {displayFilter === true ? <Filter /> : null}
-      {/* הצגת האטרקציות */}
-      <ul className="ul-dest">
+<div  className='all'> 
+      <ul className="ul-dest" style={{width:70}}>
         {/* למה השורה הבאה שבהערה לא עבדה ??? */}
         {/* {attractions.length!== 0?attractions.map(i => <li key={i.id}><h1>{i.isLoved}</h1></li>):null} */}
         {attractions.length !== 0 ? (
           <div>
             {attractions.map((item) => (
-              <li key={item.id} onClick={() =>{dispatch(selectAttraction(item));mynavigate('oneDestinationDetails')}}>
+              <li key={item.id} className="li" onClick={() =>{dispatch(selectAttraction(item));mynavigate('oneDestinationDetails')}}>
                 <OneDestination attraction={item} />
               </li>
             ))}
           </div>
         ) : null}
       </ul>
+      <div className='asinun'>
+        {/* הסינון */}
+        <BootstrapButton
+        variant="contained"
+        disableRipple
+        sx={{position:'relative', left: 75, bottom:30}}>
+        סינון
+      </BootstrapButton>
+       <Filter /> 
+      </div>
+      </div>
     </>
   );
 }

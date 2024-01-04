@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import OneDayInTrip from './OneDayInTrip';
+import moment from 'moment';
+
 const daysWeek = ["יום ראשון", "יום שני", "יום שלישי", "יום רביעי", "יום חמישי", "יום שישי", "יום שבת"]
 
 export default function MyTrip() {
@@ -15,12 +17,11 @@ export default function MyTrip() {
 
   React.useEffect(() => {
 
-
     const arr = []
     for (let date = new Date(chosenTripList.travelingDate); date <= new Date(chosenTripList.backingDate); date.setDate(date.getDate() + 1)) {
       console.log(date, attractionsDay,chosenTripList)
       arr.push({
-        date: date,
+        date: moment(date).format('YYYY/MM/DD'),
         dayinWeek: daysWeek[date.getDay()],
         trips: chosenTripList.attractionList.filter(x => new Date(x.exitDate).getDate() === date.getDate())
       })
@@ -36,12 +37,12 @@ export default function MyTrip() {
 
 
     <div style={{ display: 'block' }}>
-      איפה הבעיה?
       <ul style={{
         listStyleType: 'none', display: 'flex', flexWrap: 'wrap', maxWidth: 1060
-        , direction: 'rtl', position: 'absolute', left: '1rem', top: '22rem'
+        , direction: 'rtl'
       }}>
-        {attractionsDay?.map((attractions, key) => <li key={key}><OneDayInTrip dayinWeek={attractions.dayinWeek} oneDay={attractions.date} attractionsDay={attractions.trips} /></li>
+        {attractionsDay?.map((attractions, key) => <li key={key} style={{padding:20}}
+        ><OneDayInTrip dayinWeek={attractions.dayinWeek} date={attractions.date} attractionsDay={attractions.trips} /></li>
         )}
       </ul>
     </div>

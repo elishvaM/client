@@ -21,7 +21,6 @@ export default function OneDestination({ attraction }) {
   const onClick = (event) => {
     event.stopPropagation();
     lovedAttraction = { UserId: user?.id, AttractionId: attraction.id };
-
     if (!attraction.isLoved) {
       if (user != null) {
         //רק במקרה של מחובר תשמור בשרת
@@ -59,10 +58,12 @@ export default function OneDestination({ attraction }) {
             <h1>{attraction?.name}</h1>
             {/* <Typography  color="text.primary"> */}
             <h2>{attraction?.desc}</h2>
+            <h3>{attraction.type +" מתאים ל"+attraction.state}</h3>
             {/* </Typography> */}
           </CardContent>
           <IconButton aria-label="add to favorites" onClick={onClick}>
             <FavoriteIcon color={attraction.isLoved ? "error" : "none"} />
+            {console.log(attraction.isLoved)}
           </IconButton>
         </CardActionArea>
       </Card>

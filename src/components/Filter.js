@@ -54,9 +54,12 @@ export default function Filter(){
     //שליפת כל האטרקציות
     let attractions = useSelector(state=> state.attraction.attractions);
     //שליפת כל אפשרויות הסינון
-    let attractionTypes = useSelector(state=> state.attraction.attractionTypes);
-    let countries = useSelector(state=> state.attraction.countries); 
-    let person = useSelector(state=> state.attraction.person); 
+    let attractionTypes = [  {id:1, type:"יבש"},{id:2, type:"אקסטרים"},{id:3, type:"רטוב"},];
+    let countries = []; 
+    let person = [{id:1, person:"ילדים"},{id:2, person:"נוער"},{id:3, person:"מבוגרים"}];// {Id:4, Person:"הכל"},//];
+    
+      
+  
     let filtered = [...attractions];
     let [arrays, setArrays] = useState([[],[],[]]);
     let [first, setFirst] = useState(true);
@@ -96,8 +99,8 @@ export default function Filter(){
         console.log("person be l "+filtered.length)
         for(let i=0; i<filtered.length; i++){
             for(let j=0; j<arr.length; j++){
-                console.log(filtered[i].TypeId == arr[j])
-                if(filtered[i].TypeId == arr[j])
+                console.log(filtered[i].typeId == arr[j])
+                if(filtered[i].typeId == arr[j])
                     {
                         temp = [...temp, filtered[i]]
                         break
@@ -121,7 +124,7 @@ export default function Filter(){
         temp = [] 
         for(let i=0; i<filtered.length; i++){
             for(let j=0; j<arr.length; j++){
-                if(filtered[i].CountryId == arr[j])
+                if(filtered[i].countryId == arr[j])
                     {
                         temp = [...temp, filtered[i]]
                         break
@@ -140,7 +143,7 @@ export default function Filter(){
         temp = [] 
         for(let i=0; i<filtered.length; i++){
             for(let j=0; j<arr.length; j++){
-                if(filtered[i].PersonId == arr[j])
+                if(filtered[i].personId == arr[j])
                     {
                         temp = [...temp, filtered[i]]
                         break
@@ -243,8 +246,8 @@ const customList = (title, items, inds) => (
       <Divider />
       <List
         sx={{
-          width: 200,
-          height: 150,
+          //  width: 200,
+           height: 180,
           bgcolor: 'background.paper',
           overflow: 'auto',
         }}
@@ -253,7 +256,7 @@ const customList = (title, items, inds) => (
         role="list"
       >
         {items.map((value) => {
-          const labelId = `transfer-list-all-item-${value.Id}-label`;//Id
+          const labelId = `transfer-list-all-item-${value.id}-label`;//Id
 
           return (
             <ListItem
@@ -264,7 +267,7 @@ const customList = (title, items, inds) => (
             >
               <ListItemIcon>
                 <Checkbox
-                  name={inds} value={value.Id} onClick={xx}//
+                  name={inds} value={value.id} onClick={xx}//
                   // checked={checked.indexOf(value) !== -1}//Id
                   // tabIndex={-1}
                   // disableRipple
@@ -273,8 +276,8 @@ const customList = (title, items, inds) => (
                   // }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={title=="סוג אטרקציה"?`${value.Type}`:
-                title=="קהל"?`${value.Person}`:null } /> 
+              <ListItemText id={labelId} primary={title=="סוג אטרקציה"?`${value.type}`:
+                title=="קהל"?`${value.person}`:null } /> 
             </ListItem>
           );
         })}
@@ -284,7 +287,7 @@ const customList = (title, items, inds) => (
 //הסלקט סוף
     return(<>
 
-      <Grid container spacing={2} justifyContent="center" alignItems="center" display="block">
+      <Grid container spacing={2} justifyContent="center" alignItems="center" display="block" >
       <Grid item >{customList('קהל', person, 2)}</Grid>{/* width="min-content" */}
       <Grid item >{customList('סוג אטרקציה', attractionTypes, 0)}</Grid> 
       </Grid>

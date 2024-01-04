@@ -27,16 +27,15 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-export default function OneDayInTrip({ oneDay, attractionsDay, dayinWeek }) {
+export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
   const [expanded, setExpanded] = React.useState(false);
   //הצגת תאריך ככותרת
 
   const lovedattractions = useSelector(state => state.attraction.attractions.filter(x => x.isLoved));
   lovedattractions.map(x => { x.label = x.name });
   return <>
-    <h1>{dayinWeek} ביום {oneDay.toString("MM-dd")}</h1>
-    
-    {attractionsDay.map(attractio => <Card sx={{ maxWidth: 345 }}>
+
+<Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -48,13 +47,13 @@ export default function OneDayInTrip({ oneDay, attractionsDay, dayinWeek }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={dayinWeek}
+        title={dayinWeek+" "+date}
         subheader=""
       />
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image="/imgs/product23_image1_2021-03-29_11-25-56.jpg"
         alt="Paella dish"
       />
       <CardContent>
@@ -77,14 +76,18 @@ export default function OneDayInTrip({ oneDay, attractionsDay, dayinWeek }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>אטרקציות:</Typography>
+          <Typography paragraph
+          >אטרקציות:
+          </Typography>
           <Typography paragraph>
-
+           
           </Typography>
         </CardContent>
       </Collapse>
+      {attractionsDay?.map(attraction => <h5>{attraction.attractionId}{console.log(attraction.attractionId)}</h5> )}
+
     </Card>
-    )}
+  
     {/* Autocomplete */}
     <Autocomplete
       disablePortal
