@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
+import { useState } from 'react';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -18,9 +19,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function AddAttraction({setOpenAddItem}) {
+export default function AddAttraction({ setOpenAddItem }) {
   const [open, setOpen] = React.useState(true);
-
+  let [file, setFile] = useState();
   const handleClose = () => {
     setOpen(false);
     setOpenAddItem(false)
@@ -28,14 +29,13 @@ export default function AddAttraction({setOpenAddItem}) {
 
   return (
     <div>
-      {console.log("add")}
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
+          הוספת אטרקציה
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -50,13 +50,37 @@ export default function AddAttraction({setOpenAddItem}) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" sx={{margin:"0px 20px 10px 0px"}}/>
-        <TextField id="filled-basic" label="Filled" variant="filled" />
-        <TextField id="standard-basic" label="Standard" variant="standard" sx={{margin:0.5}}/>
+          <TextField id="outlined-basic" label="שם האטרקציה" variant="outlined" sx={{ margin: "0px 20px 10px 0px" }} />
+          <TextField id="filled-basic" label="תיאור" variant="filled" />
+          <TextField id="standard-basic" label="Standard" variant="standard" sx={{ margin: 0.5 }} />
+          {file === null ?
+            <input type='file' label="kkk" onChange={(e) => {
+              setFile(URL.createObjectURL(e.target.files[0]));
+              { console.log(file) }
+            }}
+              name="chooseImg" /> : null}
+          <img src={file} style={{ width: 70, height: 70 }} />
+          <input
+            accept={file}
+            // className={classes.input}
+            style={{ display: 'none' }}
+            id="raised-button-file"
+            multiple
+            type="file"
+          />
+          <label htmlFor="raised-button-file">
+            <Button  variant="raised" component="span"
+             onChange={(e) => {
+              setFile(URL.createObjectURL(e.target.files[0]))
+            }} label=" בחר תמונה" />
+            {/* בחר תמונה */}
+          </label>
+          <img src={file} style={{ width: 70, height: 70 }} />
+
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Save changes
+            הוסף
           </Button>
         </DialogActions>
       </BootstrapDialog>
