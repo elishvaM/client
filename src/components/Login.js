@@ -1,14 +1,12 @@
 import "../StyleComponents/Login.scss";
 import { useForm } from "react-hook-form";
 import Button from '@mui/material/Button';
-// import { useState } from "react";
 import * as React from 'react';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutline from '@mui/icons-material/MailOutline';
 import PasswordOutlined from '@mui/icons-material/PasswordOutlined';
 import { saveUser } from "../store/actions/user";
-import { useNavigate } from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,8 +18,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
 import { useState } from "react";
-// import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 const schema = yup.object({
     Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
@@ -43,9 +39,7 @@ export default function Login({  setOpen, Transition }) {
 
     });
     const [msg, setMsg] = useState("");
-    const mynavigate = useNavigate();
     React.useEffect(() => {
-
         if (!openDialog && !openSnack) {
             setOpen(false)
         }
