@@ -148,6 +148,17 @@ export default function NavBar() {
                         <ContactSupportOutlinedIcon />הוספת אטרקציה
                       </Button>
                     </li>
+                    <li className="button-nav">
+                      <Button
+                        className="links-nav"
+                        size="small"
+                        onClick={() => mynavigate("managementComments")}
+                        variant="filled">
+                        <ContactSupportOutlinedIcon />תגובות שדווחו 
+                      </Button>
+                    </li>
+
+                    
                   </> : null}
               </ul>
             </div>

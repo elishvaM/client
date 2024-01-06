@@ -16,7 +16,6 @@ import { useDispatch } from "react-redux";
 import { loginFromServer } from "../services/user";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-
 import { useState } from "react";
 import Snackbar from '@mui/material/Snackbar';
 const schema = yup.object({
@@ -26,7 +25,7 @@ const schema = yup.object({
 }).required();
 
 // 
-export default function Login({  setOpen, Transition }) {
+export default function Login({ setOpen, Transition }) {
     const [openDialog, setOpenDialog] = React.useState(true);
     const [openSnack, setOpenSnack] = React.useState(false);
 
@@ -43,66 +42,26 @@ export default function Login({  setOpen, Transition }) {
         if (!openDialog && !openSnack) {
             setOpen(false)
         }
-    }, [openDialog, openSnack])
+    }, [openDialog, openSnack, setOpen])
     const dispatch = useDispatch();
     //the current user
     const save = (user) => {
         loginFromServer(user).then(res => {
-            console.log("ans", res)
             if (res.data.status === true) {
-                console.log("enter:", res)
                 dispatch(saveUser(res.data))
                 setMsg(res.data.name + " טוב שחזרת ")
             }
             else
-                //???מתי נשנה לפעיל
                 setMsg("מצטרים, עקב דיווח רב על תגובותיך חשבונך הושהה");
-            console.log("after: ", msg)
         }).catch(err => {
             setMsg(err.response.data);
-            console.log(err.response.data)
-        }).finally(()=>{
-
+        }).finally(() => {
             setOpenSnack(true)
             setOpenDialog(false)
         })
-
-        // חזרה לדף ההבית
-        // mynavigate("destinations")
     }
-    //submit/cancel-dialog
-    //const [open2, setOpen] = React.useState(false);
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
-    // const Transition = React.forwardRef(function Transition(props, ref) {
-    //     return <Slide direction="up" ref={ref} {...props} />;
-    // })
-    //??? דיאלוג לא נסגר
-
-
-    // const LightTooltip = styled(({ className, ...props }) => (
-    //     <Tooltip {...props} classes={{ popper: className }} />
-    // ))(({ theme }) => ({
-    //     [`& .${tooltipClasses.tooltip}`]: {
-    //         backgroundColor: theme.palette.common.black,
-    //         boxShadow: theme.shadows[1],
-    //         fontSize: 13,
-    //     },
-    // }));
-    //start msg
-
-
-
-    //end msg
     return (<>
         <div>
-            {/* <LightTooltip title="כניסה">
-               <Button size="large" onClick={handleClickOpen}>< AccountCircleOutlinedIcon /> </Button>
-            </LightTooltip> */}
-
-            {/* <Box sx={{ width: 500 }}>
-                <h1>jghghh</h1> */}
             <Snackbar
                 anchorOrigin={{ vertical, horizontal }}
                 open={openSnack}
@@ -110,17 +69,14 @@ export default function Login({  setOpen, Transition }) {
                 message={msg}
                 key={vertical + horizontal}
             />
-            {/* </Box> */}
             <Dialog className="dialog" open={openDialog} onClose={() => setOpenDialog(false)} TransitionComponent={Transition}>
                 <DialogTitle>שמחים שחזרת</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         <form className="form" onSubmit={handleSubmit(save)} >
                             <div>
-
                                 <Input
                                     label="סיסמא"
-                                    // error={errors.Password}
                                     {...register("Password")}
                                     startAdornment={
                                         <InputAdornment position="start">
@@ -145,8 +101,6 @@ export default function Login({  setOpen, Transition }) {
                     </DialogContentText>
                 </DialogContent>
             </Dialog>
-            {/* msg */}
-
         </div>
     </>);
 }

@@ -14,11 +14,8 @@ import MyPage from './components/MyPage';
 import LovedAttractions from './components/LovedAttractions';
 import OneDestinationDetails from './components/OneDestinationDetails';
 import AddAttraction from './components/AddAttraction';
-import { Button } from "@mui/base";
 import * as React from 'react';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
+import ManagementComments from './components/ManagementComments';
 // app first page
 function App() {
   return (
@@ -41,6 +38,9 @@ function App() {
         </Route>
         {/* מנהל */}
         <Route path="managementUsers" element={<><ManagementUsers /></>} />
+        <Route path="managementComments" element={<><ManagementComments /></>} />
+
+        
         <Route path="addAttraction" element={<AddAttraction />} />
         {/* הוספת אטרקציה עדכון  */}
         <Route path="*" element={<Destinations />} />

@@ -29,13 +29,13 @@ export default function SighIn({ open, setOpen, Transition }) {
     const dispatch = useDispatch();
     const mynavigate = useNavigate();
     //פונקציות של העין בסיסמא
-    const [showPassword, setShowPassword] = React.useState(false);
+    // const [showPassword, setShowPassword] = React.useState(false);
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    // const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    // const handleMouseDownPassword = (event) => {
+    //     event.preventDefault();
+    // };
     const save = (details) => {
         //הוספת משתמש
         sighinFromServer(details).then(res => {
@@ -49,7 +49,6 @@ export default function SighIn({ open, setOpen, Transition }) {
         setOpen(false);
     };
     return (<>
-        {console.log("ddd: ", new Date().toDateString)}
         <Dialog className="dialog" open={open} onClose={handleClose} TransitionComponent={Transition}>
             <DialogTitle>שמחים שבאת</DialogTitle>
             <DialogContent>

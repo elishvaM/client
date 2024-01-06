@@ -5,11 +5,15 @@ import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import { Button } from "@mui/base";
 import { addCommentFromServer, getAllCommentsFromServer } from "../services/comment";
+
+import OneComment from "./OneComment";
+
 export default function OneDestinationDetails() {
     const chosenAttraction = useSelector(state => state.attraction.selectedAttraction);
     let [comments, setComments] = React.useState([]);
+    let copy = [...comments];
     const [comment, setComment] = React.useState({});
-    let user = useSelector(state => state.user.currentUser);
+    const user = useSelector(state => state.user.currentUser);
     React.useEffect(() => {
         getAllCommentsFromServer(chosenAttraction?.id).then(res => {
             setComments(res.data)
@@ -17,13 +21,13 @@ export default function OneDestinationDetails() {
     }, [chosenAttraction]);
     const addComment = (desc) => {
         const addC = {
-            id: 0,
             desc: desc,
             userId: user.id,
             attractionId: chosenAttraction?.id
         }
         addCommentFromServer(addC).then(res => {
-            setComments(...comments,res.data);
+            copy.push(res.data);
+            setComments(copy)
         }).catch(err => console.log("err add", err))
     }
     return (
@@ -44,8 +48,10 @@ export default function OneDestinationDetails() {
                 autoComplete="off"
             />
             <div>
+                {/* <form onSubmit={handleSubmit(save)}> */}
                 <TextField
                     // {...setComment(value)}
+                    // {...register("Desc")}
                     id="outlined-textarea"
                     label="הוספת תגובה"
                     placeholder="כתוב כאן"
@@ -53,8 +59,12 @@ export default function OneDestinationDetails() {
                     onChange={(e) => { setComment(e.target.value) }}
                 />
                 <Button onClick={() => addComment(comment)} >הוסף</Button>
+                {/* </form> */}
             </div>
-            {comments.map(x => <h3>{x.desc}</h3>)}
+
+            {comments.length === 0 ? <h3> ...היה הראשון להגיב </h3> :
+                comments.map((x, key) => x?.status === true && <OneComment comment={x} />)
+            }
         </>
     )
 }
