@@ -54,9 +54,9 @@ export default function Filter(){
     //שליפת כל האטרקציות
     let attractions = useSelector(state=> state.attraction.attractions);
     //שליפת כל אפשרויות הסינון
-    let attractionTypes = [  {id:1, type:"יבש"},{id:2, type:"אקסטרים"},{id:3, type:"רטוב"},];
+    const attractionTypes = [  {id:1, type:"יבש"},{id:2, type:"אקסטרים"},{id:3, type:"רטוב"},];
     let countries = []; 
-    let person = [{id:1, person:"ילדים"},{id:2, person:"נוער"},{id:3, person:"מבוגרים"}];// {Id:4, Person:"הכל"},//];
+    const person = [{id:1, person:"ילדים"},{id:2, person:"נוער"},{id:3, person:"מבוגרים"}];// {Id:4, Person:"הכל"},//];
     
       
   

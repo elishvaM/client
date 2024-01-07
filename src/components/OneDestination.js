@@ -13,9 +13,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { addLovedAttraction, removeLovedAttraction, } from "../store/actions/attraction";
 //import { useNavigate } from "react-router-dom";
 import { AddLovedAttractionFromServer, RemoveLovedAttractionFromServer, } from "../services/attraction";
+import Tooltip from '@mui/material/Tooltip';
+import CreateIcon from '@mui/icons-material/Create';
+import UpdateDestination from "./UpdateDestination";
+import { useNavigate } from "react-router-dom";
+import { selectAttraction } from "../store/actions/attraction";
 export default function OneDestination({ attraction }) {
+  let [editAtt, setEditAtt] = React.useState(false);
   let mydispatch = useDispatch();
-  //let mynavigate = useNavigate();
+  const mynavigate = useNavigate();
   let user = useSelector((state) => state.user.currentUser);
   let lovedAttraction;
   const onClick = (event) => {
@@ -46,7 +52,7 @@ export default function OneDestination({ attraction }) {
   return (
     <>
       {console.log("!!!", attraction.img)}
-      <Card className="card">
+      {!editAtt?<Card className="card" onClick={() =>{mydispatch(selectAttraction(attraction));mynavigate('oneDestinationDetails')}}>
         <CardActionArea>
           <div className="photo-erea">
             <CardMedia
@@ -61,12 +67,19 @@ export default function OneDestination({ attraction }) {
             <h3>{attraction.type +" מתאים ל"+attraction.state}</h3>
             {/* </Typography> */}
           </CardContent>
-          <IconButton aria-label="add to favorites" onClick={onClick}>
+          {/* איך זה שלא צריך לעטף בפונ אנונימית ??? */}
+          <IconButton aria-label="add to favorites" onClick={onClick} >
             <FavoriteIcon color={attraction.isLoved ? "error" : "none"} />
             {console.log(attraction.isLoved)}
           </IconButton>
+          {user?.userTypeId==2?<>
+          <Tooltip title="ערוך"><IconButton sx={{position:'absolute', left:0}} onClick={(e)=>{
+                         e.stopPropagation(); setEditAtt(!editAtt)}}>
+                         
+            <CreateIcon /></IconButton></Tooltip>
+          </>:null}
         </CardActionArea>
-      </Card>
+      </Card>:<UpdateDestination editAtt={editAtt} setEditAtt={setEditAtt} attraction={attraction}/>}
     </>
   );
 }

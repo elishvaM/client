@@ -17,10 +17,9 @@ import "../StyleComponents/HomePage.scss";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { attractionFromServer } from "../services/attraction";
-import { saveAttractions, saveLovedAttractions, selectAttraction } from "../store/actions/attraction";
+import { saveAttractions, saveLovedAttractions } from "../store/actions/attraction";
 import { savedAttractionByUserIdFromServer } from "../services/attraction";
 import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 const BootstrapButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
@@ -61,7 +60,6 @@ export default function Destination() {
   // let arr = useSelector(state => state.attraction.filtering);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const mynavigate = useNavigate();
   const arrSelector = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
 
   const defaultProps = {
@@ -146,13 +144,13 @@ export default function Destination() {
         </IconButton>
       </Paper>
 <div  className='all'> 
-      <ul className="ul-dest" style={{width:70}}>
+      <ul className="ul-dest">
         {/* למה השורה הבאה שבהערה לא עבדה ??? */}
         {/* {attractions.length!== 0?attractions.map(i => <li key={i.id}><h1>{i.isLoved}</h1></li>):null} */}
         {attractions.length !== 0 ? (
           <div>
             {attractions.map((item) => (
-              <li key={item.id} className="li" onClick={() =>{dispatch(selectAttraction(item));mynavigate('oneDestinationDetails')}}>
+              <li key={item.id} className="li" >
                 <OneDestination attraction={item} />
               </li>
             ))}
