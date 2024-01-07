@@ -1,61 +1,40 @@
-// .ul-dest{
-//     // background-color: darksalmon;
-//     display: flex;
-//     flex-wrap: wrap;
-//     list-style: none;
-//     // margin:auto;//למה לא שם את הכל באמצע ??
-//     margin: 2px;
-//     // width: calc(100% - 30px);
-//     width: "29vw";
-//     // padding: 20px;
-// }
-// .li{
-//     // width: 300px;
-//     margin: 2vw;
-// }
-
-.li{
-    // margin: 2vw;
-    // list-style-type: none;
-     width: 30vw;
-    // padding: 150px;
-    // margin: 220px;
-    // margin-right: 70px;
-    // margin-bottom: 70px;
+.all {
+  display: flex;
+  width: 100%;
 }
-.attraction-content{
-    padding: 15px;
-    text-align: right;
-    background-color: #003b95;
-    color: white;
-    position: relative;
-    top:-15px;
-    ///??? למה אין רווח רק כשיש בורגר
-     border: 1px solid  #003b95;
+.attraction-content {
+  padding: 15px;
+  text-align: right;
+  background-color: #003b95;
+  color: white;
+  position: relative;
+  top: -15px;
 }
-.all{  
-    display: flex;
-    // background-color: bisque;
-    // width:100%;
+.asinun {
+  width: 220px;
+  border-radius: 30px;
+  padding: 40px;
+  position: fixed;
+  right: 0rem;
+  position: absolute;
+  color: antiquewhite;
 }
-.asinun{
-    width:220px;
-border-radius: 30px;
-// background-color: palevioletred;
-// background-color: rgb(178, 122, 213);
-padding:40px;
-   position: fixed;
-//    top: 16.8em;
-   right:0rem;
-   position: absolute;
-   color:antiquewhite ;
-//    width:30px;
+.ul-dest {
+  //   width: calc(100% - 300px);
+  width: 80em;
+  display: flex;
+  flex-wrap: wrap;
 }
-.ul-dest{
-    display: flex;
-    flex-wrap: wrap;
-// width: 70vw;   
- // margin-top: 0px;
-    // list-style: none;
-    margin:auto;//למה לא שם את הכל באמצע ??
+.li {
+  width: 500px;
+  margin: 2vw;
+  list-style-type: none;
+}
+.attraction-content {
+  background-color: #003b95;
+  color: white;
+  position: relative;
+  top: 0px;
+  ///??? למה אין רווח רק כשיש בורגר
+  border: 1px solid #003b95;
 }
