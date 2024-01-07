@@ -69,6 +69,7 @@ export default function Destination() {
   const mynavigate = useNavigate();
 
   useEffect(() => {
+    console.log("dhvgyv")
     if (!attractions.length) {
       //fatch all the attraction from server
       attractionFromServer()
