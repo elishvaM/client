@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from "react-redux";
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, Collapse, Stack } from "@mui/material";
 import { TextField } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import styled from 'styled-components';
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -25,13 +27,15 @@ const ExpandMore = styled((props) => {
 }));
 export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
   const [expanded, setExpanded] = React.useState(false);
+  const [choosenAttraction, setChoosenAttraction] = React.useState([]);
+
   //הצגת תאריך ככותרת
 
   const lovedattractions = useSelector(state => state.attraction.attractions.filter(x => x.isLoved));
   lovedattractions.map(x => { x.label = x.name });
   return <>
 
-<Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -43,7 +47,7 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={dayinWeek+" "+date}
+        title={dayinWeek + " " + date}
         subheader=""
       />
       <CardMedia
@@ -79,7 +83,7 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           אטרקציות
-          {console.log("c att",choosenAttraction)}
+          {console.log("c att", choosenAttraction)}
           {choosenAttraction.length === 0 ? <span>הוסף אטרקציות ליום זה</span> :
             choosenAttraction.map(x => <>{x.name}</>)
           }
@@ -96,14 +100,14 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
           >אטרקציות:
           </Typography>
           <Typography paragraph>
-           
+
           </Typography>
         </CardContent>
       </Collapse>
-      {attractionsDay?.map(attraction => <h5>{attraction.attractionId}{console.log(attraction.attractionId)}</h5> )}
+      {attractionsDay?.map(attraction => <h5>{attraction.attractionId}{console.log(attraction.attractionId)}</h5>)}
 
     </Card>
-  
+
     {/* Autocomplete */}
     <Autocomplete
       disablePortal

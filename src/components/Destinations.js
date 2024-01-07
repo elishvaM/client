@@ -13,7 +13,7 @@ import { useState } from "react";
 import OneDestination from "./OneDestination";
 import Filter from "./Filter";
 import "../StyleComponents/HomePage.scss";
-import { addLovedAttraction, removeLovedAttraction, } from "../store/actions/attraction";
+import { addLovedAttraction, removeLovedAttraction, selectAttraction, } from "../store/actions/attraction";
 import { AddLovedAttractionFromServer, RemoveLovedAttractionFromServer, } from "../services/attraction";
 // הסינון
 import { styled } from "@mui/material/styles";
@@ -21,7 +21,7 @@ import Button from "@mui/material/Button";
 import { attractionFromServer } from "../services/attraction";
 import { saveAttractions, saveLovedAttractions } from "../store/actions/attraction";
 import { savedAttractionByUserIdFromServer } from "../services/attraction";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const BootstrapButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
@@ -68,6 +68,7 @@ export default function Destination() {
     options: arrSelector,
     getOptionLabel: (option) => option.Name,
   };
+  const mynavigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser);
   let [attractions, setAttractions] = useState([]);
   let copy = [attractions]
@@ -89,7 +90,7 @@ export default function Destination() {
       console.log("uu", user)
       savedAttractionByUserIdFromServer(user.id)
         .then((res) => {
-          dispatch(saveLovedAttractions(true,res.data))
+          dispatch(saveLovedAttractions(true, res.data))
           console.log("לא עובד", attractions)
 
         }).catch((err) => console.log(err));
@@ -164,33 +165,33 @@ export default function Destination() {
           <SearchIcon />
         </IconButton>
       </Paper>
-<div  className='all'> 
-      <ul className="ul-dest">
-        {attractions.length !== 0 ? (
-          <div>
-             {/* // {attractions.map((item) => (
+      <div className='all'>
+        <ul className="ul-dest">
+          {attractions.length !== 0 ? (
+            <div>
+              {/* // {attractions.map((item) => (
             //   <li key={item.id} className="li" > */}
-            {attractions?.map((item) => (
-              <li key={item.id} onClick={() => {
-                dispatch(selectAttraction(item));
-                mynavigate('oneDestinationDetails')
-              }}>
-                <OneDestination attraction={item} />
-              </li>
-            ))}
-          </div>
-        ) : null}
-      </ul>
-      <div className='asinun'>
-        {/* הסינון */}
-        <BootstrapButton
-        variant="contained"
-        disableRipple
-        sx={{position:'relative', left: 75, bottom:30}}>
-        סינון
-      </BootstrapButton>
-       <Filter /> 
-      </div>
+              {attractions?.map((item) => (
+                <li key={item.id} onClick={() => {
+                  dispatch(selectAttraction(item));
+                  mynavigate('oneDestinationDetails')
+                }}>
+                  <OneDestination attraction={item} />
+                </li>
+              ))}
+            </div>
+          ) : null}
+        </ul>
+        <div className='asinun'>
+          {/* הסינון */}
+          <BootstrapButton
+            variant="contained"
+            disableRipple
+            sx={{ position: 'relative', left: 75, bottom: 30 }}>
+            סינון
+          </BootstrapButton>
+          <Filter />
+        </div>
       </div>
     </>
   );
