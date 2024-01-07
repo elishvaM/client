@@ -13,6 +13,8 @@ import { useState } from "react";
 import OneDestination from "./OneDestination";
 import Filter from "./Filter";
 import "../StyleComponents/HomePage.scss";
+import { addLovedAttraction, removeLovedAttraction, } from "../store/actions/attraction";
+import { AddLovedAttractionFromServer, RemoveLovedAttractionFromServer, } from "../services/attraction";
 // הסינון
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -57,7 +59,6 @@ const BootstrapButton = styled(Button)({
 });
 
 export default function Destination() {
-  // let arr = useSelector(state => state.attraction.filtering);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const arrSelector = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
@@ -67,51 +68,71 @@ export default function Destination() {
     options: arrSelector,
     getOptionLabel: (option) => option.Name,
   };
-
   const user = useSelector((state) => state.user.currentUser);
+  let [attractions, setAttractions] = useState([]);
+  let copy = [attractions]
+  let lovedAttraction;
   useEffect(() => {
-
     if (!attractions.length) {
       //fatch all the attraction from server
       attractionFromServer()
         .then((res) => {
-          //שליחת מערך אטרקציות רגיל ואטרקציות אהובות
-          console.log(res.data)
-          dispatch(saveAttractions(res.data));
+          dispatch(saveAttractions(res.data))
+          setAttractions(res.data)
+          console.log("all", res.data)
         })
         .catch((err) => {
           console.log(err);
         });
     }
-    //כל פעם שהקומפו נקראת היוז אפקט פועל שוב ולא נרצה לשלוף שוב את הכל אלא כבר שמור לנו בסטייט הכללי
-    //זה פשוט מיותר -
-    //אבל לגבי משתמש לא רשום בשליפה נוספת יתרעננו האטרקציות ולא נראה את מה שאהב
-    //??? אם הוא התחבר אבל לא שמר אטרקציות ילך כל פעם לשלוף
     if (user != null) {
+      console.log("uu", user)
       savedAttractionByUserIdFromServer(user.id)
         .then((res) => {
-          console.log(res.data);
-          dispatch(saveLovedAttractions(res.data, true));
-        })
-        .catch((err) => console.log(err));
+          dispatch(saveLovedAttractions(true,res.data))
+          console.log("לא עובד", attractions)
+
+        }).catch((err) => console.log(err));
     }
     else {
       dispatch(saveLovedAttractions([], false));
     }
-
   }, [user]);
+  // const onClick = (attraction) => {
+  //   if (!attraction.isLoved) {
+  //     if (user != null) {
+  //       //רק במקרה של מחובר תשמור בשרת
+  //       AddLovedAttractionFromServer(lovedAttraction)
+  //         .then((res) => {
+  //           console.log("res loved ", res.data);
+  //         })
+  //         .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
+  //     }
+  //     dispatch(addLovedAttraction(attraction));
+  //   } else {
+  //     if (user != null) {
+  //       RemoveLovedAttractionFromServer(lovedAttraction)
+  //         .then((res) => {
+  //           copy.isLoved = false;
+  //           console.log("res not loved ", res.data);
+  //         })
+  //         .catch((error) => console.log("שגיאה במחיקת אטרקציה אהובה", error));
+  //     }
+  //     dispatch(removeLovedAttraction(attraction.id));
+  //   }
+  // }
 
-  const attractions = useSelector((state) => state.attraction.attractions);
+
+
+  // const attractions =useSelector((state) => state.attraction.attractions)
   const [displayFilter, setDisplayFilter] = useState(false);
   const m = (x) => {
-    console.log("mmmm", x.target);
-    // console.log("mmmm", x.target.val)
   };
   return (
     <>
       <div className="attraction-content">
         <div className="attraction-header">
-          <h1>אטרקציות,חוויות ופעילויות</h1>
+          <div> <h1>אטרקציות,חוויות ופעילויות</h1></div>
           <h2>בואו לבחור את החוויה הבאה</h2>
         </div>
       </div>
@@ -145,12 +166,15 @@ export default function Destination() {
       </Paper>
 <div  className='all'> 
       <ul className="ul-dest">
-        {/* למה השורה הבאה שבהערה לא עבדה ??? */}
-        {/* {attractions.length!== 0?attractions.map(i => <li key={i.id}><h1>{i.isLoved}</h1></li>):null} */}
         {attractions.length !== 0 ? (
           <div>
-            {attractions.map((item) => (
-              <li key={item.id} className="li" >
+             {/* // {attractions.map((item) => (
+            //   <li key={item.id} className="li" > */}
+            {attractions?.map((item) => (
+              <li key={item.id} onClick={() => {
+                dispatch(selectAttraction(item));
+                mynavigate('oneDestinationDetails')
+              }}>
                 <OneDestination attraction={item} />
               </li>
             ))}

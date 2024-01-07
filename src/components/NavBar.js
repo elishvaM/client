@@ -6,9 +6,7 @@ import Button from "@mui/material/Button";
 // import BottomNavigation from '@mui/material/BottomNavigation';
 // import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 // import LoginIcon from '@mui/icons-material/Login';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
 import AttractionsIcon from "@mui/icons-material/Attractions";
-// import Face6Icon from '@mui/icons-material/Face6';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
@@ -58,13 +56,10 @@ export default function NavBar() {
                 </span>
               </div>
             </div>
-            <div><Button onClick={() => mynavigate("addAttraction")}>+</Button></div>
             <div className="user-erea">
               <div>
                 <LightTooltip title="הרשמה">
                   <Button size="large" onClick={() => {
-                    //??? עדיף ניתוב??
-                    // mynavigate("sighin")
                     setOpen2(true);
                   }}>
                     <VpnKeyOutlinedIcon />
@@ -79,32 +74,27 @@ export default function NavBar() {
                     />
                   </Button>
                 </LightTooltip>
-              </div> : null}
-
+              </div> : <div>
+                <LightTooltip title="לאיזור האישי" className="">
+                  <Button
+                    size="large"
+                    variant="contained"
+                    onClick={() => mynavigate("/mypage")}>
+                    לאיזור האישי
+                  </Button>
+                </LightTooltip>
+                <div>
+                  <LightTooltip title="בקשת אטרקציה" className="addAtt">
+                    <Button size="large" variant="contained">
+                      בקשת אטרקציה
+                    </Button>
+                  </LightTooltip>
+                </div>
+              </div>}
               {open ? <Login
                 setOpen={setOpen}
                 TransitionComponent={Transition}
               /> : null}
-              <div>
-                <LightTooltip title="בקשת אטרקציה" className="addAtt">
-                  <Button size="large" variant="contained">
-                    בקשת אטרקציה
-                  </Button>
-                </LightTooltip>
-              </div>
-              {/* {currentUser ? */}
-              <>
-                <div>
-                  <LightTooltip title="לאיזור האישי" className="">
-                    <Button
-                      size="large"
-                      variant="contained"
-                      onClick={() => mynavigate("/mypage")}>
-                      לאיזור האישי
-                    </Button>
-                  </LightTooltip>
-                </div>
-              </>
             </div>
           </nav>
           <nav className="links-erea">
@@ -137,15 +127,39 @@ export default function NavBar() {
                     <ContactSupportOutlinedIcon /> צור קשר{" "}
                   </Button>
                 </li>
-                <li className="button-nav">
-                  <Button
-                    className="links-nav"
-                    size="small"
-                    onClick={() => mynavigate("managementUsers")}
-                    variant="filled">
-                    <ContactSupportOutlinedIcon /> ניהול משתמשים
-                  </Button>
-                </li>
+
+                {currentUser?.userTypeId === 2 ?
+                  <>
+                    <li className="button-nav">
+                      <Button
+                        className="links-nav"
+                        size="small"
+                        onClick={() => mynavigate("managementUsers")}
+                        variant="filled">
+                        <ContactSupportOutlinedIcon /> ניהול משתמשים
+                      </Button>
+                    </li>
+                    <li className="button-nav">
+                      <Button
+                        className="links-nav"
+                        size="small"
+                        onClick={() => mynavigate("addAttraction")}
+                        variant="filled">
+                        <ContactSupportOutlinedIcon />הוספת אטרקציה
+                      </Button>
+                    </li>
+                    <li className="button-nav">
+                      <Button
+                        className="links-nav"
+                        size="small"
+                        onClick={() => mynavigate("managementComments")}
+                        variant="filled">
+                        <ContactSupportOutlinedIcon />תגובות שדווחו 
+                      </Button>
+                    </li>
+
+                    
+                  </> : null}
               </ul>
             </div>
           </nav>

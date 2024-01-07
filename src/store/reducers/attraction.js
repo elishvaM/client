@@ -5,8 +5,8 @@ const initialState = {
     selectedAttraction: null,
 }
 
-const lovedAtractiomn = (atractins, isuSer, loved) => {
-    console.log('lovedAtractiomn', atractins, isuSer, loved)
+const lovedAtrraction = (atractins, isuSer, loved) => {
+    console.log('!!! lovedAtraction', atractins, isuSer, loved)
 
     if (!isuSer) {
         return atractins.map(x => ({ ...x, isLoved: false }))
@@ -15,7 +15,6 @@ const lovedAtractiomn = (atractins, isuSer, loved) => {
 }
 
 const attractionReducer = (state = initialState, action) => {
-    console.log()
     switch (action.type) {
         case types.SAVE_ATTRACTIONS:
             const att = action.payload.map(x => ({ ...x, isLoved: false }))
@@ -24,7 +23,7 @@ const attractionReducer = (state = initialState, action) => {
                 attractions: att,
             }
         case types.SAVE_LOVED_ATTRACTIONS: {
-            const atractions = lovedAtractiomn(state.attractions, action.payload.isuSer, action.payload.loved)
+            const atractions = lovedAtrraction(state.attractions, action.payload.isuSer, action.payload.loved)
             return {
                 ...state,
                 attractions: atractions,
