@@ -41,8 +41,9 @@ const attractionReducer = (state = initialState, action) => {
             }
         // break;
         case types.ADD_LOVED_ATTRACION:
-            let copy = [...state.attractions];//??? הסבר מתי ולמה עושים 3 נקודות מה היה קורה אם לא עשיתי 3 נק ואם הייתי עושה כך בריטרן מאחורי הקלעים
-            copy.map(i => i.id === action.payload.id ? i.isLoved = true : null)//מיפוי משנה ???
+            console.log("ADD_LOVED_ATTRACION", action)
+            const copy = [...state.attractions];//??? הסבר מתי ולמה עושים 3 נקודות מה היה קורה אם לא עשיתי 3 נק ואם הייתי עושה כך בריטרן מאחורי הקלעים
+            copy.findIndex(x => action.payload.id == x.id).isLoved = action.payload.isLoved;
             return {
                 ...state,
                 //הוספת האטרקציה לצערך אהבתי

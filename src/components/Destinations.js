@@ -13,15 +13,12 @@ import { useState } from "react";
 import OneDestination from "./OneDestination";
 import Filter from "./Filter";
 import "../StyleComponents/HomePage.scss";
-import { addLovedAttraction, removeLovedAttraction, selectAttraction, } from "../store/actions/attraction";
-import { AddLovedAttractionFromServer, RemoveLovedAttractionFromServer, } from "../services/attraction";
+import { saveAttractions, saveLovedAttractions, selectAttraction, } from "../store/actions/attraction";
 // הסינון
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import { attractionFromServer } from "../services/attraction";
-import { saveAttractions, saveLovedAttractions } from "../store/actions/attraction";
-import { savedAttractionByUserIdFromServer } from "../services/attraction";
 import { useLocation, useNavigate } from "react-router-dom";
+import { attractionFromServer, savedAttractionByUserIdFromServer } from "../services/attraction";
 const BootstrapButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
@@ -61,26 +58,31 @@ const BootstrapButton = styled(Button)({
 export default function Destination() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const arrSelector = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
+  const attractions = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
+  const user = useSelector((state) => state.user.currentUser);
 
   const defaultProps = {
     // val: (option) => option.Id,
-    options: arrSelector,
+    options: attractions,
     getOptionLabel: (option) => option.Name,
   };
   const mynavigate = useNavigate();
-  const user = useSelector((state) => state.user.currentUser);
-  let [attractions, setAttractions] = useState([]);
-  let copy = [attractions]
-  let lovedAttraction;
+
   useEffect(() => {
     if (!attractions.length) {
       //fatch all the attraction from server
       attractionFromServer()
         .then((res) => {
           dispatch(saveAttractions(res.data))
-          setAttractions(res.data)
           console.log("all", res.data)
+          if (user) {
+            savedAttractionByUserIdFromServer(user.id)
+              .then((res) => {
+                dispatch(saveLovedAttractions(true, res.data))
+                //אמור לעדכן?
+                console.log("לא עובד", attractions);
+              }).catch((err) => console.log(err));
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -92,41 +94,12 @@ export default function Destination() {
         .then((res) => {
           dispatch(saveLovedAttractions(true, res.data))
           //אמור לעדכן?
-          console.log("לא עובד", attractions);
         }).catch((err) => console.log(err));
     }
     else {
-      dispatch(saveLovedAttractions([], false));
+      dispatch(saveLovedAttractions(false, []));
     }
   }, [user]);
-  // const onClick = (attraction) => {
-  //   if (!attraction.isLoved) {
-  //     if (user != null) {
-  //       //רק במקרה של מחובר תשמור בשרת
-  //       AddLovedAttractionFromServer(lovedAttraction)
-  //         .then((res) => {
-  //           console.log("res loved ", res.data);
-  //         })
-  //         .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
-  //     }
-  //     dispatch(addLovedAttraction(attraction));
-  //   } else {
-  //     if (user != null) {
-  //       RemoveLovedAttractionFromServer(lovedAttraction)
-  //         .then((res) => {
-  //           copy.isLoved = false;
-  //           console.log("res not loved ", res.data);
-  //         })
-  //         .catch((error) => console.log("שגיאה במחיקת אטרקציה אהובה", error));
-  //     }
-  //     dispatch(removeLovedAttraction(attraction.id));
-  //   }
-  // }
-
-
-
-  // const attractions =useSelector((state) => state.attraction.attractions)
-  const [displayFilter, setDisplayFilter] = useState(false);
   const m = (x) => {
   };
   return (
@@ -169,8 +142,6 @@ export default function Destination() {
         <ul className="ul-dest">
           {attractions.length !== 0 ? (
             <div>
-              {/* // {attractions.map((item) => (
-            //   <li key={item.id} className="li" > */}
               {attractions?.map((item) => (
                 <li key={item.id} onClick={() => {
                   dispatch(selectAttraction(item));

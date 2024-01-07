@@ -6,7 +6,7 @@ export const saveAttractions = (attractions) => {
         payload: attractions//??? באיזה שיטה להשתמש
     }
 }
-export const saveLovedAttractions = (lovedAttractions, isuSer) => {
+export const saveLovedAttractions = (isuSer,lovedAttractions ) => {
     return {
         type: types.SAVE_LOVED_ATTRACTIONS,
         payload: { isuSer: isuSer, loved: lovedAttractions }
@@ -59,9 +59,4 @@ export const addLovedAttraction = (x) => {
         payload: x
     }
 }
-export const removeLovedAttraction = (id) => {
-    return {
-        type: types.REMOVE_LOVED_ATTRACION,
-        payload: id
-    }
-}
+

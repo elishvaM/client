@@ -12,8 +12,8 @@ import {
   removeLovedAttraction,
 } from "../store/actions/attraction";
 import {
-  AddLovedAttractionFromServer,
-  RemoveLovedAttractionFromServer,
+  AddLovedAttractionFromServer
+
 } from "../services/attraction";
 import Tooltip from "@mui/material/Tooltip";
 import CreateIcon from "@mui/icons-material/Create";
@@ -21,14 +21,25 @@ import UpdateDestination from "./UpdateDestination";
 import { useNavigate } from "react-router-dom";
 import { selectAttraction } from "../store/actions/attraction";
 export default function OneDestination({ attraction }) {
-  let [editAtt, setEditAtt] = React.useState(false);
-  let mydispatch = useDispatch();
+  const [editAtt, setEditAtt] = React.useState(false);
+  const mydispatch = useDispatch();
   const mynavigate = useNavigate();
-  let user = useSelector((state) => state.user.currentUser);
-  let lovedAttraction;
+  const user = useSelector((state) => state.user.currentUser);
+
+  const onLoved = () => {
+
+    //רק במקרה של מחובר תשמור בשרת
+    AddLovedAttractionFromServer({ AttractionId: attraction.id, UserId: user.id })
+      .then((res) => {
+        console.log("res loved ", res.data);
+        mydispatch(addLovedAttraction({id:attraction.id,isLoved: res.data}));
+      })
+      .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
+
+  }
+
   return (
     <>
-      {console.log("!!!", attraction.img)}
       {!editAtt ? (
         <Card
           className="card"
@@ -54,7 +65,9 @@ export default function OneDestination({ attraction }) {
             </CardContent>
             {/* איך זה שלא צריך לעטף בפונ אנונימית ??? */}
             <IconButton aria-label="add to favorites" >
-              <FavoriteIcon color={attraction.isLoved ? "error" : "none"} />
+              <FavoriteIcon color={attraction.isLoved ? "error" : "none"}
+                onClick={onLoved}
+              />
             </IconButton>
             {user?.userTypeId == 2 ? (
               <>
