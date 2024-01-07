@@ -26,31 +26,6 @@ export default function OneDestination({ attraction }) {
   const mynavigate = useNavigate();
   let user = useSelector((state) => state.user.currentUser);
   let lovedAttraction;
-  const onClick = (event) => {
-    event.stopPropagation();
-    lovedAttraction = { UserId: user?.id, AttractionId: attraction.id };
-    if (!attraction.isLoved) {
-      if (user != null) {
-        //רק במקרה של מחובר תשמור בשרת
-        AddLovedAttractionFromServer(lovedAttraction)
-          .then((res) => {
-            console.log("res loved ", res.data);
-          })
-          .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
-      }
-      //ובכל מקרה תשמור בתצוגה
-      mydispatch(addLovedAttraction(attraction));
-    } else {
-      if (user != null) {
-        RemoveLovedAttractionFromServer(lovedAttraction)
-          .then((res) => {
-            console.log("res not loved ", res.data);
-          })
-          .catch((error) => console.log("שגיאה במחיקת אטרקציה אהובה", error));
-      }
-      mydispatch(removeLovedAttraction(attraction.id));
-    }
-  };
   return (
     <>
       {console.log("!!!", attraction.img)}
@@ -71,15 +46,15 @@ export default function OneDestination({ attraction }) {
               />
             </div>
             <CardContent className="content">
+              {console.log(attraction)}
               <h1>{attraction?.name}</h1>
               <h2>{attraction?.desc}</h2>
               <h3>{attraction.type + " מתאים ל" + attraction.state}</h3>
               {/* </Typography> */}
             </CardContent>
             {/* איך זה שלא צריך לעטף בפונ אנונימית ??? */}
-            <IconButton aria-label="add to favorites" onClick={onClick}>
+            <IconButton aria-label="add to favorites" >
               <FavoriteIcon color={attraction.isLoved ? "error" : "none"} />
-              {console.log(attraction.isLoved)}
             </IconButton>
             {user?.userTypeId == 2 ? (
               <>

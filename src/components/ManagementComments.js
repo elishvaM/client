@@ -3,31 +3,25 @@ import { useEffect } from "react"
 import { getComplainedFromServer, deleteFromServer } from "../services/comment";
 import { useState } from "react";
 export default function ManagementComments() {
-    let [comments, setComments] = useState([,]);
-    let copy = [comments];
+    const [comments, setComments] = useState([]);
+
     useEffect(() => {
         getComplainedFromServer().then(res => {
             setComments(res.data);
         }).catch(err => console.log(err))
-    }, [comments])
+    }, [])
+
     const deleteComment = (comment) => {
-        deleteFromServer(comment).then(res => {
+        deleteFromServer(comment)
+        .then(res => {
+            const copy=comments.filter(x=>x.id!=comment.id)
+            setComments(copy)
             alert(res.data)
         }).catch(err => console.log(err))
     }
     const validComment = (comment) => {
-        // let index = copy.indexOf(comment);
-        // copy.splice(index, 1);
-        console.log("cp", copy)
-        let c = copy.find(x => x.id === comment.id);
-        console.log("c", c)
-        //אפשרי?
-        copy.pop(c);
-        console.log("cp2", copy)
-        //כן מוצא את התגובה אבל לא מוחק אותה
-        //יש בעיה בלדחוף מערך ריק לקיים?
-        setComments(copy);
-        console.log("com", comments)
+        const copy=comments.filter(x=>x.id!=comment.id)
+        setComments(copy)
     }
     return (<>
 

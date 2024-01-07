@@ -87,12 +87,12 @@ export default function Destination() {
         });
     }
     if (user != null) {
-      console.log("uu", user)
+      console.log("u", user)
       savedAttractionByUserIdFromServer(user.id)
         .then((res) => {
           dispatch(saveLovedAttractions(true, res.data))
-          console.log("לא עובד", attractions)
-
+          //אמור לעדכן?
+          console.log("לא עובד", attractions);
         }).catch((err) => console.log(err));
     }
     else {

@@ -31,7 +31,9 @@ function App() {
         <Route path="sighin" element={<SighIn />} />
         <Route path="login" element={<Login />} />
         {/* אישי */}
-        <Route path="mylist/:id" element={<MyList />} />
+        <Route path="/mylist/:id/:attractionId" element={<MyList />} />
+        <Route path="/mylist/:listId" element={<MyList />} />
+
         <Route path="mypage" element={<MyPage />} >
           <Route path='love' element={<LovedAttractions />} />
           <Route path="mytrip/:tripId" element={<MyTrip />} />

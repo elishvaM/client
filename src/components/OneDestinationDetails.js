@@ -8,10 +8,10 @@ import { addCommentFromServer, getAllCommentsFromServer } from "../services/comm
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import OneComment from "./OneComment";
+
 export default function OneDestinationDetails(lovedAttraction) {
     const chosenAttraction = useSelector(state => state.attraction.selectedAttraction);
-    let [comments, setComments] = React.useState([]);
-    let copy = [...comments];
+    const [comments, setComments] = React.useState([]);
     const [comment, setComment] = React.useState({});
     const user = useSelector(state => state.user.currentUser);
     React.useEffect(() => {
@@ -25,9 +25,11 @@ export default function OneDestinationDetails(lovedAttraction) {
             userId: user.id,
             attractionId: chosenAttraction?.id
         }
+        console.log('addComent', addC)
         addCommentFromServer(addC).then(res => {
-            copy.push(res.data);
-            setComments(copy)
+            const newComent = [...comments]
+            newComent.push(res.data);
+            setComments(newComent)
         }).catch(err => console.log("err add", err))
     }
     return (
@@ -35,8 +37,8 @@ export default function OneDestinationDetails(lovedAttraction) {
             <h2>{chosenAttraction.name}</h2>
             <h2>{chosenAttraction.desc}</h2>
             <IconButton aria-label="add to favorites" >
-            <FavoriteIcon color={chosenAttraction.isLoved ? "error" : "none"} />
-          </IconButton>
+                <FavoriteIcon color={chosenAttraction.isLoved ? "error" : "none"} />
+            </IconButton>
             <img src={`/imgs/att/${chosenAttraction.img}`} sx={{ width: 50 }} alt={chosenAttraction.name} />
             <h2>{chosenAttraction.websiteAddress}</h2>
             <h2>{chosenAttraction.address.city},{chosenAttraction.address.land}</h2>

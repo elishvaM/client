@@ -1,26 +1,13 @@
-import * as React from 'react';
-// import "../StyleComponents/Filter.scss";
+import React, { useEffect, useState } from 'react';
 import "../StyleComponents/Item.scss";
-import { useEffect } from "react";
-import { useState } from "react";
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-// import ListItemButton from '@mui/material/ListItemButton';
-// import ListItemText from '@mui/material/ListItemText';
-// import ListItemAvatar from '@mui/material/ListItemAvatar';
-// import Checkbox from '@mui/material/Checkbox';
-// import Avatar from '@mui/material/Avatar';
-// import ItemInList from './ItemInList';
-// import Item from './Item';
 import ItemsNavBar from "./ItemsNavBar";
-// import Plus from "./Plus";
 import { useSelector } from 'react-redux';
-// import OneList2 from "./OneList2";
 import Beauty from "./Beauty";
 import ItemsOptions from "./ItemsOptions";
 import { saveItems } from '../store/actions/item';
 import { useDispatch } from 'react-redux';
 import { getAllProducts } from "../services/item";
+import { useParams } from 'react-router-dom';
 export default function MyList() {
   //////////מיובא
   // const [checked, setChecked] = React.useState([1]);
@@ -40,11 +27,17 @@ export default function MyList() {
   /////////סוף מיובא
 
 
-  // const { id } = useParams() ;
+  const { id, attractionId, listId } = useParams();
   useEffect(() => {
     //ללכת לשלוף את כל הרשימות של זו האטרקציה מהשרת
     //    console.log(this.props.id+"uhugyfgfdgfdssfd")
-  }, [])
+    if (listId) {
+      //get sepcific list
+    }
+    else {
+      //get empty list
+    }
+  }, [id, attractionId, listId])
   // let arr = [...product]
   // const setAmount = (id, n) =>{
   //     let copy = [...product]
@@ -72,7 +65,7 @@ export default function MyList() {
         dispatch(saveItems(res.data))
       }
       ).catch(error => { console.log(error) })
-  }, [allitems.length,dispatch])
+  }, [allitems.length, dispatch])
   return (<>
     <ItemsNavBar />
     <div className='list'>

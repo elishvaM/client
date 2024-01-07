@@ -14,6 +14,7 @@ import { red } from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -28,11 +29,11 @@ const ExpandMore = styled((props) => {
 export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
   const [expanded, setExpanded] = React.useState(false);
   const [choosenAttraction, setChoosenAttraction] = React.useState([]);
-
+  const navigate = useNavigate()
   //הצגת תאריך ככותרת
 
   const lovedattractions = useSelector(state => state.attraction.attractions.filter(x => x.isLoved));
-  lovedattractions.map(x => { x.label = x.name });
+  // lovedattractions.map(x => { x.label = x.name });
   return <>
 
     <Card sx={{ maxWidth: 345 }}>
@@ -67,14 +68,13 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
             id="tags-outlined"
             options={lovedattractions}
             getOptionLabel={(option) => option.name}
-            //  defaultValue={[top100Films[13]]}
             filterSelectedOptions
+            onChange={(event, newValue) => setChoosenAttraction(newValue)}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="הוסף אטרקציות ליום"
                 placeholder="בחר"
-                {...setChoosenAttraction(params)}
               />
             )}
           />
@@ -83,9 +83,8 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           אטרקציות
-          {console.log("c att", choosenAttraction)}
           {choosenAttraction.length === 0 ? <span>הוסף אטרקציות ליום זה</span> :
-            choosenAttraction.map(x => <>{x.name}</>)
+            choosenAttraction.map(x => <>{x.name}   <button onClick={() => navigate(`/mylist/${1}/${x.id}`)}>צור רשימה</button></>)
           }
         </Typography>
       </CardContent>
@@ -104,7 +103,7 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
           </Typography>
         </CardContent>
       </Collapse>
-      {attractionsDay?.map(attraction => <h5>{attraction.attractionId}{console.log(attraction.attractionId)}</h5>)}
+      {attractionsDay?.map(attraction => <h5>{attraction.attractionId}</h5>)}
 
     </Card>
 
