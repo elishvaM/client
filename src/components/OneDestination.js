@@ -1,49 +1,48 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-//import Typography from '@mui/material/Typography';
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import "../StyleComponents/OneDestination.scss";
-// import CardActions from '@mui/material/CardActions';
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-// import OneAttraction from './OneAttraction';
 import { CardActionArea } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addLovedAttraction, removeLovedAttraction, } from "../store/actions/attraction";
-//import { useNavigate } from "react-router-dom";
 import { AddLovedAttractionFromServer, RemoveLovedAttractionFromServer, } from "../services/attraction";
 export default function OneDestination({ attraction }) {
   let mydispatch = useDispatch();
-  //let mynavigate = useNavigate();
   let user = useSelector((state) => state.user.currentUser);
-  let lovedAttraction;
-  const onClick = (event) => {
-    event.stopPropagation();
-    lovedAttraction = { UserId: user?.id, AttractionId: attraction.id };
+  let copy = [attraction]
+  // const onClick = (event) => {
+  //   event.stopPropagation();
+  //   lovedAttraction = { UserId: user?.id, AttractionId: attraction.id };
+  //   if (!attraction.isLoved) {
+  //     if (user != null) {
+  //       //רק במקרה של מחובר תשמור בשרת
+  //       AddLovedAttractionFromServer(lovedAttraction)
+  //         .then((res) => {
+  //           // copy.isLoved = true;
+  //           // console.log("att", attraction)
 
-    if (!attraction.isLoved) {
-      if (user != null) {
-        //רק במקרה של מחובר תשמור בשרת
-        AddLovedAttractionFromServer(lovedAttraction)
-          .then((res) => {
-            console.log("res loved ", res.data);
-          })
-          .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
-      }
-      //ובכל מקרה תשמור בתצוגה
-      mydispatch(addLovedAttraction(attraction));
-    } else {
-      if (user != null) {
-        RemoveLovedAttractionFromServer(lovedAttraction)
-          .then((res) => {
-            console.log("res not loved ", res.data);
-          })
-          .catch((error) => console.log("שגיאה במחיקת אטרקציה אהובה", error));
-      }
-      mydispatch(removeLovedAttraction(attraction.id));
-    }
-  };
+  //           console.log("res loved ", res.data);
+  //         })
+  //         .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
+  //     }
+  //     mydispatch(addLovedAttraction(attraction));
+  //   } else {
+  //     if (user != null) {
+  //       RemoveLovedAttractionFromServer(lovedAttraction)
+  //         .then((res) => {
+  //           copy.isLoved = false;
+  //           // console.log("att", attraction)
+  //           // console.log("c", copy)
+  //           console.log("res not loved ", res.data);
+  //         })
+  //         .catch((error) => console.log("שגיאה במחיקת אטרקציה אהובה", error));
+  //     }
+  //     mydispatch(removeLovedAttraction(attraction.id));
+  //   }
+  // };
   return (
     <>
       <Card className="card">
@@ -58,7 +57,7 @@ export default function OneDestination({ attraction }) {
             <h1>{attraction?.name}</h1>
             <h2>{attraction?.desc}</h2>
           </CardContent>
-          <IconButton aria-label="add to favorites" onClick={onClick}>
+          <IconButton aria-label="add to favorites" >
             <FavoriteIcon color={attraction.isLoved ? "error" : "none"} />
           </IconButton>
         </CardActionArea>

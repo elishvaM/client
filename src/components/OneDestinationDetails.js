@@ -5,10 +5,10 @@ import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import { Button } from "@mui/base";
 import { addCommentFromServer, getAllCommentsFromServer } from "../services/comment";
-
+import { IconButton } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import OneComment from "./OneComment";
-
-export default function OneDestinationDetails() {
+export default function OneDestinationDetails(lovedAttraction) {
     const chosenAttraction = useSelector(state => state.attraction.selectedAttraction);
     let [comments, setComments] = React.useState([]);
     let copy = [...comments];
@@ -34,6 +34,9 @@ export default function OneDestinationDetails() {
         <>
             <h2>{chosenAttraction.name}</h2>
             <h2>{chosenAttraction.desc}</h2>
+            <IconButton aria-label="add to favorites" >
+            <FavoriteIcon color={chosenAttraction.isLoved ? "error" : "none"} />
+          </IconButton>
             <img src={`/imgs/att/${chosenAttraction.img}`} sx={{ width: 50 }} alt={chosenAttraction.name} />
             <h2>{chosenAttraction.websiteAddress}</h2>
             <h2>{chosenAttraction.address.city},{chosenAttraction.address.land}</h2>

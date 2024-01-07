@@ -17,6 +17,7 @@ import MenuList from '@mui/material/MenuList';
 export default function ManagementUsers() {
   const [users, setUsers] = useState([]);
   let copy = [...users]
+  
   useEffect(() => {
     usersFromServer().then(res => {
       setUsers(res.data)
@@ -29,6 +30,7 @@ export default function ManagementUsers() {
       copy.map(x => x.id === user.user.id ? x.status = !x.status : null)
       setUsers(copy)
     }).catch(err => { console.log("error", err) });
+    alert(msg)
   };
   const options = [{ id: 1, type: 'מנהל' }, { id: 2, type: 'משתמש' }];
   const [open, setOpen] = React.useState(false);
@@ -46,12 +48,10 @@ export default function ManagementUsers() {
     setSelectedIndex(index);
     setOpen(false);
   };
-  const handleMenuItemClick = (event, index,) => {
-    console.log("event", event)
-    console.log("index", index)
-    setSelectedIndex(index);
-    setOpen(false);
-  };
+  // const handleMenuItemClick = (event, index,) => {
+  //   setSelectedIndex(index);
+  //   setOpen(false);
+  // };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);

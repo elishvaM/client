@@ -220,7 +220,7 @@ export default function MyPage() {
     // שליםה משרת כל הליסטים של המשתמש למשתנה דטה
       setData(res.data);
     })
-  }, [user]);
+  }, [user,dispatch]);
   const [openCreateTrip, setOpenCreateTrip] = React.useState(false);
   const [open, setOpen] = React.useState(true);
   let mynavigate = useNavigate();

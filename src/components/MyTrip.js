@@ -7,7 +7,7 @@ const daysWeek = ["יום ראשון", "יום שני", "יום שלישי", "י
 
 export default function MyTrip() {
   const { tripId } = useParams();
-  const chosenTripList = useSelector(s => s.list.allTripList.find(x => x.id == tripId));
+  const chosenTripList = useSelector(s => s.list.allTripList.find(x => x.id === tripId));
   //הטיול הנבחר
   const [attractionsDay, setattractionsDay] = useState([])
   //האטרקציות לאותו טיול
@@ -25,7 +25,7 @@ export default function MyTrip() {
     }
     console.log("arr",arr)
     setattractionsDay(arr);
-  }, [chosenTripList])
+  }, [chosenTripList,attractionsDay])
   return (
     <>
       {console.log("camee")}
