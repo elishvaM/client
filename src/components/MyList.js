@@ -78,11 +78,11 @@ export default function MyList() {
     </ul> */}
       {/* <OneList2 /> */}
       <ItemsOptions setDeletefrom={setDeleted} copyfrom={copy} copy2from={copy2} />
-      <ul className='ul-myitem'>
+      {/* <ul className='ul-myitem'>
         {itemsSelected.map((item) =>
           <li className="li-myitem"><Beauty item={item} deletedfrom={deleted} copyfrom={copy} copy2from={copy2} setCopy2from={setCopy2} /></li>//all={flag} 
         )}
-      </ul>
+      </ul> */}
     </div>
     {/* // <input type="text" className={flag?"x":"xx"} onDoubleClick={setFlag(true)}/> */}
     {/* //  <Plus/>  */}

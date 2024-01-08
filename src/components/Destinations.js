@@ -9,7 +9,6 @@ import Stack from "@mui/material/Stack";
 import "../StyleComponents/Destination.scss";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import OneDestination from "./OneDestination";
 import Filter from "./Filter";
 import "../StyleComponents/HomePage.scss";
@@ -62,7 +61,6 @@ export default function Destination() {
   const user = useSelector((state) => state.user.currentUser);
 
   const defaultProps = {
-    // val: (option) => option.Id,
     options: attractions,
     getOptionLabel: (option) => option.Name,
   };
@@ -74,13 +72,10 @@ export default function Destination() {
       attractionFromServer()
         .then((res) => {
           dispatch(saveAttractions(res.data))
-          console.log("all", res.data)
           if (user) {
             savedAttractionByUserIdFromServer(user.id)
               .then((res) => {
                 dispatch(saveLovedAttractions(true, res.data))
-                //אמור לעדכן?
-                console.log("לא עובד", attractions);
               }).catch((err) => console.log(err));
           }
         })
@@ -89,11 +84,9 @@ export default function Destination() {
         });
     }
     if (user != null) {
-      console.log("u", user)
       savedAttractionByUserIdFromServer(user.id)
         .then((res) => {
           dispatch(saveLovedAttractions(true, res.data))
-          //אמור לעדכן?
         }).catch((err) => console.log(err));
     }
     else {

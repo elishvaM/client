@@ -82,8 +82,7 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
       </CardMedia>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          אטרקציות
-          {choosenAttraction.length === 0 ? <span>הוסף אטרקציות ליום זה</span> :
+          {choosenAttraction.length === 0 ? <span>  אין עדיין אטרקציות </span> :
             choosenAttraction.map(x => <>{x.name}   <button onClick={() => navigate(`/mylist/${1}/${x.id}`)}>צור רשימה</button></>)
           }
         </Typography>
@@ -95,25 +94,12 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph
-          >אטרקציות:
-          </Typography>
-          <Typography paragraph>
-
+          <Typography>
+            {attractionsDay?.map(attraction => <h5>{attraction.attractionId}</h5>)}
           </Typography>
         </CardContent>
       </Collapse>
-      {attractionsDay?.map(attraction => <h5>{attraction.attractionId}</h5>)}
 
     </Card>
-
-    {/* Autocomplete */}
-    <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={lovedattractions}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Attraction" />}
-    />
   </>
 }

@@ -154,11 +154,9 @@ export default function NavBar() {
                         size="small"
                         onClick={() => mynavigate("managementComments")}
                         variant="filled">
-                        <ContactSupportOutlinedIcon />תגובות שדווחו 
+                        <ContactSupportOutlinedIcon />תגובות שדווחו
                       </Button>
                     </li>
-
-                    
                   </> : null}
               </ul>
             </div>

@@ -9,7 +9,6 @@ import { CardActionArea } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addLovedAttraction,
-  removeLovedAttraction,
 } from "../store/actions/attraction";
 import {
   AddLovedAttractionFromServer
@@ -26,18 +25,16 @@ export default function OneDestination({ attraction }) {
   const mynavigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser);
 
-  const onLoved = () => {
-
+  const onLoved = (event) => {
+    event.stopPropagation();
     //רק במקרה של מחובר תשמור בשרת
     AddLovedAttractionFromServer({ AttractionId: attraction.id, UserId: user.id })
       .then((res) => {
-        console.log("res loved ", res.data);
-        mydispatch(addLovedAttraction({id:attraction.id,isLoved: res.data}));
+        mydispatch(addLovedAttraction({ id: attraction.id, isLoved: res.data }));
+        //לא משנה מיד בתצוגה
       })
       .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
-
   }
-
   return (
     <>
       {!editAtt ? (
@@ -69,7 +66,7 @@ export default function OneDestination({ attraction }) {
                 onClick={onLoved}
               />
             </IconButton>
-            {user?.userTypeId == 2 ? (
+            {user?.userTypeId === 2 ? (
               <>
                 <Tooltip title="ערוך">
                   <IconButton
