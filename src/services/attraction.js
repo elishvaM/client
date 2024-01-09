@@ -3,7 +3,6 @@ export const attractionFromServer = () => {
     return axios.get(`https://localhost:7114/api/Attraction/GetAll`);
 }
 export const savedAttractionByUserIdFromServer = (userId) => {
-    console.log('userId', userId)
     return axios.get(`https://localhost:7114/api/SavedAttraction/GetSavedAttractionByUserId/${userId}`);
 }
 export const AddLovedAttractionFromServer = (lovedAttraction) => {

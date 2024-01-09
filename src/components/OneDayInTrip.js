@@ -13,19 +13,19 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+// const ExpandMore = styled((props) => {
+//   const { expand, ...other } = props;
+//   return <IconButton {...other} />;
+// })
+// (({ theme, expand }) => ({
+//   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+//   marginLeft: 'auto',
+//   transition: theme.transitions.create('transform', {
+//     duration: theme.transitions.duration.shortest,
+//   }),
+// }));
 export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
   const [expanded, setExpanded] = React.useState(false);
   const [choosenAttraction, setChoosenAttraction] = React.useState([]);

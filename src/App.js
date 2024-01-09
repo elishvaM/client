@@ -16,6 +16,7 @@ import OneDestinationDetails from './components/OneDestinationDetails';
 import AddAttraction from './components/AddAttraction';
 import * as React from 'react';
 import ManagementComments from './components/ManagementComments';
+import UpDateUser from './components/UpDateUser';
 // app first page
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
 
         <Route path="mypage" element={<MyPage />} >
           <Route path='love' element={<LovedAttractions />} />
+          <Route path='update' element={<UpDateUser />} />
           <Route path="mytrip/:tripId" element={<MyTrip />} />
         </Route>
         {/* מנהל */}

@@ -40,7 +40,7 @@ export default function OneDestinationDetails(lovedAttraction) {
                 <FavoriteIcon color={chosenAttraction.isLoved ? "error" : "none"} />
             </IconButton>
             <img src={`/imgs/att/${chosenAttraction.img}`} sx={{ width: 50 }} alt={chosenAttraction.name} />
-            <h2>{chosenAttraction.websiteAddress}</h2>
+            <h2  href={chosenAttraction.websiteAddres}>{chosenAttraction.websiteAddress}</h2>
             <h2>{chosenAttraction.address.city},{chosenAttraction.address.land}</h2>
             <Link to={chosenAttraction.websiteAddres} />
             {/* תגובה */}

@@ -6,8 +6,8 @@ export const getAllCommentsFromServer = (attractionId) => {
 export const addCommentFromServer = (comment) => {
     return axios.post(`https://localhost:7114/api/Comment/Add`, comment);
 }
-export const upDateCountFromServer = (comment) => {
-    return axios.post(`https://localhost:7114/api/Comment/UpDateCount`, comment);
+export const upDateCountFromServer = (id,userId) => {
+    return axios.post(`https://localhost:7114/api/Comment/UpDateCount/${id}/${userId}`);
 }
 export const getComplainedFromServer = () => {
     return axios.post(`https://localhost:7114/api/Comment/GetComplained`);

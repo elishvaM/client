@@ -17,7 +17,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import FormControlLabel from '@mui/material/FormControlLabel';//switch
 import Switch from '@mui/material/Switch';//switch
-import Stack from "@mui/material/Stack";
+// import Stack from "@mui/material/Stack";
 import "../StyleComponents/AddItem.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -100,7 +100,7 @@ export default function UpdateDestination({setEditAtt, editAtt, attraction}){
     };
     //select end
     const update = () =>{
-        let updateAtt = {IsConfirm:isConfirm, PersonStateId:arrSelect[0].select, TypeId:arrSelect[1].select}
+        // let updateAtt = {IsConfirm:isConfirm, PersonStateId:arrSelect[0].select, TypeId:arrSelect[1].select}
         setEditAtt(!editAtt);
     }
     const ariaLabel = { 'aria-label': 'description' };

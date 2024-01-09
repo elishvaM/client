@@ -35,12 +35,17 @@ export default function OneDestination({ attraction }) {
       })
       .catch((error) => console.log("שגיאה בהוספת אטרקציה אהובה", error));
   }
+  const openEdit = (event) => {
+    event.stopPropagation();
+    setEditAtt(!editAtt);
+  }
   return (
     <>
       {!editAtt ? (
         <Card
           className="card"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             mydispatch(selectAttraction(attraction));
             mynavigate("oneDestinationDetails");
           }}
@@ -54,14 +59,13 @@ export default function OneDestination({ attraction }) {
               />
             </div>
             <CardContent className="content">
-              {console.log(attraction)}
               <h1>{attraction?.name}</h1>
               <h2>{attraction?.desc}</h2>
-              <h3>{attraction.type + " מתאים ל" + attraction.state}</h3>
+              {/* <h3>{attraction.type + " מתאים ל" + attraction.state}</h3> */}
               {/* </Typography> */}
             </CardContent>
             {/* איך זה שלא צריך לעטף בפונ אנונימית ??? */}
-            <IconButton aria-label="add to favorites" >
+            <IconButton aria-label="הוסף לאטרקציות אהובות" >
               <FavoriteIcon color={attraction.isLoved ? "error" : "none"}
                 onClick={onLoved}
               />
@@ -71,10 +75,7 @@ export default function OneDestination({ attraction }) {
                 <Tooltip title="ערוך">
                   <IconButton
                     sx={{ position: "absolute", left: 0 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditAtt(!editAtt);
-                    }}
+                    onClick={openEdit}
                   >
                     <CreateIcon />
                   </IconButton>
