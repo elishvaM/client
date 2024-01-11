@@ -13,7 +13,7 @@ export default function OneComment({ comment }) {
                 title: res.data,
                 icon: "success",
                 html: "מודים על דיווחך SmartLists צוות ",
-                timer: 1500,
+                timer: 2000,
                 timerProgressBar: true,
                 didOpen: () => {
                     Swal.showLoading();

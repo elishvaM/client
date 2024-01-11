@@ -64,7 +64,7 @@ export default function Destination() {
     options: attractions,
     getOptionLabel: (option) => option.Name,
   };
-  const mynavigate = useNavigate();
+  // const mynavigate = useNavigate();
 
   useEffect(() => {
     if (!attractions.length) {
@@ -136,10 +136,13 @@ export default function Destination() {
           {attractions.length !== 0 ? (
             <div>
               {attractions?.map((item) => (
-                <li key={item.id} onClick={() => {
-                  dispatch(selectAttraction(item));
-                  mynavigate('oneDestinationDetails')
-                }}>
+                <li key={item.id} 
+                //בוטל כי עושה בעיה
+                // onClick={() => {
+                //   dispatch(selectAttraction(item));
+                //   mynavigate('oneDestinationDetails')
+                // }}
+                >
                   <OneDestination attraction={item} />
                 </li>
               ))}

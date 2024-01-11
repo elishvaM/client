@@ -15,3 +15,7 @@ export const getComplainedFromServer = () => {
 export const deleteFromServer = (comment) => {
     return axios.post(`https://localhost:7114/api/Comment/Delete/${comment.id}`);
 }
+
+export const validFromServer = (comment) => {
+    return axios.post(`https://localhost:7114/api/Comment/ValidComment/${comment.id}`);
+}

@@ -9,11 +9,14 @@ import { OutlinedInput } from '@mui/material';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
-import { TextField } from '@mui/material';
 import { Button } from '@mui/base';
 import { upDateFromServer } from '../services/user';
 import { useDispatch } from 'react-redux';
 import { saveUser } from '../store/actions/user';
+import FilledInput from '@mui/material/FilledInput';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Swal from 'sweetalert2';
 const schema = yup.object({
     Name: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
     //  DateBorn: yup.date().required("שדה חובה").test('validDate', 'תאריך שגוי', x => x <= new Date())
@@ -45,20 +48,95 @@ export default function UpDateUser() {
         details.DateBorn = new Date();
         upDateFromServer(details).then(res => {
             dispatch(saveUser(res.data))
+            let timerInterval;
+            Swal.fire({
+                title: "הפרטים עודכנו בהצלחה"  ,
+                icon: "success",
+                html: "SmartLists צוות ",
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log("I was closed by the timer");
+                }
+            });
+
+
         }).catch(err => console.log(err))
     }
     return (<>
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <div>
 
-                <form onSubmit={handleSubmit(update)}>
-                    <div>
-                        <TextField id="outlined-basic" label="שם" variant="outlined" defaultValue={user.name}  {...register("Name")} />
-                        <div className="error">{errors.Name?.message}</div>
-                        <TextField id="outlined-basic" label="מייל" variant="outlined" defaultValue={user.email}  {...register("Email")} />
-                        <div className="error">{errors.Email?.message}</div>
-                        <TextField id="outlined-basic" label="טלפון" variant="outlined" defaultValue={user.phone}  {...register("Phone")} />
-                        <div className="error">{errors.Phone?.message}</div>
+
+                {/* <div className="error"></div> */}
+
+
+            </div>
+        </Box>
+        {/* טופס מעוצב */}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '45ch' }} onSubmit={handleSubmit(update)}>
+            <form>
+                <div>
+                    <OutlinedInput
+                        sx={{ m: 1, mt: 0, width: '20ch' }}
+                        id="outlined-adornment-password"
+                        placeholder={errors.Name? errors.Name.message : "שם"}
+                        defaultValue={user.name}
+                        {...register("Name")}
+                    />
+                    <FormControl sx={{ m: 1, mt: 0, width: '20ch', diraction: "rtl" }} variant="outlined">
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            placeholder={errors.Phone? errors.Phone.message : "טלפון"}
+                            defaultValue={user.phone}
+                            {...register("Phone")}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, width: '42ch' }} variant="outlined">
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            placeholder={errors.Email? errors.Email.message : "מייל"}
+                            defaultValue={user.email}
+                            {...register("Email")}
+                        />
+                    </FormControl>
+
+                </div>
+                <div>
+
+                    <FormControl sx={{ m: 2, width: '42ch', mt: 1 }} variant="filled">
+                        <InputLabel htmlFor="filled-adornment-password">סיסמא</InputLabel>
+                        <FilledInput
+                            id="filled-adornment-password"
+                            type={showPassword ? 'text' : 'password'}
+                            defaultValue={user.password}
+                            placeholder={errors.Password? errors.Password.message : "סיסמא"}
+                            {...register("Password")}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
                         {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker']}>
                                 <DatePicker label="תאריך לידה"
@@ -67,163 +145,11 @@ export default function UpDateUser() {
                                 />
                             </DemoContainer>
                         </LocalizationProvider> */}
-                        <div className="error">{errors.DateBorn?.message}</div>
-                    </div>
-                    {/* <InputLabel id="outlined-adornment-password">סיסמא</InputLabel> */}
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        label="סיסמא"
-                        defaultValue={user.password}
-                        type={showPassword ? 'text' : 'password'}
-                        {...register("Password")}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="סיסמא"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                    <Button type="submit">עדכן</Button>
-                </form>
+                    </FormControl>
 
-
-                {/* <FormControl sx={{ m: 4, width: '25ch' }} variant="outlined" onSubmit={handleSubmit(update)}>
-                    <div>
-                        <InputLabel>סיסמא</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            label="סיסמא"
-                            defaultValue={user.password}
-                            type={showPassword ? 'text' : 'password'}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="סיסמא"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="סיסמא"
-                                    >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                        <TextField id="outlined-basic" label="שם" variant="outlined" defaultValue={user.name}  {...register("Name")} />
-                        <div className="error">{errors.DateBorn?.message}</div>
-                        <TextField id="outlined-basic" label="מייל" variant="outlined" defaultValue={user.email}  {...register("Email")} />
-                        <TextField id="outlined-basic" label="טלפון" variant="outlined" defaultValue={user.phone}  {...register("Phone")} />
-                        <TextField type="date" id="outlined-basic" format="DD/MM/YYYY" label="תאריך לידה" variant="outlined"  {...register("DateBorn")} />
-
-                        <Stack direction="row" spacing={2}>
-                            <Button type='submit' variant="contained" endIcon={<SendSharpIcon />}>
-                                עדכן
-                            </Button>
-                        </Stack>
-                    </div>
-                </FormControl> */}
-
-            </div>
-
-
+                </div>
+                <Button variant="contained" type='submit'> שמור</Button>
+            </form>
         </Box>
-        {/* טופס מעוצב */}
-        {/* <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <div>
-                <InputLabel htmlFor="outlined-adornment-password">Passwwwword</InputLabel>
-                <OutlinedInput
-                    sx={{ m: 1, mt: 0, width: '20ch' }}
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                    label="Passsssword"
-                />
-                <FormControl sx={{ m: 1, mt: 0, width: '20ch', diraction: "rtl" }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Passwwwword</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Passsssword"
-                    />
-
-                </FormControl>
-                <FormControl sx={{ m: 1, width: '42ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Password"
-                    />
-                </FormControl>
-
-            </div>
-            <div>
-
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
-                    <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-                    <FilledInput
-                        id="filled-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
-
-            </div>
-
-        </Box> */}
-
-
-
     </>)
 }

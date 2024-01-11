@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 // import LoginIcon from '@mui/icons-material/Login';
 import AttractionsIcon from "@mui/icons-material/Attractions";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -19,9 +19,11 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import Login from "../components/Login";
 import Slide from "@mui/material/Slide";
 import SighIn from "./SighIn";
+import { logOut } from "../store/actions/user";
 export default function NavBar() {
   const currentUser = useSelector((state) => state.user.currentUser);
-  let mynavigate = useNavigate();
+  const mynavigate = useNavigate();
+  const dispatch = useDispatch();
   const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
   ))(({ theme }) => ({
@@ -35,8 +37,12 @@ export default function NavBar() {
   //submit/cancel-dialog
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const logout = () => {
+    dispatch(logOut(currentUser));
+  }
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
+  
   });
   return (
     <>
@@ -75,6 +81,11 @@ export default function NavBar() {
                   </Button>
                 </LightTooltip>
               </div> : <div>
+                <LightTooltip title="יציאה">
+                  <Button size="large" onClick={logout}>
+                  LogOut
+                  </Button>
+                </LightTooltip>
                 <LightTooltip title="לאיזור האישי" className="">
                   <Button
                     size="large"

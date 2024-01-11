@@ -59,25 +59,26 @@ export default function OneDestination({ attraction }) {
               />
             </div>
             <CardContent className="content">
-              <h1>{attraction?.name}</h1>
-              <h2>{attraction?.desc}</h2>
-              {/* <h3>{attraction.type + " מתאים ל" + attraction.state}</h3> */}
-              {/* </Typography> */}
+              <h1>{attraction.name}</h1>
+              <h2>{attraction.desc}</h2>
+              <h2>{attraction.address.city},{attraction.address.land}</h2>
+              <h2>מתאים ל: {attraction.personState.state} </h2>
             </CardContent>
             {/* איך זה שלא צריך לעטף בפונ אנונימית ??? */}
-            <IconButton aria-label="הוסף לאטרקציות אהובות" >
-              <FavoriteIcon color={attraction.isLoved ? "error" : "none"}
-                onClick={onLoved}
-              />
-            </IconButton>
+            <Tooltip title="הוסף לאהבתי">
+              <IconButton size="large" sx={{ position: "absolute", left: 0 }} >
+                <FavoriteIcon color={attraction.isLoved ? "error" : "none"}
+                  onClick={onLoved}
+                />
+              </IconButton>
+            </Tooltip>
             {user?.userTypeId === 2 ? (
               <>
                 <Tooltip title="ערוך">
-                  <IconButton
-                    sx={{ position: "absolute", left: 0 }}
-                    onClick={openEdit}
+                  <IconButton size="medium"
+                  // sx={{ position: "absolute", left: 8 }}
                   >
-                    <CreateIcon />
+                    <CreateIcon onClick={openEdit} />
                   </IconButton>
                 </Tooltip>
               </>

@@ -30,28 +30,34 @@ export default function ManagementUsers() {
       copy.map(x => x.id === user.user.id ? x.status = !x.status : null)
       setUsers(copy)
     }).catch(err => { console.log("error", err) });
-    alert(msg)
   };
-  const options = [{ id: 1, type: 'מנהל' }, { id: 2, type: 'משתמש' }];
+  const options = [{ id:1, type: 'משתמש' }, { id: 2, type: 'מנהל' }];
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   // let דברים שמשתנים באותו הדף ממש ולא אחרי רענון יהיו מוגדרים 
   let [msg, setMsg] = useState("");
   const handleClick = (userId, event, index) => {
-    const user = { id: userId, typeId: options[selectedIndex].id }
-    console.info(`You clicked ${options[selectedIndex].id}`);
-    changeTypeFromServer(user).then(res => {
-      setMsg(res.data);
-    }).catch(err => { setMsg("התרחשה תקלה"); console.log("error resp:", err) })
-
+   
     setSelectedIndex(index);
     setOpen(false);
   };
-  // const handleMenuItemClick = (event, index,) => {
-  //   setSelectedIndex(index);
-  //   setOpen(false);
-  // };
+  const handleMenuItemClick = (event, index,userId) => {
+    const user = { id: userId, typeId: options[selectedIndex].id }
+    console.log(user)
+    console.log(options[selectedIndex].type)
+    console.log("be",copy)
+    copy.map(x => x.id === user.id ? x.type = options[selectedIndex].type == "משת": null)
+    console.log("cp",copy)
+    // changeTypeFromServer(user).then(res => {
+    //   setMsg(res.data);
+    //   alert(res.data)
+    //   copy.map(x => x.id === user.id ? x.type = options[selectedIndex].type : null)
+    //   setUsers(copy)
+    // }).catch(err => { alert("התרחשה תקלה"); console.log("error resp:", err) })
+    setSelectedIndex(index);
+    setOpen(false);
+  };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -68,7 +74,11 @@ export default function ManagementUsers() {
 
   return (<>
     <ul>
-      {users.map(user => <li key={user.id}>{user.name + " " + user.status+" "+user.type}
+      {users.map(user => <li key={user.id}>
+        <div>  
+
+
+        {user.name}    {user.status}
         <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
 
         {/* {user.status === false ? <FormControlLabel
@@ -119,7 +129,7 @@ export default function ManagementUsers() {
                         key={option.id}
                         disabled={index === 2}
                         selected={index === selectedIndex}
-                        onClick={(event) => handleClick(user.id, event, index)}
+                        onClick={(event) => handleMenuItemClick( event, index,user.id)}
                       >
                         {option.type}
                       </MenuItem>
@@ -130,6 +140,10 @@ export default function ManagementUsers() {
             </Grow>
           )}
         </Popper>
+
+
+        </div>
+        
 
       </li>)}
 

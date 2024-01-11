@@ -19,6 +19,8 @@ export default function OneDestinationDetails(onLoved) {
             setComments(res.data)
         }).catch(err => console.log(err))
     }, [chosenAttraction]);
+
+    //lovedattraction
     const addComment = (desc) => {
         const addC = {
             desc: desc,
