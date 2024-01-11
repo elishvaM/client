@@ -39,7 +39,6 @@ export default function SighIn({ open, setOpen, Transition }) {
     const save = (details) => {
         //הוספת משתמש
         sighinFromServer(details).then(res => {
-            console.log("sighin:", res.data);
             dispatch(saveUser(res.data));
         }).catch(err => { console.log("error", err); })
         mynavigate("destinations")

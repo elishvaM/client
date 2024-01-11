@@ -40,7 +40,6 @@ export default function MyTrip() {
         ),
       });
     }
-    console.log("arr", arr);
     setattractionsDay(arr);
   }, [chosenTripList]);
 

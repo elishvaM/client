@@ -4,7 +4,6 @@ export const loginFromServer = (user) => {
     return axios.post(`https://localhost:7114/api/User/LogIn`, user);
 }
 export const sighinFromServer = (user) => {
-    console.log("u",user)
     return axios.post(`https://localhost:7114/api/User/SignIn`, user);
 }
 export const usersFromServer = () => {
@@ -15,4 +14,8 @@ export const changeStatusFromServer = (user) => {
 }
 export const changeTypeFromServer = (user) => {
     return axios.post(`https://localhost:7114/api/User/UpDateType`, user)
+}
+export const upDateFromServer = (user) => {
+    console.log("ddd",user)
+    return axios.post(`https://localhost:7114/api/User/UpDateUser`, user)
 }

@@ -175,14 +175,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import ArrowRight from '@mui/icons-material/ArrowRight';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import Home from '@mui/icons-material/Home';
-import Settings from '@mui/icons-material/Settings';
-//import People from '@mui/icons-material/People';
-// import PermMedia from '@mui/icons-material/PermMedia';
-// import Dns from '@mui/icons-material/Dns';
-// import Public from '@mui/icons-material/Public';
 import { Outlet, useNavigate } from 'react-router-dom';
 // import { useState } from 'react';
 
@@ -196,6 +189,7 @@ import { GetAllTripListsByUserIdFromServer } from '../services/list';
 import { useSelector } from 'react-redux';
 import { saveTripList } from '../store/actions/list';
 import { useDispatch } from 'react-redux';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 const FireNav = styled(List)({
   '& .MuiListItemButton-root': {
     paddingLeft: 24,
@@ -245,7 +239,7 @@ export default function MyPage() {
         >
           <Paper elevation={0} sx={{ maxWidth: 256, borderRadius: "0px 4px 4px 4px" }}>
             <FireNav component="nav" disablePadding>
-              <ListItemButton component="a" href="#customized-list">
+              <ListItemButton >
                 <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>
                 <ListItemText
                   sx={{ my: 0 }}
@@ -260,11 +254,8 @@ export default function MyPage() {
               <Divider />
               <ListItem component="div" disablePadding>
                 <ListItemButton sx={{ height: 56 }}>
-                  <ListItemIcon>
-                    <Home color="primary" />
-                  </ListItemIcon>
                   <ListItemText
-                    primary="Project Overview"
+                    primary="הבקשות שלי"
                     primaryTypographyProps={{
                       color: 'primary',
                       fontWeight: 'medium',
@@ -272,7 +263,7 @@ export default function MyPage() {
                     }}
                   />
                 </ListItemButton>
-                <Tooltip title="Project Settings">
+                <Tooltip title="פרטים">
                   <IconButton
                     size="large"
                     sx={{
@@ -302,8 +293,7 @@ export default function MyPage() {
                       },
                     }}
                   >
-                    <Settings />
-                    <ArrowRight sx={{ position: 'absolute', right: 4, opacity: 0 }} />
+                 <ManageAccountsOutlinedIcon onClick={()=>mynavigate("update")} />
                   </IconButton>
                 </Tooltip>
               </ListItem>
