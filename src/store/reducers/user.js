@@ -1,7 +1,8 @@
 import * as types from "../actionTypes";
 
 const initialState = {
-    currentUser: null
+    currentUser: null, 
+    isInPersonalArea: false
 }
 
 const userReducer = (state = initialState, action) => {
@@ -12,9 +13,15 @@ const userReducer = (state = initialState, action) => {
                 currentUser: action.payload
             }
         case types.LOG_OUT:
+
             return {
                 ...state,
                 currentUser: null
+            }
+        case types.CHANGE_USER_LOCATION:
+            return {
+                ...state,
+                isInPersonalArea: action.payload
             }
         default: { return state }
     }

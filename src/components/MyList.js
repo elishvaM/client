@@ -4,13 +4,14 @@ import ItemsNavBar from "./ItemsNavBar";
 import { useSelector } from 'react-redux';
 import Beauty from "./Beauty";
 import ItemsOptions from "./ItemsOptions";
-import { saveItems } from '../store/actions/item';
+import { saveItems, saveItemsSelected, saveProductTypes } from '../store/actions/item';
 import { useDispatch } from 'react-redux';
-import { getAllProducts } from "../services/item";
+import { getAllProducts, GetAttractionListProductByAttractionListId,getAllProductTypes } from "../services/item";
 import { useParams } from 'react-router-dom';
+import EditedLists from './EditedLists';
 export default function MyList() {
   //////////מיובא
-  // const [checked, setChecked] = React.useState([1]);
+  const [checked, setChecked] = React.useState([1]);
 
   // const handleToggle = (value) => () => {
   //   const currentIndex = checked.indexOf(value);
@@ -28,62 +29,57 @@ export default function MyList() {
 
 
   const { id, attractionId, listId } = useParams();
-  useEffect(() => {
-    //ללכת לשלוף את כל הרשימות של זו האטרקציה מהשרת
-    //    console.log(this.props.id+"uhugyfgfdgfdssfd")
-    if (listId) {
-      //get sepcific list
-    }
-    else {
-      //get empty list
-    }
-  }, [id, attractionId, listId])
-  // let arr = [...product]
-  // const setAmount = (id, n) =>{
-  //     let copy = [...product]
-  //     let p = copy.find(x => x.Id === id)
-  //     if( p.Amount + n > 0 ) p.Amount += n 
-  //     setProduct(copy)
-  // }
+  
+  // useEffect(() => {
+  //   getAllProducts().then(res=>dispatch(saveItems(res.data))).catch(err=>console.log("err", err))
+  //   //ללכת לשלוף את כל הרשימות של זו האטרקציה מהשרת
 
+  //   if (listId) {
+  //     //get sepcific list
+  //   }
+  //   else {
+  //     //get empty list
+  //   }
+  // }, [id, attractionId, listId])
 
-  //  let [flag, setFlag] = useState(false);
-  let [deleted, setDeleted] = useState(false);
-  let itemsSelected = useSelector(s => s.item.itemsSelected);
+  const itemsSelected = useSelector(s => s.item.itemsSelected);
+  const allitems = useSelector(s => s.item.allitems);//??? מה קורה מאחורי הקלעים אם הלך לשרת ואם לא
+  const dispatch = useDispatch();
   let copy = [...itemsSelected];
-  let [copy2, setCopy2] = useState([...itemsSelected])
-
-  let dispatch = useDispatch();
-  let allitems = useSelector(s => s.item.allitems);//??? מה קורה מאחורי הקלעים אם הלך לשרת ואם לא
+  const [itemsSelectedNew, setItemsSelectedNew] = useState(copy)
+  let [colorDelete, setColorDelete] = useState(false);//לאפשר לצבוע פריטים למחיקה אך עוד לא למחוק
   React.useEffect(() => {
-    if (allitems.length === 0)
+    if (allitems.length === 0){
+    GetAttractionListProductByAttractionListId(id).then(res=>{
+      console.log("fuul product to my attraction list")
+      console.log(res.data)
+      dispatch(saveItemsSelected(res.data))
+    }).catch(error => { console.log(error) })
       getAllProducts().then(res => {
-        console.log("res", res.data)
         //קריאה לשרת להביא כל המוצרים אם המערך לא ריק 
         //צריך לשנות שזה לא יקרא כל פעם!!! זה צריך להיות כנראה ברדיוסר
         //
         dispatch(saveItems(res.data))
       }
       ).catch(error => { console.log(error) })
-  }, [allitems.length, dispatch])
+      getAllProductTypes().then(res => {
+        dispatch(saveProductTypes(res.data))
+      }).catch(error => { console.log(error) })
+    }
+  }, [])//allitems.length, dispatch//??? מה זה והאם הוא עושה לפי הסדר כיוון שקודם צריך לשמור פריטים שנבחרו
+  //??? יותר מידי קריאות שרת
   return (<>
     <ItemsNavBar />
     <div className='list'>
-      {/* <ul className="ul">
-    {arr.map(item=><li key={item.Id} className="li">
-        
-    {console.log(item.Id)}
-     <ItemInList item={item} setAmount={setAmount} deleteItem={deleteItem}/>
-    </li> )}
-    </ul> */}
-      {/* <OneList2 /> */}
-      <ItemsOptions setDeletefrom={setDeleted} copyfrom={copy} copy2from={copy2} />
+      <ItemsOptions setColorDelete={setColorDelete} itemsSelectedNew={itemsSelectedNew} />
       <ul className='ul-myitem'>
         {itemsSelected.map((item) =>
-          <li className="li-myitem"><Beauty item={item} deletedfrom={deleted} copyfrom={copy} copy2from={copy2} setCopy2from={setCopy2} /></li>//all={flag} 
+          <li className="li-myitem"><Beauty item={item} colorDelete={colorDelete} copy={copy} itemsSelectedNew={itemsSelectedNew} setItemsSelectedNew={setItemsSelectedNew} /></li>//all={flag} 
         )}
       </ul>
     </div>
+
+    <EditedLists attractionId={attractionId}/>
     {/* // <input type="text" className={flag?"x":"xx"} onDoubleClick={setFlag(true)}/> */}
     {/* //  <Plus/>  */}
   </>)
@@ -118,4 +114,7 @@ export default function MyList() {
   // })}
   // </List> 
 
-}
+
+     // <ItemInList item={item} setAmount={setAmount} deleteItem={deleteItem}/>
+      // {/<OneList2 /> 
+        }

@@ -15,7 +15,10 @@ import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import CreateIcon from '@mui/icons-material/Create';
+import Tooltip from '@mui/material/Tooltip';
+import { saveCurrentAttractionListId } from '../store/actions/list';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -27,6 +30,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
+  const dispatch = useDispatch();
   const [expanded, setExpanded] = React.useState(false);
   const [choosenAttraction, setChoosenAttraction] = React.useState([]);
   const navigate = useNavigate()
@@ -103,17 +107,16 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
           </Typography>
         </CardContent>
       </Collapse>
-      {attractionsDay?.map(attraction => <h5>{attraction.attractionId}</h5>)}
+      {attractionsDay?.map(attractionList => <><h5>{attractionList.attractionId}</h5>
+      <Tooltip title="צור רשימה"><IconButton><CreateIcon onClick={() =>
+        {dispatch(saveCurrentAttractionListId(attractionList.id));
+          navigate(`/mypage/editedlists/${attractionList.attractionId}` )
+            //navigate(`/mylist/${attractionList.id}/${attractionList.attractionId}`)  
+
+          }}/></IconButton></Tooltip>
+
+      </>)}
 
     </Card>
-
-    {/* Autocomplete */}
-    <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={lovedattractions}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Attraction" />}
-    />
   </>
 }

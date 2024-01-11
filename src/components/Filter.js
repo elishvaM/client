@@ -54,9 +54,9 @@ export default function Filter(){
     //שליפת כל האטרקציות
     let attractions = useSelector(state=> state.attraction.attractions);
     //שליפת כל אפשרויות הסינון
-    const attractionTypes = [  {id:1, type:"יבש"},{id:2, type:"אקסטרים"},{id:3, type:"רטוב"},];
+    let attractionTypes = [  {id:1, type:"יבש"},{id:2, type:"רטוב"},{id:3, type:"אקסטרים"},];
     let countries = []; 
-    const person = [{id:1, person:"ילדים"},{id:2, person:"נוער"},{id:3, person:"מבוגרים"}];// {Id:4, Person:"הכל"},//];
+    let person = [{id:1, person:"ילדים"},{id:2, person:"נוער"},{id:4, person:"מבוגרים"}];// {Id:3, Person:"הכל"},//];
     
       
   
@@ -164,7 +164,7 @@ export default function Filter(){
       temp = [] 
       console.log("temp ", temp);
       for(let i=0; i<filtered.length; i++)  
-         if(filtered[i].Price >= value[0] && filtered[i].Price <= value[1])
+         if(filtered[i].price >= value[0] && filtered[i].price <= value[1])
             temp = [...temp, filtered[i]];
       
       console.log("filteredddddd be",filtered);

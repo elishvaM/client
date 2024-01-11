@@ -44,11 +44,24 @@ export const removeItem = (id)=>{
     }
     
 }
-export const saveDates = (dates)=>{
-    
+export const saveProductTypes = (productTypes)=>{
     return {
-        type:types.SAVE_DATES,
-        payload: dates
+        type:types.SAVE_PRODUCT_TYPES,
+        payload: productTypes
+    }
+    
+}
+export const saveItemsSelected = (arr)=>{
+    return {
+        type:types.SAVE_ITEMS_SELECTED,
+        payload: arr
+    }
+    
+}
+export const saveStorageTypes = (storageTypes)=>{
+    return {
+        type:types.SAVE_STORAGE_TYPES,
+        payload: storageTypes
     }
     
 }

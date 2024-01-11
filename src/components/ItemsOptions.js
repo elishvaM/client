@@ -36,7 +36,7 @@ import AddItem from './AddItem';
 
 //   },
 // };
-export default function ItemsOptions({ setDeletefrom, copyfrom, copy2from }) {
+export default function ItemsOptions({ setColorDelete, itemSelectedNew }) {
   //start Dialog
   const [open, setOpen] = React.useState(false);
   const [openAddItem, setOpenAddItem] = React.useState(false);
@@ -45,7 +45,7 @@ export default function ItemsOptions({ setDeletefrom, copyfrom, copy2from }) {
 
   const handleClickOpen = () => {
     setOpen(true);
-    setDeletefrom(false)
+    setColorDelete(false)
   };
   const handleClose = () => {
     setOpen(false);
@@ -53,8 +53,8 @@ export default function ItemsOptions({ setDeletefrom, copyfrom, copy2from }) {
   //end Dialog
   let dispatch = useDispatch()
   const deleteRealy = () => {
-    console.log("FFFf", copy2from)
-    dispatch(updateItemsSelected(copy2from));
+    console.log("FFFf", itemSelectedNew)
+    dispatch(updateItemsSelected(itemSelectedNew));
     handleClose();
     // copy = [] // מרוקנת לפעם הבאה
     // dispatch(removeItem(item.Id))
@@ -71,22 +71,10 @@ export default function ItemsOptions({ setDeletefrom, copyfrom, copy2from }) {
     <div className='wrapOptions'>
       <CardActions>
         {del_Btn ?
-          <DeleteIcon fontSize="medium" color='disabled' className='delete-icon'
-            sx={{
-              padding: 0.75,
-              borderRadius: '4px 0px 0px 4px',
-              border: '1px solid',
-            }}
-          />
+          <DeleteIcon fontSize="medium" color='disabled' className='delete-icon' sx={{padding: 0.85,borderRadius: '4px 0px 0px 4px', border: '1px solid'}}/> 
           :
-          <IconButton aria-label="delete" size="large" sx={{
-            padding: 0.1,
-            borderRadius: '4px 0px 0px 4px',
-            border: '1px solid rgba(25, 118, 210, 0.5)',
-            marginRight: -1
-          }}
-
-            className='delete-icon' onClick={handleClickOpen}>
+          <IconButton aria-label="delete" size="large" sx={{padding: 0.15,borderRadius: '4px 0px 0px 4px', border: '1px solid rgba(25, 118, 210, 0.5)', marginRight: -1}}
+            className='delete-icon' onClick={()=>handleClickOpen()}>
             <DeleteIcon fontSize="large" color="primary" />
           </IconButton>}
 
@@ -95,17 +83,18 @@ export default function ItemsOptions({ setDeletefrom, copyfrom, copy2from }) {
           //  className={props.classes.button}
           className='delete-btn'
           disabled={!del_Btn}
-          onClick={() => { setDel_Btn(!del_Btn); setDeletefrom(true) }}
+          onClick={() => { setDel_Btn(!del_Btn); setColorDelete(true) }}
           sx={{ borderRadius: "0px 4px 4px 0px", fontSize: "0.975rem" }}
         >
           מחיקה
         </Button>
-        <AddBigList open={open} setOpen={setOpen} /> {/*? check what do  */}
+       
+
+
         <AddIcon color="primary" sx={{
           border: "2px solid rgb(217, 214, 214)",
           borderRadius: 3, padding: 0.7
         }} onClick={() => setOpenAddItem(true)} />
-
       </CardActions>
     </div>
     {openAddItem ? <AddItem setOpenAddItem={setOpenAddItem} /> : null}
@@ -121,8 +110,7 @@ export default function ItemsOptions({ setDeletefrom, copyfrom, copy2from }) {
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {/* Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running. */}
+        
         </DialogContentText>
       </DialogContent>
       <DialogActions>

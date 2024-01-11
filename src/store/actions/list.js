@@ -8,3 +8,11 @@ export const saveTripList = (allTripList)=>{
     }
     
 }
+export const saveCurrentAttractionListId = (id)=>{
+    
+    return {
+        type:types.SAVE_ATTRACTION_LIST_ID,
+        payload: id
+    }
+    
+}

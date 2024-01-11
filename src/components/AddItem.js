@@ -11,8 +11,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { addItem } from "../store/actions/item";
-import { addItemToSql } from "../services/item";
+import { addItem, saveStorageTypes } from "../store/actions/item";
+import { GetAllStorageTypesFromServer, addItemToSql } from "../services/item";
 //select start
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -90,6 +90,9 @@ export default function AddItem({ setOpenAddItem }) {
     getValues,
     formState: { isValid, errors, dirtyFields, touchedFields, isDirty },
   } = useForm({ mode: "onTouched" });
+  React.useEffect(()=>{GetAllStorageTypesFromServer().then(res=>
+    dispatch(saveStorageTypes(res.data))
+    ).catch(err=>"err "+ err)},[])
   let [file, setFile] = useState();
   let x = React.useRef();
   //select start
@@ -217,7 +220,7 @@ export default function AddItem({ setOpenAddItem }) {
             <em>אף לא אחד</em>
           </MenuItem> */}
                   {productTypes.map((i) => (
-                    <MenuItem value={i.Id}>{i.Type}</MenuItem>
+                    <MenuItem value={i.id}>{i.type}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -238,7 +241,7 @@ export default function AddItem({ setOpenAddItem }) {
             <em>אף לא אחד</em>
           </MenuItem> */}
                   {storageTypes.map((i) => (
-                    <MenuItem value={i.Id}>{i.Type}</MenuItem>
+                    <MenuItem value={i.id}>{i.type}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

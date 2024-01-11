@@ -16,11 +16,16 @@ import OneDestinationDetails from './components/OneDestinationDetails';
 import AddAttraction from './components/AddAttraction';
 import * as React from 'react';
 import ManagementComments from './components/ManagementComments';
+import EditedList from './components/EditedList';
+import { NavBarPersonalArea } from './components/NavBarPersonalArea';
+import { useSelector } from 'react-redux';
+import EditedLists from './components/EditedLists';
 // app first page
 function App() {
+  const isInPersonalArea = useSelector(s=> s.user.isInPersonalArea);
   return (
     <div className="App">
-      <NavBar />
+      {!isInPersonalArea?<NavBar />:<NavBarPersonalArea/>}
       <Routes>
         {/* כללי */}
         <Route path="homepage" element={<HomePage />} />
@@ -31,16 +36,22 @@ function App() {
         <Route path="sighin" element={<SighIn />} />
         <Route path="login" element={<Login />} />
         {/* אישי */}
-        <Route path="/mylist/:id/:attractionId" element={<MyList />} />
+        
         <Route path="/mylist/:listId" element={<MyList />} />
 
         <Route path="mypage" element={<MyPage />} >
           <Route path='love' element={<LovedAttractions />} />
           <Route path="mytrip/:tripId" element={<MyTrip />} />
+          <Route path="editedlists/:attractionId" element={<EditedLists />} >
+          <Route path="mylist/:id/:attractionId" element={<MyList />} />{/*??? attractionListId הכוונה ל id */}
+          <Route path="editedlist" element={<EditedList />} />
+          
+          </Route>
         </Route>
         {/* מנהל */}
         <Route path="managementUsers" element={<><ManagementUsers /></>} />
         <Route path="managementComments" element={<><ManagementComments /></>} />
+        <Route path="editedlist" element={<EditedList/>} />
 
         
         <Route path="addAttraction" element={<AddAttraction />} />

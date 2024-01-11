@@ -19,7 +19,10 @@ import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import Login from "../components/Login";
 import Slide from "@mui/material/Slide";
 import SighIn from "./SighIn";
+import { changeUserLocation } from "../store/actions/user";
+import { useDispatch } from "react-redux";
 export default function NavBar() {
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
   let mynavigate = useNavigate();
   const LightTooltip = styled(({ className, ...props }) => (
@@ -79,7 +82,7 @@ export default function NavBar() {
                   <Button
                     size="large"
                     variant="contained"
-                    onClick={() => mynavigate("/mypage")}>
+                    onClick={() => {dispatch(changeUserLocation(true));mynavigate("/mypage")}}>
                     לאיזור האישי
                   </Button>
                 </LightTooltip>

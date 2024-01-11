@@ -3,7 +3,7 @@ export const LOG_OUT="LOG_OUT";
 export const LOG_IN="LOG_IN";
 export const SIGN_IN="SIGN_IN";
 //enter or go out from private region
-export const PRIVATE_REGION="PRIVATE_REGION";
+export const CHANGE_USER_LOCATION="CHANGE_USER_LOCATION";
 
 //attractions
 export const SAVE_ATTRACTIONS="SAVE_ATTRACTIONS";
@@ -24,7 +24,11 @@ export const ADD_ITEM_TO_MY_LIST="ADD_ITEM_TO_MY_LIST";
 export const REMOVE_ITEM="REMOVE_ITEM";
 export const UPDATE_ITEMS_SELECTED="UPDATE_ITEMS_SELECTED";
 export const SAVE_ITEMS = "SAVE_ITEMS";
-//
-export const SAVE_DATES = "SAVE_DATES";
+export const SAVE_ITEMS_SELECTED = "SAVE_ITEMS_SELECTED";
+export const SAVE_PRODUCT_TYPES = "SAVE_PRODUCT_TYPES";
+export const SAVE_STORAGE_TYPES = "SAVE_STORAGE_TYPES";
+
 //lists
 export const SAVE_TRIP_LIST = "SAVE_TRIP_LIST";
+export const SAVE_ATTRACTION_LIST_ID = "SAVE_ATTRACTION_LIST_ID";
+

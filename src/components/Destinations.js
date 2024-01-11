@@ -60,7 +60,7 @@ export default function Destination() {
   const { pathname } = useLocation();
   const attractions = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
   const user = useSelector((state) => state.user.currentUser);
-
+ const filtering = useSelector(s=>s.attraction.filtering);
   const defaultProps = {
     // val: (option) => option.Id,
     options: attractions,

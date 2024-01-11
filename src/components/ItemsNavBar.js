@@ -75,7 +75,7 @@ export default function ItemsNavBar(){
         sx={{backgroundColor:"rgb(5, 30, 52)", color:"white", width:"82vw"}}
       >
       {productTypes.map(i=>
-        <Tab label={i.Type} icon={<RestoreIcon />} sx={{color:"white"}} value={i.Id}
+        <Tab label={i.type} icon={<RestoreIcon />} sx={{color:"white"}} value={i.id}
          // name={i.Type} key={i.Id} 
         />
           

@@ -3,6 +3,7 @@ import * as types from "../actionTypes";
 const initialState = {
     attractions: [],
     selectedAttraction: null,
+    filtering:[]
 }
 
 const lovedAtrraction = (atractins, isuSer, loved) => {
@@ -21,6 +22,7 @@ const attractionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 attractions: att,
+                filtering: att
             }
         case types.SAVE_LOVED_ATTRACTIONS: {
             const atractions = lovedAtrraction(state.attractions, action.payload.isuSer, action.payload.loved)
@@ -59,6 +61,12 @@ const attractionReducer = (state = initialState, action) => {
                 //כיון שעודכנה אטרקציה ממערך זה
                 attractions: copy2
             }
+        case types.UPDATE_FILTERING:
+        return{
+            ...state,
+            filtering: action.payload
+        } 
+
         default: { return state }
     }
     //??? האם נכון

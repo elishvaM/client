@@ -40,8 +40,11 @@ export default function Items({type, setValuefrom , valuefrom}) {
   const descriptionElementRef = React.useRef(null);
  
   let allitems = useSelector(s => s.item.allitems);//??? מה קורה מאחורי הקלעים אם הלך לשרת ואם לא
-  let itemsByType = allitems.filter(item => item.productTypeId === valuefrom);
+  let itemsByType = allitems.filter(item => item.productTypeId == valuefrom);
   React.useEffect(() => {  
+    console.log(allitems)
+    console.log(allitems.produ)
+
     console.log("items", valuefrom)
     setOpen(true);
     // handleClickOpen();
@@ -54,27 +57,11 @@ export default function Items({type, setValuefrom , valuefrom}) {
       }
     }
   }, [open]);
-  // let arr = [
-  //   {Id:1, Img:"Cloth027.JPG", name:"משקפי שמש"},
-  //   {Id:2, Img:"Household 778.jpg", name:"כובע"},
-  //   {Id:3, Img:"Perfume Bottle.jpg", name:"נעלי ספורט"},
-  //   {Id:4, Img:"Hair Brush.jpg", name:"כסף"},
-  //   {Id:5, Img:"Household 487.jpg", name:"מטען"},
-  //   {Id:6, Img:"Cloth027.JPG", name:"בקבוק מים"},
-  //   {Id:7, Img:"Household 778.jpg", Name:"כובע שמש"},
-  //   {Id:8, Img:"Perfume Bottle.jpg",Name:"משקפי שמש"},
-  //   {Id:9, Img:"Hair Brush.jpg",Name:"קרם הגנה"},
-  //   {Id:10, Img:"Household 487.jpg",Name:"מסרק"},
-  //   {Id:11, Img:"Cloth027.JPG", Name:"מצלמה"}
-  // ]
-
 const addItem=(x)=>{
     
 }
   return (
     <div>
-      {/* <Button onClick={handleClickOpen('paper')}>scroll=paper</Button> */}
-      {/* <Button onClick={handleClickOpen('body')}>scroll=body</Button> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -114,7 +101,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
           >
             
             <ul className='ul-item'>
-              {itemsByType.map((item) =>
+              {itemsByType?.map((item) =>
                    <Item item={item} all={flag} setCntfrom={setCnt} cntfrom={cnt}/>
               )}
             </ul>
