@@ -3,7 +3,7 @@ import * as types from "../actionTypes";
 const initialState = {
     attractions: [],
     selectedAttraction: null,
-    filtering:[]
+    filtering: []
 }
 
 const lovedAtrraction = (atractins, isuSer, loved) => {
@@ -45,7 +45,11 @@ const attractionReducer = (state = initialState, action) => {
         case types.ADD_LOVED_ATTRACION:
             console.log("ADD_LOVED_ATTRACION", action)
             const copy = [...state.attractions];//??? הסבר מתי ולמה עושים 3 נקודות מה היה קורה אם לא עשיתי 3 נק ואם הייתי עושה כך בריטרן מאחורי הקלעים
-            copy.findIndex(x => action.payload.id == x.id).isLoved = action.payload.isLoved;
+            //השורה הזו זרקה שגיאה
+            // copy.findIndex(x => action.payload.id == x.id).isLoved = action.payload.isLoved;
+            //אז עשיתי את זה במקום
+            const index = copy.findIndex(x => action.payload.id == x.id);
+            copy[index].isLoved = action.payload.isLoved;
             return {
                 ...state,
                 //הוספת האטרקציה לצערך אהבתי
@@ -62,10 +66,10 @@ const attractionReducer = (state = initialState, action) => {
                 attractions: copy2
             }
         case types.UPDATE_FILTERING:
-        return{
-            ...state,
-            filtering: action.payload
-        } 
+            return {
+                ...state,
+                filtering: action.payload
+            }
 
         default: { return state }
     }

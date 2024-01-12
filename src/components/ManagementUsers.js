@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-
+import "../StyleComponents/ManagementUsers.scss";
 export default function ManagementUsers() {
   const [users, setUsers] = useState([]);
   let copy = [...users]
@@ -73,7 +73,7 @@ export default function ManagementUsers() {
 
 
   return (<>
-    <ul>
+    <ul className="mn-users">
       {users.map(user => <li key={user.id}>
         <div>  
 

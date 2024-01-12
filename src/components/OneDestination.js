@@ -62,7 +62,7 @@ export default function OneDestination({ attraction }) {
               <h1>{attraction.name}</h1>
               <h2>{attraction.desc}</h2>
               <h2>{attraction.address.city},{attraction.address.land}</h2>
-              <h2>מתאים ל: {attraction.personState.state} </h2>
+              <h2>מתאים ל: {attraction.state} </h2>
             </CardContent>
             {/* איך זה שלא צריך לעטף בפונ אנונימית ??? */}
             <Tooltip title="הוסף לאהבתי">

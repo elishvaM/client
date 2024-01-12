@@ -67,7 +67,6 @@ export default function Destination() {
   // const mynavigate = useNavigate();
 
   useEffect(() => {
-    console.log("dhvgyv")
     if (!attractions.length) {
       //fatch all the attraction from server
       attractionFromServer()
@@ -125,7 +124,7 @@ export default function Destination() {
         }}>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder="  לאן נוסעים ? "
+          placeholder="? לאן נוסעים"
           inputProps={{ "aria-label": "search google maps" }}
         />
         <IconButton type="button" sx={{ p: "10px" }} aria-label="search">

@@ -21,6 +21,7 @@ import Slide from "@mui/material/Slide";
 import SighIn from "./SighIn";
 import { changeUserLocation } from "../store/actions/user";
 import { useDispatch } from "react-redux";
+import { logOut } from "../store/actions/user";
 export default function NavBar() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -34,7 +35,9 @@ export default function NavBar() {
       fontSize: 13,
     },
   }));
-
+  const logout = () => {
+    dispatch(logOut(currentUser));
+  }
   //submit/cancel-dialog
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -78,6 +81,11 @@ export default function NavBar() {
                   </Button>
                 </LightTooltip>
               </div> : <div>
+              <LightTooltip title="יציאה">
+                  <Button size="large" onClick={logout}>
+                  LogOut
+                  </Button>
+                </LightTooltip>
                 <LightTooltip title="לאיזור האישי" className="">
                   <Button
                     size="large"

@@ -24,11 +24,12 @@
   width: 80em;
   display: flex;
   flex-wrap: wrap;
+  list-style-type: none;
+  margin: 2px;
 }
 .li {
   width: 500px;
   margin: 2vw;
-  list-style-type: none;
 }
 .attraction-content {
   background-color: #003b95;
