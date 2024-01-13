@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { changeTypeFromServer, usersFromServer } from "../services/user"
 // import Switch from '@mui/material/Switch';
 // import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button } from "@mui/base";
+import Button from '@mui/material/Button';
 import { changeStatusFromServer } from "../services/user";
 import * as React from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -16,8 +16,7 @@ import MenuList from '@mui/material/MenuList';
 import "../StyleComponents/ManagementUsers.scss";
 export default function ManagementUsers() {
   const [users, setUsers] = useState([]);
-  let copy = [...users]
-  
+
   useEffect(() => {
     usersFromServer().then(res => {
       setUsers(res.data)
@@ -27,40 +26,40 @@ export default function ManagementUsers() {
   //משנה סטטוס בשרת ולא בתצוגה
   const handleChange = (user) => {
     changeStatusFromServer(user.user).then(res => {
-      copy.map(x => x.id === user.user.id ? x.status = !x.status : null)
+      const copy = user.map(x => ({ ...x, status: x.id === user.user.id ? !x.status : x.status }));
       setUsers(copy)
     }).catch(err => { console.log("error", err) });
   };
-  const options = [{ id:1, type: 'משתמש' }, { id: 2, type: 'מנהל' }];
+  const options = [{ id: 1, type: 'משתמש' }, { id: 2, type: 'מנהל' }];
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   // let דברים שמשתנים באותו הדף ממש ולא אחרי רענון יהיו מוגדרים 
   let [msg, setMsg] = useState("");
   const handleClick = (userId, event, index) => {
-   
+
     setSelectedIndex(index);
     setOpen(false);
   };
-  const handleMenuItemClick = (event, index,userId) => {
-    const user = { id: userId, typeId: options[selectedIndex].id }
-    console.log(user)
-    console.log(options[selectedIndex].type)
-    console.log("be",copy)
-    copy.map(x => x.id === user.id ? x.type = options[selectedIndex].type == "משת": null)
-    console.log("cp",copy)
-    // changeTypeFromServer(user).then(res => {
-    //   setMsg(res.data);
-    //   alert(res.data)
-    //   copy.map(x => x.id === user.id ? x.type = options[selectedIndex].type : null)
-    //   setUsers(copy)
-    // }).catch(err => { alert("התרחשה תקלה"); console.log("error resp:", err) })
+  const handleMenuItemClick = (event, index, userId) => {
+    const user = { id: open, typeId: options[selectedIndex].id }
+    changeTypeFromServer(user).then(res => {
+      setMsg(res.data);
+      alert(res.data)
+      const copy = [...users];
+      const findIndex = copy.findIndex(x => x.id == open)
+      if (findIndex > -1) {
+
+        copy[findIndex].type = options[selectedIndex].type
+        setUsers(copy)
+      }
+    }).catch(err => { alert("התרחשה תקלה"); console.log("error resp:", err) })
     setSelectedIndex(index);
     setOpen(false);
   };
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleToggle = (userId) => {
+    setOpen((prevOpen) => prevOpen ? false : userId);
   };
 
   const handleClose = (event) => {
@@ -75,13 +74,13 @@ export default function ManagementUsers() {
   return (<>
     <ul className="mn-users">
       {users.map(user => <li key={user.id}>
-        <div>  
+        <div>
 
 
-        {user.name}    {user.status}
-        <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
+          {user.name}    {user.status}
+          <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
 
-        {/* {user.status === false ? <FormControlLabel
+          {/* {user.status === false ? <FormControlLabel
                     control={
                         <Switch checked={false} onChange={handleChange(user)} />
                     }
@@ -90,60 +89,60 @@ export default function ManagementUsers() {
                         <Switch checked={true} onChange={handleChange(user)} />
                     }
                 />} */}
-        <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
-          <Button>{user.type}</Button>
-          <Button
-            size="small"
-            aria-controls={open ? 'split-button-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-label="select merge strategy"
-            aria-haspopup="menu"
-            onClick={handleToggle}
-          >
-            <ArrowDropDownIcon />
-          </Button>
-        </ButtonGroup>
-        <Popper
-          sx={{
-            zIndex: 1,
-          }}
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom' ? 'center top' : 'center bottom',
-              }}
+          <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
+            <Button>{user.type}</Button>
+            <Button
+              size="small"
+              aria-controls={open ? 'split-button-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-label="select merge strategy"
+              aria-haspopup="menu"
+              onClick={() => handleToggle(user.id)}
             >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList id="split-button-menu" autoFocusItem>
-                    {options.map((option, index) => (
-                      <MenuItem
-                        key={option.id}
-                        disabled={index === 2}
-                        selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick( event, index,user.id)}
-                      >
-                        {option.type}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+          <Popper
+            sx={{
+              zIndex: 1,
+            }}
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === 'bottom' ? 'center top' : 'center bottom',
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList id="split-button-menu" autoFocusItem>
+                      {options.map((option, index) => (
+                        <MenuItem
+                          key={option.id}
+                          disabled={index === 2}
+                          selected={index === selectedIndex}
+                          onClick={(event) => handleMenuItemClick(event, index, user.id)}
+                        >
+                          {option.type}
+                        </MenuItem>
+                      ))}
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
 
 
         </div>
-        
+
 
       </li>)}
 

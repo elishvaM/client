@@ -10,7 +10,7 @@ export default function ManagementComments() {
     useEffect(() => {
         getComplainedFromServer().then(res => {
             // date לפי החדש ביותר
-            setComments(res.data);
+            setComments(res.data.sort((a, b) => a.date < b.date ? 1 : -1));
         }).catch(err => console.log(err))
     }, [])
 
@@ -60,7 +60,7 @@ export default function ManagementComments() {
                     Swal.showLoading();
                     const timer = Swal.getPopup().querySelector("b");
                     timerInterval = setInterval(() => {
-                           timer.textContent = `${Swal.getTimerLeft()}`;
+                        timer.textContent = `${Swal.getTimerLeft()}`;
                     }, 100);
                 },
                 willClose: () => {

@@ -29,10 +29,8 @@ export default function OneDestinationDetails(onLoved) {
         }
         addCommentFromServer(addC).then(res => {
             const newComent = [...comments]
-            newComent.push(res.data);
-            console.log(newComent)
+            newComent.push({ ...res.data, status: true });
             setComments(newComent)
-            console.log("c", comments)
 
         }).catch(err => console.log("err add", err))
     }

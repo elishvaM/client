@@ -13,6 +13,7 @@ export const changeStatusFromServer = (user) => {
     return axios.put(`https://localhost:7114/api/User/UpDateStatusById`, user)
 }
 export const changeTypeFromServer = (user) => {
+    console.log(user)
     return axios.post(`https://localhost:7114/api/User/UpDateType`, user)
 }
 export const upDateFromServer = (user) => {

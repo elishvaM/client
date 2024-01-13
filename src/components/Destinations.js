@@ -59,7 +59,7 @@ export default function Destination() {
   const { pathname } = useLocation();
   const attractions = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
   const user = useSelector((state) => state.user.currentUser);
- const filtering = useSelector(s=>s.attraction.filtering);
+  const filtering = useSelector(s => s.attraction.filtering);
   const defaultProps = {
     options: attractions,
     getOptionLabel: (option) => option.Name,
@@ -135,14 +135,12 @@ export default function Destination() {
         <ul className="ul-dest">
           {attractions.length !== 0 ? (
             <div>
-              {attractions?.map((item) => (
-                <li key={item.id} 
-                //בוטל כי עושה בעיה
-                // onClick={() => {
-                //   dispatch(selectAttraction(item));
-                //   mynavigate('oneDestinationDetails')
-                // }}
-                >
+              {attractions
+              // .filter(x=>(!selec||x.selec==selec)
+              // &&(!data||x.date==date)&&
+              // ())
+              ?.map((item) => (
+                <li key={item.id}                 >
                   <OneDestination attraction={item} />
                 </li>
               ))}

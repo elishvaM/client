@@ -85,10 +85,13 @@ export default function AddAttraction({ setOpenAddItem }) {
             }}
               name="chooseImg" /> : null} */}
             {/* <img src={file} style={{ width: 70, height: 70 }} /> */}
-            {/* <input
+            <input
               accept={file}
               // className={classes.input}
               style={{ display: 'none' }}
+              onChange={(e) => {
+                setFile(URL.createObjectURL(e.target.files[0]))
+              }}
               id="raised-button-file"
               multiple
               type="file"
@@ -96,11 +99,12 @@ export default function AddAttraction({ setOpenAddItem }) {
             <label htmlFor="raised-button-file">
               <Button label="בחר תמונה" variant="raised" component="span"
                 onChange={(e) => {
+                  console.log(e)
                   setFile(URL.createObjectURL(e.target.files[0]))
                 }} />
-              {/* בחר תמונה */}
-            {/* </label>
-            <img src={file} style={{ width: 70, height: 70 }} /> */}
+              בחר תמונה
+            </label>
+            <img src={file} style={{ width: 70, height: 70 }} />
           </DialogContent>
           <DialogActions>
             <Button autoFocus type='submit' >
