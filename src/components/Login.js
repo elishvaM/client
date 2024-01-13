@@ -18,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useState } from "react";
 import Snackbar from '@mui/material/Snackbar';
+import { Email } from "@mui/icons-material";
 const schema = yup.object({
     Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
     Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25", x => x.length >= 2 && x.length <= 25)
@@ -60,6 +61,10 @@ export default function Login({ setOpen, Transition }) {
             setOpenDialog(false)
         })
     }
+    const forgetPassword=()=>{
+        // send server mail
+        // Email
+    }
     return (<>
         <div>
             <Snackbar
@@ -93,6 +98,7 @@ export default function Login({ setOpen, Transition }) {
                                     }
                                 />
                                 <div className="error">{errors.Email?.message}</div>
+                                <span onClick={forgetPassword}>שכחתי סיסמא</span>
                                 <DialogActions >
                                     <Button type="submit">התחבר</Button>
                                 </DialogActions>

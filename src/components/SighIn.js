@@ -37,7 +37,7 @@ export default function SighIn({ open, setOpen, Transition }) {
     //     event.preventDefault();
     // };
     const save = (details) => {
-        //הוספת משתמש
+        //אימות מייל ואם חזר חיובי להמשיך
         sighinFromServer(details).then(res => {
             dispatch(saveUser(res.data));
         }).catch(err => { console.log("error", err); })

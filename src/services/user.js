@@ -16,6 +16,8 @@ export const changeTypeFromServer = (user) => {
     return axios.post(`https://localhost:7114/api/User/UpDateType`, user)
 }
 export const upDateFromServer = (user) => {
-    console.log("ddd",user)
     return axios.post(`https://localhost:7114/api/User/UpDateUser`, user)
+}
+export const forgetPasswordFromServer = (mail) => {
+    return axios.post(`https://localhost:7114/api/User/UpDateUser`, mail)
 }
