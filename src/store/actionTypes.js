@@ -27,6 +27,7 @@ export const SAVE_ITEMS = "SAVE_ITEMS";
 export const SAVE_ITEMS_SELECTED = "SAVE_ITEMS_SELECTED";
 export const SAVE_PRODUCT_TYPES = "SAVE_PRODUCT_TYPES";
 export const SAVE_STORAGE_TYPES = "SAVE_STORAGE_TYPES";
+export const ADD_MANY_ITEMS = "ADD_MANY_ITEMS";
 
 //lists
 export const SAVE_TRIP_LIST = "SAVE_TRIP_LIST";

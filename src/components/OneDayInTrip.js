@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import CreateIcon from '@mui/icons-material/Create';
 import Tooltip from '@mui/material/Tooltip';
 import { saveCurrentAttractionListId } from '../store/actions/list';
+import { AttractionLists } from './AttractionLists';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -107,7 +108,8 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
           </Typography>
         </CardContent>
       </Collapse>
-      {attractionsDay?.map(attractionList => <><h5>{attractionList.attractionId}</h5>
+      <AttractionLists attractionsDay={attractionsDay}/>
+      {/* {attractionsDay?.map(attractionList => <><h5>{attractionList.attractionId}</h5>
       <Tooltip title="צור רשימה"><IconButton><CreateIcon onClick={() =>
         {dispatch(saveCurrentAttractionListId(attractionList.id));
           navigate(`/mypage/editedlists/${attractionList.attractionId}` )
@@ -115,7 +117,7 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek }) {
 
           }}/></IconButton></Tooltip>
 
-      </>)}
+      </>)} */}
 
     </Card>
   </>

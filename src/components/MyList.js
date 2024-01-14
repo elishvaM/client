@@ -91,7 +91,7 @@ export default function MyList() {
       </ul>
     </div>
 
-    <EditedLists attractionId={attractionId} />
+    {/* <EditedLists attractionId={attractionId} /> */}
     {/* // <input type="text" className={flag?"x":"xx"} onDoubleClick={setFlag(true)}/> */}
     {/* //  <Plus/>  */}
   </>)

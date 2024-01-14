@@ -5,6 +5,7 @@ export default function Beauty({ item, colorDelete, deleteItemSelected, setDone 
     //2. del - שמי שילחצו עליו יצבע למחיקה אך עוד לא ימחק
 
     return (<>
+    {console.log(item)}
         {/* remember to arrange the classname wont be null... */}
         <img src={item.product.img} className={item.del ? "myimg myimg-del" : item.done ?
             "myimg pressed-img" : "myimg"}

@@ -6,6 +6,6 @@ export const AddTripListFromServer = (bigList) => {
 export const GetAllTripListsByUserIdFromServer = (userId) => {
     return axios.get(`https://localhost:7114/api/TripList/GetAll/${userId}`);
 }
-export const GetAttractionListByAttractionIdFromServer = (attractionId) => {
-    return axios.get(`https://localhost:7114/api/AttractionList/GetSAttractionListByAttractionId/${attractionId}`);
+export const GetAttractionListByAttractionIdFromServer = (attractionId, myAttractionListId) => {
+    return axios.get(`https://localhost:7114/api/AttractionList/GetSAttractionListByAttractionId/${attractionId}/${myAttractionListId}`);
 }

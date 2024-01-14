@@ -65,3 +65,10 @@ export const saveStorageTypes = (storageTypes)=>{
     }
     
 }
+export const addManyItems = (arr)=>{
+    return {
+        type:types.ADD_MANY_ITEMS,
+        payload: arr
+    }
+    
+}

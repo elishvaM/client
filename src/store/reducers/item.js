@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { AddListAttractionListProductFromServer } from "../../services/item";
 import * as types from "../actionTypes";
 
 const initialState = {
@@ -7,7 +9,6 @@ const initialState = {
     productTypes:[],
     storageTypes:[]
 }
-
 const itemReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.ADD_ITEM_TO_MY_LIST:
@@ -67,6 +68,12 @@ const itemReducer = (state = initialState, action) => {
                 ...state,
                 storageTypes: action.payload
             }
+        case types.ADD_MANY_ITEMS:
+            return {
+                ...state,
+                itemsSelected: [...state.itemsSelected, ...action.payload] 
+            }
+        //}
         default: { return state }
     }
 }
