@@ -43,11 +43,8 @@ export default function ManagementComments() {
         //updateserver
         // let [mag, setMsg] = useState();
         validFromServer(comment).then(res => {
-            console.log(res)
             const copy = comments.filter(x => x.id != comment.id)
             setComments(copy)
-            console.log("c", copy)
-            console.log(comments)
 
             let timerInterval;
             Swal.fire({

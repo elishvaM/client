@@ -53,7 +53,6 @@ const BootstrapButton = styled(Button)({
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
 });
-
 export default function Destination() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -64,9 +63,8 @@ export default function Destination() {
     options: attractions,
     getOptionLabel: (option) => option.Name,
   };
-  // const mynavigate = useNavigate();
-
   useEffect(() => {
+  
     if (!attractions.length) {
       //fatch all the attraction from server
       attractionFromServer()
@@ -102,6 +100,7 @@ export default function Destination() {
           <div> <h1>אטרקציות,חוויות ופעילויות</h1></div>
           <h2>בואו לבחור את החוויה הבאה</h2>
         </div>
+        {/* הצגת אטרקציות ויעדים נבחרים דיב עם שאלות נפוצות באקורדיון ועוד דיב עם קצת מלל */}
       </div>
       <Stack spacing={1} sx={{ width: 300 }} onClick={m}>
         <Autocomplete
@@ -136,14 +135,14 @@ export default function Destination() {
           {attractions.length !== 0 ? (
             <div>
               {attractions
-              // .filter(x=>(!selec||x.selec==selec)
-              // &&(!data||x.date==date)&&
-              // ())
-              ?.map((item) => (
-                <li key={item.id}                 >
-                  <OneDestination attraction={item} />
-                </li>
-              ))}
+                // .filter(x=>(!selec||x.selec==selec)
+                // &&(!data||x.date==date)&&
+                // ())
+                ?.map((item) => (
+                  <li key={item.id}                 >
+                    <OneDestination attraction={item} />
+                  </li>
+                ))}
             </div>
           ) : null}
         </ul>
