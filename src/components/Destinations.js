@@ -73,6 +73,8 @@ export default function Destination() {
   const [personState, setPersonState] = React.useState();
   const [attractionType, setAttractionType] = React.useState();
   const [selectType, setSelectType] = React.useState([]);
+  const [selectSatte, setSelectState] = React.useState([]);
+
   const [myLoaction, setLocation] = React.useState("");
   useEffect(() => {
     personStateFromServer().then(res => {
@@ -126,16 +128,16 @@ export default function Destination() {
     }
   }
   const selectUserState = (e, choose) => {
-    const copy = [...selectType]
+    const copy = [...selectSatte]
     //הוא מסומן
     if (e.target.checked) {
       copy.push(choose)
-      setSelectType(copy)
+      setSelectState(copy)
     }
     //הוא הוריד סימון
     else {
       const remove = copy.filter(x => x != choose)
-      setSelectType(remove)
+      setSelectState(remove)
     }
   }
   return (
@@ -195,11 +197,16 @@ export default function Destination() {
         <ul className="ul-dest">
           {attractions.length !== 0 ? (
             <div>
-              {selectType}
-              {myLoaction}
+              {selectType}|
+              {selectSatte}|
+              {myLoaction}|
               {attractions
                 //מסנן טוב אבל לא מביא בהתחלה את האטרקציה
-                .filter(x => ((selectType.length === 0 && myLoaction == "") || x.address.land == myLoaction && (selectType?.includes(x.type) && selectType?.includes(x.state))
+                .filter(x =>
+
+                ((!myLoaction || x.address.land == myLoaction) &&
+                  (!selectType.length || selectType?.includes(x.type)) &&
+                  (!selectSatte.length || selectSatte?.includes(x.state))
                 ))
                 ?.map((item) => (
                   <li key={item.id}                 >

@@ -30,7 +30,7 @@ const schema = yup.object({
   Land: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
   City: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
 }).required();
-export default function AddAttraction({ setOpenAddItem }) {
+export default function AddAttraction() {
   const [open, setOpen] = React.useState(true);
   let [file, setFile] = useState();
   const addAttraction = (details) => {
@@ -39,7 +39,7 @@ export default function AddAttraction({ setOpenAddItem }) {
   }
   const handleClose = () => {
     setOpen(false);
-    setOpenAddItem(false)
+    // setOpenAddItem(false)
   };
   let { register, handleSubmit, formState: { errors } } = useForm({
     mode: "onSubmit",
