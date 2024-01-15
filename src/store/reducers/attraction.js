@@ -7,7 +7,6 @@ const initialState = {
 }
 
 const lovedAtrraction = (atractins, isuSer, loved) => {
-    console.log('!!! lovedAtraction', atractins, isuSer, loved)
 
     if (!isuSer) {
         return atractins.map(x => ({ ...x, isLoved: false }))
@@ -43,7 +42,6 @@ const attractionReducer = (state = initialState, action) => {
             }
         // break;
         case types.ADD_LOVED_ATTRACION:
-            console.log("ADD_LOVED_ATTRACION", action)
             const copy = [...state.attractions];//??? הסבר מתי ולמה עושים 3 נקודות מה היה קורה אם לא עשיתי 3 נק ואם הייתי עושה כך בריטרן מאחורי הקלעים
             //השורה הזו זרקה שגיאה
             // copy.findIndex(x => action.payload.id == x.id).isLoved = action.payload.isLoved;
