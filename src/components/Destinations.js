@@ -18,6 +18,12 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { attractionFromServer, savedAttractionByUserIdFromServer } from "../services/attraction";
+import { attractionTypeFromServer } from '../services/attractionType';
+import { personStateFromServer } from "../services/personState";
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { set } from "react-hook-form";
 const BootstrapButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
@@ -53,20 +59,28 @@ const BootstrapButton = styled(Button)({
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
 });
-
 export default function Destination() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const attractions = useSelector((state) => state.attraction.attractions.filter(x => !pathname.includes("love") || x.isLoved));
   const user = useSelector((state) => state.user.currentUser);
-  const filtering = useSelector(s => s.attraction.filtering);
+  const [show, setShow] = React.useState(false);
   const defaultProps = {
     options: attractions,
-    getOptionLabel: (option) => option.Name,
+    getOptionLabel: (option) => option.address.land,
   };
-  // const mynavigate = useNavigate();
-
+  //filter
+  const [personState, setPersonState] = React.useState();
+  const [attractionType, setAttractionType] = React.useState();
+  const [selectType, setSelectType] = React.useState([]);
+  const [myLoaction, setLocation] = React.useState("");
   useEffect(() => {
+    personStateFromServer().then(res => {
+      setPersonState(res.data)
+    }).catch(err => console.log(err))
+    attractionTypeFromServer().then(res => {
+      setAttractionType(res.data)
+    }).catch(err => console.log(err))
     if (!attractions.length) {
       //fatch all the attraction from server
       attractionFromServer()
@@ -95,6 +109,35 @@ export default function Destination() {
   }, [user]);
   const m = (x) => {
   };
+  const selectLocation = (e) => {
+    setLocation(e.target.value)
+  }
+  const selectUser = (e, choose) => {
+    const copy = [...selectType]
+    //הוא מסומן
+    if (e.target.checked) {
+      copy.push(choose)
+      setSelectType(copy)
+    }
+    //הוא הוריד סימון
+    else {
+      const remove = copy.filter(x => x != choose)
+      setSelectType(remove)
+    }
+  }
+  const selectUserState = (e, choose) => {
+    const copy = [...selectType]
+    //הוא מסומן
+    if (e.target.checked) {
+      copy.push(choose)
+      setSelectType(copy)
+    }
+    //הוא הוריד סימון
+    else {
+      const remove = copy.filter(x => x != choose)
+      setSelectType(remove)
+    }
+  }
   return (
     <>
       <div className="attraction-content">
@@ -102,62 +145,71 @@ export default function Destination() {
           <div> <h1>אטרקציות,חוויות ופעילויות</h1></div>
           <h2>בואו לבחור את החוויה הבאה</h2>
         </div>
+        {/* הצגת אטרקציות ויעדים נבחרים דיב עם שאלות נפוצות באקורדיון ועוד דיב עם קצת מלל */}
       </div>
-      <Stack spacing={1} sx={{ width: 300 }} onClick={m}>
+      {/* <Stack sx={{ maxWidth: 230 }}>
         <Autocomplete
           {...defaultProps}
           id="חפש"
           disableClearable
-          renderInput={(params) => (
+          renderInput={(params) => (<>
             <TextField {...params} label="חפש יעד" variant="standard" />
-          )}
+            <IconButton type="button" onClick={() => { setShow(true) }} sx={{ p: "10px" }} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </>)}
         />
-      </Stack>
+      </Stack> */}
       <Paper
         className="search"
         component="form"
         sx={{
           p: "2px 4px",
+          direction: "rtl",
           display: "flex",
           alignItems: "center",
-          width: 400,
+          width: 250,
         }}>
         <InputBase
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="? לאן נוסעים"
+          sx={{ ml: 2, flex: 1 }}
+          placeholder="כאן ניתן להקליד ארץ או עיר רצויה"
           inputProps={{ "aria-label": "search google maps" }}
+          onChange={selectLocation}
         />
-        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+        <IconButton type="button" onClick={() => { setShow(true) }} sx={{ p: "10px" }} aria-label="search">
           <SearchIcon />
         </IconButton>
       </Paper>
-      <div className='all'>
+      {show ? <>
+        <div className='asinun'>
+          {/* הסינון */}
+          <h3>סוג האטרקציה</h3>
+          <FormGroup>
+            {attractionType?.map(x => <FormControlLabel onClick={(e) => selectUser(e, x.type)} control={<Checkbox />} label={x.type} />)}
+          </FormGroup>
+          <h3>קהל יעד</h3>
+          <FormGroup>
+            {personState?.map(x => <FormControlLabel onClick={(e) => selectUserState(e, x.state)} control={<Checkbox />} label={x.state} />)}
+          </FormGroup>
+        </div>
         <ul className="ul-dest">
           {attractions.length !== 0 ? (
             <div>
+              {selectType}
+              {myLoaction}
               {attractions
-              // .filter(x=>(!selec||x.selec==selec)
-              // &&(!data||x.date==date)&&
-              // ())
-              ?.map((item) => (
-                <li key={item.id}                 >
-                  <OneDestination attraction={item} />
-                </li>
-              ))}
+                //מסנן טוב אבל לא מביא בהתחלה את האטרקציה
+                .filter(x => ((selectType.length === 0 && myLoaction == "") || x.address.land == myLoaction && (selectType?.includes(x.type) && selectType?.includes(x.state))
+                ))
+                ?.map((item) => (
+                  <li key={item.id}                 >
+                    <OneDestination attraction={item} />
+                  </li>
+                ))}
             </div>
           ) : null}
         </ul>
-        <div className='asinun'>
-          {/* הסינון */}
-          <BootstrapButton
-            variant="contained"
-            disableRipple
-            sx={{ position: 'relative', left: 75, bottom: 30 }}>
-            סינון
-          </BootstrapButton>
-          <Filter />
-        </div>
-      </div>
+      </> : null}
     </>
   );
 }
