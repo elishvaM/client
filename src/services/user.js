@@ -22,3 +22,6 @@ export const upDateFromServer = (user) => {
 export const forgetPasswordFromServer = (mail) => {
     return axios.post(`https://localhost:7114/api/User/UpDateUser`, mail)
 }
+export const sendEmailFromServer = (to,subject) => {
+    return axios.post(`https://localhost:7114/api/User/SendEmail/${to}/${subject}`)
+}

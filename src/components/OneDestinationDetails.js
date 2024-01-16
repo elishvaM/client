@@ -12,6 +12,13 @@ import { openingHourFromServer, updateOpeningHourFromServer } from "../services/
 import Tooltip from "@mui/material/Tooltip";
 import CreateIcon from "@mui/icons-material/Create";
 import Swal from "sweetalert2";
+import MoreTimeIcon from '@mui/icons-material/MoreTime';
+
+const TimeInput = ({ openingHour1 }) => {
+    const [open, setOpen] = React.useState(openingHour1)
+    return <input id="swal-input1" onChange={({ target }) => setOpen(target.value)} value={open} class="swal2-input" />
+
+}
 export default function OneDestinationDetails(onLoved) {
     const chosenAttraction = useSelector(state => state.attraction.selectedAttraction);
     const [comments, setComments] = React.useState([]);
@@ -44,33 +51,76 @@ export default function OneDestinationDetails(onLoved) {
         }).catch(err => console.log("err add", err))
     }
     const updateHour = (hour) => {
-
+        const copy = [...openingHours];
         (async () => {
             const { value: formValues } = await Swal.fire({
-                title: "עדכן שעות פתחיה וסגירה",
+                title: "עידכון שעות פתיחה וסגירה",
                 html: `
-                <input id="swal-input1" class="swal2-input">
-                <input id="swal-input2" class="swal2-input">
+                <input id="swal-input1" value=${hour?.openingHour1} class="swal2-input">
+                <input id="swal-input2" value=${hour?.closingHour} class="swal2-input">
               `,
+                confirmButtonText: "עדכן",
                 focusConfirm: false,
                 preConfirm: () => {
+                    if (document.getElementById("swal-input1").value == "") {
+                     
+                        Swal.showValidationMessage(`הכנס שעות חדשות`)
+
+                    }
                     return [
                         document.getElementById("swal-input1").value,
                         document.getElementById("swal-input2").value
+
                     ];
                 }
             });
-            if (formValues) {
-                Swal.fire(JSON.stringify(formValues));
+
+            if (formValues[0] !== "" && formValues[1] !== "") {
+
+                Swal.fire({
+                    title: "? האם לעדכן את שעות הפתיחה",
+                    text: formValues[0] + " " + formValues[1],
+                    confirmButtonText: "כן, בדוק",
+                    cancelButtonText: "בעצם, לא",
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        updateOpeningHourFromServer(hour).then(res => {
+                            console.log(res)
+                            const findIndex = copy.findIndex(x => x.id == hour.id)
+                            if (findIndex > -1) {
+
+                                copy[findIndex] = res.data;
+                            }
+                            else {
+                                copy.push(res.data)
+                            }
+                            setOpeningHours(copy)
+                        }).catch(err => console.log(err))
+                        Swal.fire({
+                            title: "עודכן",
+                            text: "שעות הפתיחה עודכנו בהצלחה",
+                            icon: "success",
+                        });
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        Swal.fire({
+                            title: "בוטל",
+                            text: "שעות הפתיחה לא עודכנו",
+                            icon: "error"
+                        });
+                    }
+
+                });
+
                 hour.openingHour1 = formValues[0];
                 hour.closingHour = formValues[1];
 
             }
         })()
-        updateOpeningHourFromServer(hour).then(res => {
-            
-            ///???setOpening(res.data) האם נכון
-        }).catch(err => console.log(err))
+
     }
     return (
         <>
@@ -88,13 +138,26 @@ export default function OneDestinationDetails(onLoved) {
             {arrDays?.map(x =>
                 <div key={x.id}>
                     {x.key}
-                    {openingHours.filter(y => y.day == x.id).map(hour => <div>   <Tooltip title="ערוך">
+                    {openingHours.filter(y => y.day == x.id).map(hour => <div>
+                        <Tooltip title="ערוך">
+                            <IconButton size="medium"
+                            >
+                                <CreateIcon onClick={() => updateHour(hour)} />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="הוסף שעות">
+                            <IconButton size="medium"
+                            >
+                                <MoreTimeIcon onClick={() => updateHour(hour)} />
+                            </IconButton>
+                        </Tooltip>
+                        {hour.openingHour1} - {hour.closingHour} </div>)}
+                    <Tooltip title="הוסף שעות">
                         <IconButton size="medium"
                         >
-                            <CreateIcon onClick={() => updateHour(hour)} />
+                            <MoreTimeIcon onClick={() => updateHour({ day: x.id, isOpening: true, attractionId: chosenAttraction.id, id: 0 })} />
                         </IconButton>
-                    </Tooltip> {hour.openingHour1} - {hour.closingHour} </div>)}
-                    <button>+</button>
+                    </Tooltip>
                 </div>
             )}
             {/* תגובה */}
