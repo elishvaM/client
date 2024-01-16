@@ -8,8 +8,10 @@ import { addCommentFromServer, getAllCommentsFromServer } from "../services/comm
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import OneComment from "./OneComment";
-import { openingHourFromServer } from "../services/openingHour";
-
+import { openingHourFromServer, updateOpeningHourFromServer } from "../services/openingHour";
+import Tooltip from "@mui/material/Tooltip";
+import CreateIcon from "@mui/icons-material/Create";
+import Swal from "sweetalert2";
 export default function OneDestinationDetails(onLoved) {
     const chosenAttraction = useSelector(state => state.attraction.selectedAttraction);
     const [comments, setComments] = React.useState([]);
@@ -41,6 +43,35 @@ export default function OneDestinationDetails(onLoved) {
 
         }).catch(err => console.log("err add", err))
     }
+    const updateHour = (hour) => {
+
+        (async () => {
+            const { value: formValues } = await Swal.fire({
+                title: "עדכן שעות פתחיה וסגירה",
+                html: `
+                <input id="swal-input1" class="swal2-input">
+                <input id="swal-input2" class="swal2-input">
+              `,
+                focusConfirm: false,
+                preConfirm: () => {
+                    return [
+                        document.getElementById("swal-input1").value,
+                        document.getElementById("swal-input2").value
+                    ];
+                }
+            });
+            if (formValues) {
+                Swal.fire(JSON.stringify(formValues));
+                hour.openingHour1 = formValues[0];
+                hour.closingHour = formValues[1];
+
+            }
+        })()
+        updateOpeningHourFromServer(hour).then(res => {
+            
+            ///???setOpening(res.data) האם נכון
+        }).catch(err => console.log(err))
+    }
     return (
         <>
             <h2>{chosenAttraction.name}</h2>
@@ -54,12 +85,15 @@ export default function OneDestinationDetails(onLoved) {
             <h2>{chosenAttraction.address.city},{chosenAttraction.address.land}</h2>
             <Link href={chosenAttraction.websiteAddres}>לאתר</Link>
             <h3>שעות פתיחה</h3>
-            {console.log(arrDays)}
-            {console.log(openingHours)}
             {arrDays?.map(x =>
                 <div key={x.id}>
                     {x.key}
-                    {openingHours.filter(y => y.day == x.id).map(openingHours => <div>{openingHours}</div>)}
+                    {openingHours.filter(y => y.day == x.id).map(hour => <div>   <Tooltip title="ערוך">
+                        <IconButton size="medium"
+                        >
+                            <CreateIcon onClick={() => updateHour(hour)} />
+                        </IconButton>
+                    </Tooltip> {hour.openingHour1} - {hour.closingHour} </div>)}
                     <button>+</button>
                 </div>
             )}

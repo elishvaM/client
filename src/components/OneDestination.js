@@ -64,7 +64,6 @@ export default function OneDestination({ attraction }) {
               <h2>{attraction.address.city},{attraction.address.land}</h2>
               <h2>מתאים ל: {attraction.state} </h2>
             </CardContent>
-            {/* איך זה שלא צריך לעטף בפונ אנונימית ??? */}
             <Tooltip title="הוסף לאהבתי">
               <IconButton size="large" sx={{ position: "absolute", left: 0 }} >
                 <FavoriteIcon color={attraction.isLoved ? "error" : "none"}
@@ -76,7 +75,6 @@ export default function OneDestination({ attraction }) {
               <>
                 <Tooltip title="ערוך">
                   <IconButton size="medium"
-                  // sx={{ position: "absolute", left: 8 }}
                   >
                     <CreateIcon onClick={openEdit} />
                   </IconButton>
