@@ -13,12 +13,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch } from "react-redux";
-import { loginFromServer } from "../services/user";
+import { loginFromServer, sendEmailFromServer } from "../services/user";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useState } from "react";
 import Snackbar from '@mui/material/Snackbar';
 import { Email } from "@mui/icons-material";
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { IconButton } from "@mui/material";
+import Stack from "@mui/material/Stack";
 const schema = yup.object({
     Password: yup.string().required("שדה חובה").test('len', "אורך בין 2-15", x => x.length >= 2 && x.length <= 15),
     Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25", x => x.length >= 2 && x.length <= 25)
@@ -29,15 +34,21 @@ const schema = yup.object({
 export default function Login({ setOpen, Transition }) {
     const [openDialog, setOpenDialog] = React.useState(true);
     const [openSnack, setOpenSnack] = React.useState(false);
-
+    const [mail, setMail] = useState("");
     const vertical = 'top';
     const horizontal = 'center';
-
     const { register, handleSubmit, formState: { errors } } = useForm({
         mode: "onSubmit",
         resolver: yupResolver(schema)
 
     });
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
     const [msg, setMsg] = useState("");
     React.useEffect(() => {
         if (!openDialog && !openSnack) {
@@ -53,7 +64,7 @@ export default function Login({ setOpen, Transition }) {
                 setMsg(res.data.name + " טוב שחזרת ")
             }
             else
-                setMsg("מצטרים, עקב דיווח רב על תגובותיך חשבונך הושהה");
+                setMsg("מצטערים, עקב דיווח רב על תגובותיך חשבונך הושהה");
         }).catch(err => {
             setMsg(err.response.data);
         }).finally(() => {
@@ -61,9 +72,17 @@ export default function Login({ setOpen, Transition }) {
             setOpenDialog(false)
         })
     }
-    const forgetPassword=()=>{
-        // send server mail
-        // Email
+    const forgetPassword = () => {
+        console.log(mail)
+        if (mail !== "") {
+            sendEmailFromServer(mail, "שכחתי סיסמא").then(res => {
+                console.log(res)
+            }).catch(err => console.log(err))
+        }
+    }
+    const myEmail = (e) => {
+        console.log(e)
+        setMail(e.target.value);
     }
     return (<>
         <div>
@@ -78,31 +97,42 @@ export default function Login({ setOpen, Transition }) {
                 <DialogTitle>שמחים שחזרת</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        <form className="form" onSubmit={handleSubmit(save)} >
-                            <div>
-                                <Input
-                                    label="סיסמא"
-                                    {...register("Password")}
-                                    startAdornment={
-                                        <InputAdornment position="start">
-                                            <PasswordOutlined />
-                                        </InputAdornment>
-                                    } />
-                                <div className="error">{errors.Password?.message}</div>
-                                <Input
-                                    {...register("Email")}
-                                    startAdornment={
-                                        <InputAdornment position="start">
-                                            <MailOutline />
-                                        </InputAdornment>
-                                    }
-                                />
-                                <div className="error">{errors.Email?.message}</div>
-                                <span onClick={forgetPassword}>שכחתי סיסמא</span>
-                                <DialogActions >
-                                    <Button type="submit">התחבר</Button>
-                                </DialogActions>
-                            </div>
+                        <form sx={{ m: 1, width: '25ch' }} variant="standard" onSubmit={handleSubmit(save)}>
+                            <Input
+                                id="standard-adornment-password"
+                                {...register("Password")}
+                                type={showPassword ? 'text' : 'password'}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                            <div className="error">{errors.Password?.message}</div>
+                            <Input
+                                onChange={(e)=>myEmail(e)}
+                                id="standard-adornment-password"
+                                {...register("Email")}
+
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <MailOutline />
+                                    </InputAdornment>
+                                }
+                            />
+                            <div className="error">{errors.Email?.message}</div>
+                            <Stack direction="row" spacing={1}>
+                                <Button variant="outlined" onClick={forgetPassword}  >?שכחתי סיסמא</Button>
+                                <Button type="submit" variant="contained" >
+                                    התחבר
+                                </Button>
+                            </Stack>
                         </form>
                     </DialogContentText>
                 </DialogContent>

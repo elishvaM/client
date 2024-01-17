@@ -8,3 +8,7 @@ export const openingHourFromServer = (attractionId) => {
 export const updateOpeningHourFromServer = (openHour) => {
     return axios.post(`https://localhost:7114/api/OpeningHour/Update`,openHour);
 }
+
+export const deleteOpeningHourFromServer = (openHour) => {
+    return axios.post(`https://localhost:7114/api/OpeningHour/Delete`,openHour);
+}
