@@ -52,17 +52,23 @@ export default function SighIn({ open, setOpen, Transition }) {
         event.preventDefault();
     };
     const save = (details) => {
-        //אימות מייל ואם חזר חיובי להמשיך
+        details.Type = "משתמש"
+        details.UserTypeId = 1;
+        details.Status = true;
+        details.DateBorn = new Date();
+        details.oneTimePassword = "";
         sighinFromServer(details).then(res => {
             dispatch(saveUser(res.data));
-            setMsg(res.data.name+"נרשמת בהצחה,")
+            setMsg( "!נרשמת בהצלחה")
+            console.log(msg)
+            console.log(open)
+           
+        }).catch(err => { console.log(open);  setMsg(err.response.data) ; console.log(err.response.data);})
+            .finally(() => {
+                setOpenSnack(true)
+                handleClose();
 
-        }).catch(err =>  setMsg(err.response.data)).finally(() => {
-            setOpenSnack(true)
-            setOpenDialog(false)
-        })
-        mynavigate("destinations")
-        handleClose();
+            })
     }
     const handleClose = () => {
         setOpen(false);

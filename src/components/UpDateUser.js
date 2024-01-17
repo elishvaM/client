@@ -45,7 +45,7 @@ export default function UpDateUser() {
         details.Id = user.id;
         details.Type = "משתמש"
         details.UserTypeId = 1;
-        details.Stats = true;
+        details.Status = true;
         details.DateBorn = new Date();
         upDateFromServer(details).then(res => {
             dispatch(saveUser(res.data))
