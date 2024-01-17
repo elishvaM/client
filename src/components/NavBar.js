@@ -154,6 +154,15 @@ export default function NavBar() {
                       <Button
                         className="links-nav"
                         size="small"
+                        onClick={() => mynavigate("managementItems")}
+                        variant="filled">
+                        <ContactSupportOutlinedIcon /> ניהול פריטים
+                      </Button>
+                    </li>
+                    <li className="button-nav">
+                      <Button
+                        className="links-nav"
+                        size="small"
                         onClick={() => mynavigate("addAttraction")}
                         variant="filled">
                         <ContactSupportOutlinedIcon />הוספת אטרקציה

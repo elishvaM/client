@@ -21,7 +21,7 @@ export const DeleteAttractionListProductFromServer = (productId, attractionListI
     return axios.post(`https://localhost:7114/api/AttractionListProduct/Delete/${productId}/${attractionListId}`);  
     
 }
-export const GetAllStorageTypesFromServer = (productId, attractionListId) => {
+export const GetAllStorageTypesFromServer = () => {
     return axios.get(`https://localhost:7114/api/StorageType/GetAll`);  
     
 }
@@ -31,3 +31,4 @@ export const AddListAttractionListProductFromServer = (attractionListProduct) =>
     return axios.post(`https://localhost:7114/api/AttractionListProduct/AddList`, attractionListProduct);  
     
 }
+

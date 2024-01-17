@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 // import Typography from '@mui/material/Typography';
 // import { CardActionArea } from '@mui/material';
 import { useState } from 'react';
-import "../StyleComponents/Filter.scss";
+import "../StyleComponents/Item.scss";
 import Item from './Item';
 import { useSelector, useDispatch } from 'react-redux';
 // import { saveItems } from '../store/actions/item';
