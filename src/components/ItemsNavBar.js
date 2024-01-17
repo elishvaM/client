@@ -62,7 +62,7 @@ export default function ItemsNavBar(){
 
     return( <>
     {/* ?? צריך בשורה הבאה את הצבע רקע בעצם הוא שייך לחיצים הקטנים */}
-    <Box sx={{ maxWidth: { xs: 320, sm: 680 }, bgcolor: 'background.paper',  mx:"auto" , display:"block", position:"absolute",left:"1rem"}}>
+    <Box sx={{ maxWidth: { xs: 320, sm: 680 }, bgcolor: 'background.paper',  mx:"auto" , display:"block", position:"absolute", top:"7rem"}}>
       <Tabs
         value={value}
         //key={}//???  
@@ -80,20 +80,6 @@ export default function ItemsNavBar(){
         />
           
       )}
-
-        {/* <Tab label="רפואי" icon={<FavoriteIcon />} sx={{color:"white"}} />
-        <Tab label="אביזר" icon={<ArchiveIcon />} name={1} value="ddddddddd"
-             onClick={(x)=>{
-              console.log("fgg", x.value)
-              setDisplay(1);
-
-             }}
-                           //???
-              // setDisplay(x.label);
-              sx={{color:"white"}}/> */}
-        
-        {/* <Tab label="אסטטיקה" icon={<RestoreIcon />} sx={{color:"white"}}/> */}
-        {/* <Tab label="Item Five" icon={<FavoriteIcon />} sx={{color:"white"}}/> */}
       </Tabs>
       {/* אם שינתי בסטייט לערך השווה לערך שהיה בו מקודם הסטייט לא מתעדכן??? */}
     {value>0?<><Items type={name} setValuefrom={setValue} valuefrom={value}/>

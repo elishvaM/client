@@ -77,7 +77,8 @@ export default function MyList() {
     }
   }
   return (<>
-    <ItemsNavBar />
+  
+    <ItemsNavBar/>
     <div className='list'>
       <ItemsOptions setColorDelete={setColorDelete} itemsSelectedNew={itemsSelectedNew} />
       <ul className='ul-myitem'>

@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import "../StyleComponents/Filter.scss";
+import "../StyleComponents/Item.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToMyList } from "../store/actions/item";
 import { removeItemFromMyList } from "../store/actions/item";

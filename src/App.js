@@ -21,6 +21,9 @@ import { NavBarPersonalArea } from './components/NavBarPersonalArea';
 import { useSelector } from 'react-redux';
 import EditedLists from './components/EditedLists';
 import ListsNavBar from './components/ListsNavBar';
+import Manage from './components/Manage';
+import ManagementItems from './components/ManagementItems';
+
 // app first page
 function App() {
   const isInPersonalArea = useSelector(s=> s.user.isInPersonalArea);
@@ -51,8 +54,10 @@ function App() {
         </Route>
         
         {/* מנהל */}
-        <Route path="managementUsers" element={<><ManagementUsers /></>} />
-        <Route path="managementComments" element={<><ManagementComments /></>} />
+        <Route path="managementUsers" element={<ManagementUsers />} />
+        <Route path="managementItems" element={<ManagementItems />} />
+        <Route path="m" element={<Manage />} />
+        <Route path="managementComments" element={<ManagementComments />} />
         <Route path="editedlist" element={<EditedList/>} />
 
         
