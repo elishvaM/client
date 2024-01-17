@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const loginFromServer = (user) => {
+    console.log("uuuuuu",user)
     return axios.post(`https://localhost:7114/api/User/LogIn`, user);
 }
 export const sighinFromServer = (user) => {
@@ -19,8 +20,8 @@ export const changeTypeFromServer = (user) => {
 export const upDateFromServer = (user) => {
     return axios.post(`https://localhost:7114/api/User/UpDateUser`, user)
 }
-export const forgetPasswordFromServer = (mail) => {
-    return axios.post(`https://localhost:7114/api/User/UpDateUser`, mail)
+export const forgetPasswordFromServer = (password,mail) => {
+    return axios.post(`https://localhost:7114/api/User/ForgetPassword/${password}/${mail}`)
 }
 export const sendEmailFromServer = (to,subject) => {
     return axios.post(`https://localhost:7114/api/User/SendEmail/${to}/${subject}`)
