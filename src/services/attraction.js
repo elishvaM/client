@@ -11,4 +11,7 @@ export const AddLovedAttractionFromServer = (lovedAttraction) => {
 export const upDateAttractionFromServer = (attraction) => {
     return axios.post(`https://localhost:7114/api/Attraction/Update`,attraction);   
 }
+export const addAttractionFromServer = (attraction) => {
+    return axios.post(`https://localhost:7114/api/Attraction/Add`,attraction);   
+}
 

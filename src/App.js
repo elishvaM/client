@@ -23,7 +23,7 @@ import EditedLists from './components/EditedLists';
 import ListsNavBar from './components/ListsNavBar';
 import Manage from './components/Manage';
 import ManagementItems from './components/ManagementItems';
-
+import UpDateUser from './components/UpDateUser';
 // app first page
 function App() {
   const isInPersonalArea = useSelector(s=> s.user.isInPersonalArea);
@@ -50,6 +50,7 @@ function App() {
 
         <Route path="mypage" element={<MyPage />} >
           <Route path='love' element={<LovedAttractions />} />
+          <Route path='update' element={<UpDateUser />} />
           <Route path="mytrip/:tripId" element={<MyTrip />} /> 
         </Route>
         

@@ -4,16 +4,15 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Details } from '@mui/icons-material';
+import { addAttractionFromServer } from '../services/attraction';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -47,11 +46,14 @@ export default function AddAttraction() {
   });
   const addAttraction = (details) => {
     details.IsConfirm = true;
-    details.Img=file;
-    details.Img3=file;
-    details.Img2=file;
+    details.Img = file;
+    details.Img3 = file;
+    details.Img2 = file;
     details.Stautus = true;
-    console.log("ddd",details)
+    addAttractionFromServer(details).then(res => {
+      console.log(res);
+    }).catch(err => console.log(err))
+    console.log("ddd", details)
 
     // handleClose();
   }
@@ -105,7 +107,7 @@ export default function AddAttraction() {
             <label htmlFor="raised-button-file">
               <img src={file} style={{ width: 70, height: 70 }}
                 onChange={(e) => {
-                  console.log("eeeeee",e.target.files[0])
+                  console.log("eeeeee", e.target.files[0])
                   setFile(URL.createObjectURL(e.target.files[0]))
                 }}
               />
@@ -152,7 +154,7 @@ export default function AddAttraction() {
                   setFile3(URL.createObjectURL(e.target.files[0]))
                 }}
               />
-            </label> */} 
+            </label> */}
             <Button autoFocus type="submit">
               הוסף
             </Button>

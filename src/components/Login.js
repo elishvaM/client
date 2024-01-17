@@ -5,10 +5,8 @@ import * as React from 'react';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutline from '@mui/icons-material/MailOutline';
-import PasswordOutlined from '@mui/icons-material/PasswordOutlined';
 import { saveUser } from "../store/actions/user";
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -18,8 +16,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useState } from "react";
 import Snackbar from '@mui/material/Snackbar';
-import { Email } from "@mui/icons-material";
-import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { IconButton } from "@mui/material";
@@ -29,8 +25,6 @@ const schema = yup.object({
     Email: yup.string().required("שדה חובה").test('len', "אורך בין 2-25", x => x.length >= 2 && x.length <= 25)
         .email('מייל לא תקין'),
 }).required();
-
-// 
 export default function Login({ setOpen, Transition }) {
     const [openDialog, setOpenDialog] = React.useState(true);
     const [openSnack, setOpenSnack] = React.useState(false);
@@ -38,10 +32,6 @@ export default function Login({ setOpen, Transition }) {
     const [password, setPassword] = useState("");
     const [isForget, setIsForget] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
-    const [user, setUser] = useState({});
-
-
-
     const vertical = 'top';
     const horizontal = 'center';
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -138,7 +128,7 @@ export default function Login({ setOpen, Transition }) {
                                 <div className="error">{errors.Password?.message}</div>
                                 <Input
                                     id="standard-adornment-password"
-                                    onChange={myEmail}
+                                    {...register("Email")}
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <MailOutline />
