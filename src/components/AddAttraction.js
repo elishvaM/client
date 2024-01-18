@@ -13,6 +13,10 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Details } from '@mui/icons-material';
 import { addAttractionFromServer } from '../services/attraction';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import {personStateFromServer}  from '../services/personState';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -24,11 +28,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const schema = yup.object({
   Name: yup.string().required("שדה חובה").test('len', "אורך בין 2-50", x => x.length >= 2 && x.length <= 50),
   Desc: yup.string().required("שדה חובה").test('len', "אורך בין 10-400", x => x.length >= 10 && x.length <= 400),
-  State: yup.string().required("שדה חובה"),
   WebsiteAddress: yup.string().required("שדה חובה"),
   Type: yup.string().required("שדה חובה"),
-  Land: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
-  City: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
+  PersonStateId:yup.number().required("שדה חובה"),
   Img: yup.string().required("שדה חובה")
 }).required();
 export default function AddAttraction() {
@@ -36,7 +38,21 @@ export default function AddAttraction() {
   let [file, setFile] = useState();
   let [file2, setFile2] = useState();
   let [file3, setFile3] = useState();
+  const [type, setType] = useState();
+  const [stateId, setStateId] = useState();
+  const [personState, setPersonState] = useState([]);
 
+  React.useEffect(() => {
+    personStateFromServer().then(res => {
+      setPersonState(res.data);
+    }).catch(err => console.log(err))
+
+
+  }, [])
+  const handleChange = (event) => {
+    alert(event.target.value)
+     setStateId(event.target.value);
+  };
   const handleClose = () => {
     setOpen(false);
     // setOpenAddItem(false)
@@ -122,8 +138,21 @@ export default function AddAttraction() {
               placeholder={errors.City ? errors.City.message : "עיר"} />
             <TextField id="standard-basic" label="גיל" variant="standard" {...register("State")} sx={{ margin: 0.5 }}
               placeholder={errors.State ? errors.State.message : "גיל"} />
-            <TextField id="standard-basic" label="סוג" variant="standard" {...register("Type")} sx={{ margin: 0.5 }}
-              placeholder={errors.Type ? errors.Type.message : "סוג"} />
+            <InputLabel id="demo-simple-select-label">סוג</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              // value={personState[stateId]}
+              label="סוג"
+              value={stateId}
+              onChange={handleChange}
+              {...register("PersonStateId")}
+            >
+              {personState.length > 0 ? personState.map(x =>
+                <MenuItem value={x.id}>{x.state}</MenuItem>)
+                : null}
+            </Select>
+
             <input
               accept={file}
               {...register("Img")}
