@@ -14,6 +14,15 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import "../StyleComponents/ManagementUsers.scss";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+
+
 export default function ManagementUsers() {
   const [users, setUsers] = useState([]);
 
@@ -42,6 +51,12 @@ export default function ManagementUsers() {
     setSelectedIndex(index);
     setOpen(false);
   };
+//   const filter = (e) => {
+//     const copy = [...users];
+//     if (e == true) {
+// copy.filter()
+//     }
+//   }
   const handleMenuItemClick = (event, index, userId) => {
     const user = { id: open, typeId: options[selectedIndex].id }
     changeTypeFromServer(user).then(res => {
@@ -73,14 +88,13 @@ export default function ManagementUsers() {
 
 
   return (<>
-    <ul className="mn-users">
-      {users.map(user => <li key={user.id}>
+    {/* <ul className="mn-users"> */}
+    {/* {users.map(user => <li key={user.id}>
         <div>
 
 
         {user.name} {user.email} 
         {user.status == false ?<h5>לא פעיל</h5> :<h5> פעיל</h5> }   
-          <Button sx={{width:"40px"}} onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
 
           {/* {user.status === false ? <FormControlLabel
                     control={
@@ -91,7 +105,7 @@ export default function ManagementUsers() {
                         <Switch checked={true} onChange={handleChange(user)} />
                     }
                 />} */}
-          <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
+    {/* <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
             <Button>{user.type}</Button>
             <Button
               size="small"
@@ -148,7 +162,95 @@ export default function ManagementUsers() {
 
       </li>)}
 
-    </ul>
+    </ul> */}
+    {/* <Button onClick={filter(true)}>פעילים</Button> */}
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>משתמשים</TableCell>
+            <TableCell align="right">סטטוס</TableCell>
+            <TableCell align="right">מייל</TableCell>
+            <TableCell align="right">סוג</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {users.map((user) => (
+            <TableRow
+              key={user.name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {user.name}
+              </TableCell>
+              {user.status == false ? <TableCell>לא פעיל</TableCell> : <TableCell> פעיל </TableCell>}
+              <TableCell><Button sx={{ width: "40px" }} onClick={() => handleChange({ user })} >שינוי סטטוס</Button></TableCell>
+
+              <TableCell align="right">{user.email}</TableCell>
+              <TableCell align="right">   <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
+                <Button>{user.type}</Button>
+                <Button
+                  size="small"
+                  aria-controls={open ? 'split-button-menu' : undefined}
+                  aria-expanded={open ? 'true' : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={() => handleToggle(user.id)}
+                >
+                  <ArrowDropDownIcon />
+                </Button>
+              </ButtonGroup>
+                <Popper
+                  sx={{
+                    zIndex: 1,
+                  }}
+                  open={open}
+                  anchorEl={anchorRef.current}
+                  role={undefined}
+                  transition
+                  disablePortal
+                >
+                  {({ TransitionProps, placement }) => (
+                    <Grow
+                      {...TransitionProps}
+                      style={{
+                        transformOrigin:
+                          placement === 'bottom' ? 'center top' : 'center bottom',
+                      }}
+                    >
+                      <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList id="split-button-menu" autoFocusItem>
+                            {options.map((option, index) => (
+                              <MenuItem
+                                key={option.id}
+                                disabled={index === 2}
+                                selected={index === selectedIndex}
+                                onClick={(event) => handleMenuItemClick(event, index, user.id)}
+                              >
+                                {option.type}
+                              </MenuItem>
+                            ))}
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper></TableCell>
+              <TableCell align="right">{user.status}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+
+
+
+
+
+
+
+
 
 
   </>)
