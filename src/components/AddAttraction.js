@@ -4,16 +4,19 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Details } from '@mui/icons-material';
+import { addAttractionFromServer } from '../services/attraction';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import {personStateFromServer}  from '../services/personState';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -24,19 +27,32 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 const schema = yup.object({
   Name: yup.string().required("שדה חובה").test('len', "אורך בין 2-50", x => x.length >= 2 && x.length <= 50),
-  Desc: yup.string().required("שדה חובה").test('len', "אורך בין 10-4000", x => x.length >= 10 && x.length <= 4000),
-  State: yup.string().required("שדה חובה"),
+  Desc: yup.string().required("שדה חובה").test('len', "אורך בין 10-400", x => x.length >= 10 && x.length <= 400),
+  WebsiteAddress: yup.string().required("שדה חובה"),
   Type: yup.string().required("שדה חובה"),
-  Land: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
-  City: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
+  PersonStateId:yup.number().required("שדה חובה"),
+  Img: yup.string().required("שדה חובה")
 }).required();
 export default function AddAttraction() {
   const [open, setOpen] = React.useState(true);
   let [file, setFile] = useState();
-  const addAttraction = (details) => {
-    console.log(details)
-    handleClose();
-  }
+  let [file2, setFile2] = useState();
+  let [file3, setFile3] = useState();
+  const [type, setType] = useState();
+  const [stateId, setStateId] = useState();
+  const [personState, setPersonState] = useState([]);
+
+  React.useEffect(() => {
+    personStateFromServer().then(res => {
+      setPersonState(res.data);
+    }).catch(err => console.log(err))
+
+
+  }, [])
+  const handleChange = (event) => {
+    alert(event.target.value)
+     setStateId(event.target.value);
+  };
   const handleClose = () => {
     setOpen(false);
     // setOpenAddItem(false)
@@ -45,6 +61,46 @@ export default function AddAttraction() {
     mode: "onSubmit",
     resolver: yupResolver(schema)
   });
+  const addAttraction = (details) => {
+
+
+    // {
+    //   "id": 0,
+    //   "name": "string",
+    //   "desc": "string",
+    //   "img": "string",
+    //   "img2": "string",
+    //   "img3": "string",
+    //   "websiteAddress": "string",
+    //   "isConfirm": true,
+    //   "address": {
+    //     "id": 0,
+    //     "land": "string",
+    //     "city": "string",
+    //     "street": "string",
+    //     "number": 0
+    //   },
+    //   "status": true,
+    //   "personStateId": 0,
+    //   "typeId": 0,
+    //   "addressId": 0,
+    //   "countryId": 0,
+    //   "state": "string",
+    //   "type1": "string"
+    // }
+    alert("kkkk")
+    details.IsConfirm = true;
+    details.Img = file;
+    details.Img3 = file;
+    details.Img2 = file;
+    details.Status = true;
+    addAttractionFromServer(details).then(res => {
+      console.log(res);
+    }).catch(err => console.log(err))
+    console.log("ddd", details)
+
+    // handleClose();
+  }
 
   return (
     <div>
@@ -53,41 +109,53 @@ export default function AddAttraction() {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <form onSubmit={handleSubmit(addAttraction)}>
-          <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            הוספת אטרקציה
-          </DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <DialogContent dividers>
+        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+          הוספת אטרקציה
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          <form onSubmit={handleSubmit(addAttraction)}>
             <TextField id="outlined-basic" label="שם האטרקציה" variant="outlined" {...register("Name")} sx={{ margin: "0px 20px 10px 0px" }}
               placeholder={errors.Name ? errors.Name.message : "שם"} />
             <TextField id="filled-basic" label="תיאור" variant="filled" {...register("Desc")}
               placeholder={errors.Desc ? errors.Desc.message : "תיאור קצר"} />
+            <TextField id="standard-basic" label="כתובת אתר" variant="standard" {...register("WebsiteAddress")} sx={{ margin: 0.5 }}
+              placeholder={errors.WebsiteAddress ? errors.WebsiteAddress.message : "כתובת אתר"} />
             <TextField id="standard-basic" label="ארץ" variant="standard" {...register("Land")} sx={{ margin: 0.5 }}
               placeholder={errors.Land ? errors.Land.message : "ארץ"} />
             <TextField id="standard-basic" label="עיר" variant="standard" {...register("City")} sx={{ margin: 0.5 }}
               placeholder={errors.City ? errors.City.message : "עיר"} />
-            {/* {file === null ?
-            <input type='file' label="kkk" onChange={(e) => {
-              setFile(URL.createObjectURL(e.target.files[0]));
-              { console.log(file) }
-            }}
-              name="chooseImg" /> : null} */}
-            {/* <img src={file} style={{ width: 70, height: 70 }} /> */}
+            <TextField id="standard-basic" label="גיל" variant="standard" {...register("State")} sx={{ margin: 0.5 }}
+              placeholder={errors.State ? errors.State.message : "גיל"} />
+            <InputLabel id="demo-simple-select-label">סוג</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              // value={personState[stateId]}
+              label="סוג"
+              value={stateId}
+              onChange={handleChange}
+              {...register("PersonStateId")}
+            >
+              {personState.length > 0 ? personState.map(x =>
+                <MenuItem value={x.id}>{x.state}</MenuItem>)
+                : null}
+            </Select>
+
             <input
               accept={file}
-              // className={classes.input}
+              {...register("Img")}
               style={{ display: 'none' }}
               onChange={(e) => {
                 setFile(URL.createObjectURL(e.target.files[0]))
@@ -97,21 +165,18 @@ export default function AddAttraction() {
               type="file"
             />
             <label htmlFor="raised-button-file">
-              <Button label="בחר תמונה" variant="raised" component="span"
+              <img src={file} style={{ width: 70, height: 70 }}
                 onChange={(e) => {
-                  console.log(e)
+                  console.log("eeeeee", e.target.files[0])
                   setFile(URL.createObjectURL(e.target.files[0]))
-                }} />
-              בחר תמונה
+                }}
+              />
             </label>
-            <img src={file} style={{ width: 70, height: 70 }} />
-          </DialogContent>
-          <DialogActions>
-            <Button autoFocus type='submit' >
+            <Button type="submit" >
               הוסף
             </Button>
-          </DialogActions>
-        </form>
+          </form>
+        </DialogContent>
       </BootstrapDialog>
     </div>
   );

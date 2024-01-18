@@ -197,13 +197,8 @@ export default function Destination() {
         <ul className="ul-dest">
           {attractions.length !== 0 ? (
             <div>
-              {selectType}|
-              {selectSatte}|
-              {myLoaction}|
               {attractions
-                //מסנן טוב אבל לא מביא בהתחלה את האטרקציה
                 .filter(x =>
-
                 ((!myLoaction || x.address.land == myLoaction) &&
                   (!selectType.length || selectType?.includes(x.type)) &&
                   (!selectSatte.length || selectSatte?.includes(x.state))

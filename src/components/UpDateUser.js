@@ -1,4 +1,5 @@
 import * as React from 'react';
+import "../StyleComponents/UpDateUser.scss";
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -9,7 +10,7 @@ import { OutlinedInput } from '@mui/material';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
-import { Button } from '@mui/base';
+import Button from '@mui/material/Button';
 import { upDateFromServer } from '../services/user';
 import { useDispatch } from 'react-redux';
 import { saveUser } from '../store/actions/user';
@@ -44,13 +45,13 @@ export default function UpDateUser() {
         details.Id = user.id;
         details.Type = "משתמש"
         details.UserTypeId = 1;
-        details.Stats = true;
+        details.Status = true;
         details.DateBorn = new Date();
         upDateFromServer(details).then(res => {
             dispatch(saveUser(res.data))
             let timerInterval;
             Swal.fire({
-                title: "הפרטים עודכנו בהצלחה"  ,
+                title: "הפרטים עודכנו בהצלחה",
                 icon: "success",
                 html: "SmartLists צוות ",
                 timer: 2000,
@@ -76,30 +77,28 @@ export default function UpDateUser() {
         }).catch(err => console.log(err))
     }
     return (<>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <div>
-
-
-                {/* <div className="error"></div> */}
-
-
-            </div>
-        </Box>
         {/* טופס מעוצב */}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '45ch' }} onSubmit={handleSubmit(update)}>
+        <Box  sx={{
+            display: 'flex',
+            flexWrap: "wrap",
+            width: '45ch',
+            margin: "auto",
+            marginTop:"10vh",
+            textAlign:"center"
+        }} onSubmit={handleSubmit(update)}>
             <form>
                 <div>
                     <OutlinedInput
                         sx={{ m: 1, mt: 0, width: '20ch' }}
                         id="outlined-adornment-password"
-                        placeholder={errors.Name? errors.Name.message : "שם"}
+                        placeholder={errors.Name ? errors.Name.message : "שם"}
                         defaultValue={user.name}
                         {...register("Name")}
                     />
                     <FormControl sx={{ m: 1, mt: 0, width: '20ch', diraction: "rtl" }} variant="outlined">
                         <OutlinedInput
                             id="outlined-adornment-password"
-                            placeholder={errors.Phone? errors.Phone.message : "טלפון"}
+                            placeholder={errors.Phone ? errors.Phone.message : "טלפון"}
                             defaultValue={user.phone}
                             {...register("Phone")}
                         />
@@ -107,7 +106,7 @@ export default function UpDateUser() {
                     <FormControl sx={{ m: 1, width: '42ch' }} variant="outlined">
                         <OutlinedInput
                             id="outlined-adornment-password"
-                            placeholder={errors.Email? errors.Email.message : "מייל"}
+                            placeholder={errors.Email ? errors.Email.message : "מייל"}
                             defaultValue={user.email}
                             {...register("Email")}
                         />
@@ -122,7 +121,7 @@ export default function UpDateUser() {
                             id="filled-adornment-password"
                             type={showPassword ? 'text' : 'password'}
                             defaultValue={user.password}
-                            placeholder={errors.Password? errors.Password.message : "סיסמא"}
+                            placeholder={errors.Password ? errors.Password.message : "סיסמא"}
                             {...register("Password")}
                             endAdornment={
                                 <InputAdornment position="end">
@@ -137,18 +136,10 @@ export default function UpDateUser() {
                                 </InputAdornment>
                             }
                         />
-                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker']}>
-                                <DatePicker label="תאריך לידה"
-                                    defaultValue={dayjs(user.dateBorn)}
-                                    {...register("DateBorn")}
-                                />
-                            </DemoContainer>
-                        </LocalizationProvider> */}
                     </FormControl>
 
                 </div>
-                <Button variant="contained" type='submit'> שמור</Button>
+                <Button variant="contained" type='submit' sx={{margin:"auto"}}> שמור</Button>
             </form>
         </Box>
     </>)
