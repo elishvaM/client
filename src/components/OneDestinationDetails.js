@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import {deleteOpeningHourFromServer}  from "../services/openingHour";
+import { deleteOpeningHourFromServer } from "../services/openingHour";
 import { Link } from "react-router-dom"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -9,8 +9,8 @@ import { addCommentFromServer, deleteFromServer, getAllCommentsFromServer } from
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import OneComment from "./OneComment";
-import {openingHourFromServer} from "../services/openingHour";
-import {updateOpeningHourFromServer}  from "../services/openingHour";
+import { openingHourFromServer } from "../services/openingHour";
+import { updateOpeningHourFromServer } from "../services/openingHour";
 import Tooltip from "@mui/material/Tooltip";
 import CreateIcon from "@mui/icons-material/Create";
 import Swal from "sweetalert2";
@@ -23,6 +23,7 @@ const TimeInput = ({ openingHour1 }) => {
 }
 export default function OneDestinationDetails(onLoved) {
     const chosenAttraction = useSelector(state => state.attraction.selectedAttraction);
+
     const [comments, setComments] = React.useState([]);
     const [comment, setComment] = React.useState({});
     const [msg, setMsg] = React.useState();
@@ -151,7 +152,7 @@ export default function OneDestinationDetails(onLoved) {
                 <IconButton aria-label="add to favorites" >
                     <FavoriteIcon color={chosenAttraction.isLoved ? "error" : "none"} />
                 </IconButton> : null}
-            <img src={`/imgs/att/${chosenAttraction.img}`} sx={{ width: 50 }} alt={chosenAttraction.name} />
+            {/* <img src={`/imgs/att/${chosenAttraction.img}`} sx={{ width: 50 }} alt={chosenAttraction.name} /> */}
             <a href={chosenAttraction.websiteAddress} target="_blank">לאתר</a>
             <h2>{chosenAttraction.address.city},{chosenAttraction.address.land}</h2>
             <h3>שעות פתיחה</h3>
@@ -159,25 +160,29 @@ export default function OneDestinationDetails(onLoved) {
                 <div key={x.id}>
                     {x.key}
                     {openingHours?.filter(y => y.day == x.id).map(hour => <div>
-                        <Tooltip title="ערוך">
-                            <IconButton size="medium"
-                            >
-                                <CreateIcon onClick={() => updateHour(hour)} />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="מחק">
-                            <IconButton size="medium"
-                            >
-                                <DeleteIcon onClick={() => deleteHour(hour)} />
-                            </IconButton>
-                        </Tooltip>
+                        {user?.userTypeId === 2 ? <>
+                            <Tooltip title="ערוך">
+                                <IconButton size="medium"
+                                >
+                                    <CreateIcon onClick={() => updateHour(hour)} />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="מחק">
+                                <IconButton size="medium"
+                                >
+                                    <DeleteIcon onClick={() => deleteHour(hour)} />
+                                </IconButton>
+                            </Tooltip>
+                        </> : null}
                         {hour.openingHour1} - {hour.closingHour} </div>)}
-                    <Tooltip title="הוסף">
-                        <IconButton size="medium"
-                        >
-                            <MoreTimeIcon onClick={() => updateHour({ day: x.id, isOpening: true, attractionId: chosenAttraction.id, id: 0 })} />
-                        </IconButton>
-                    </Tooltip>
+                    {user?.userTypeId === 2 ? <>
+                        <Tooltip title="הוסף">
+                            <IconButton size="medium"
+                            >
+                                <MoreTimeIcon onClick={() => updateHour({ day: x.id, isOpening: true, attractionId: chosenAttraction.id, id: 0 })} />
+                            </IconButton>
+                        </Tooltip>
+                    </> : null}
                 </div>
             )}
             {/* תגובה */}

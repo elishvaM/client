@@ -54,7 +54,7 @@ export default function OneDestination({ attraction }) {
             <div className="photo-erea">
               <CardMedia
                 sx={{ height: 100 }}
-                image={`/imgs/att/${attraction.img}`}
+                // image={`/imgs/att/${attraction.img}`}
                 title={attraction.name}
               />
             </div>
