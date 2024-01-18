@@ -27,13 +27,13 @@ import CommentIcon from '@mui/icons-material/Comment';
 import { DisplaySettingsOutlined } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
-function refreshMessages() {
-    const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
+// function refreshMessages() {
+//     const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
   
-    return Array.from(new Array(50)).map(
-      () => messageExamples[getRandomInt(messageExamples.length)],
-    );
-  }
+//     return Array.from(new Array(50)).map(
+//       () => messageExamples[getRandomInt(messageExamples.length)],
+//     );
+// }
 export default function ItemsNavBar(){
     const [value, setValue] = React.useState(0);
     const [name, setName] = React.useState("");
@@ -74,7 +74,7 @@ export default function ItemsNavBar(){
         aria-label="scrollable force tabs example"
         sx={{backgroundColor:"rgb(5, 30, 52)", color:"white", width:"82vw"}}
       >
-      {productTypes.map(i=>
+      {productTypes?.map(i=>
         <Tab label={i.type} icon={<RestoreIcon />} sx={{color:"white"}} value={i.id}
          // name={i.Type} key={i.Id} 
         />
@@ -89,18 +89,3 @@ export default function ItemsNavBar(){
      </>
     )
 }
-
-const messageExamples = [
-    {
-      primary: 'Brunch this week?',
-      secondary: "I'll be in the neighbourhood this week. Let's grab a bite to eat",
-      person: '/static/images/avatar/5.jpg',
-      
-    },
-    {
-      primary: 'Birthday Gift',
-      secondary: `Do you have a suggestion for a good present for John on his work
-        anniversary. I am really confused & would love your thoughts on it.`,
-      person: '/static/images/avatar/1.jpg',
-    }
-]

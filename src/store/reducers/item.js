@@ -26,11 +26,17 @@ const itemReducer = (state = initialState, action) => {
                 itemsSelected: itemsSelected,
                 allitems:allitems2
             }
-        case types.UPDATE_ITEMS_SELECTED:
-            let arr2 = [...action.payload] //???העתקתי כי אני עוד משתמשת במערך copyשלא יהיה בעיות ..
+        case types.UPDATE_ITEM:
+            delete action.payload.idRow; delete action.payload.edit; delete action.payload.isNew;
+            action.payload.storageType = state.storageTypes.find(i=> i.type == action.payload.storageType).type;
+            action.payload.productType = state.productTypes.find(i=> i.type == action.payload.productType).type;
+            const updated =  state.allitems.map(i=>i.id == action.payload.id?
+                {...action.payload,userId:i.userId,status:i.status}:{...i});
+                console.log("reduxxxxxxxxxxxxx");
+                console.log(updated)
             return {
                 ...state,
-                itemsSelected: arr2
+                allitems: updated
             }
         case types.SAVE_ITEMS:
             const items = action.payload.map(item=> ({...item, isSelected: 
@@ -41,17 +47,15 @@ const itemReducer = (state = initialState, action) => {
                 allitems: items
             }
         case types.ADD_ITEM:
-            let arr4 = [...state.allitems, action.payload]//??? need its id from the data base
-
             return {
                 ...state,
-                allitems: arr4
+                allitems: [...state.allitems, action.payload]
             }
         case types.REMOVE_ITEM:
-            // let arr5 =
+            const x = state.allitems.filter(i => i.id != action.payload)
             return {
                 ...state,
-                allitems: arr2
+                allitems: x
             }
         case types.SAVE_PRODUCT_TYPES:
             return {
@@ -73,7 +77,12 @@ const itemReducer = (state = initialState, action) => {
                 ...state,
                 itemsSelected: [...state.itemsSelected, ...action.payload] 
             }
-        //}
+            case types.DELETE_MANY_ITEMS:
+        
+                return {
+                    ...state,
+                    itemsSelected: [...state.itemsSelected, ...action.payload] 
+                }
         default: { return state }
     }
 }

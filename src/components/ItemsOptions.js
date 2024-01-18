@@ -5,9 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import { useState } from 'react';
 import "../StyleComponents/ItemsOptions.scss"
 import { useDispatch, useSelector } from 'react-redux';
-import { updateItemsSelected } from '../store/actions/item';
-
-
+// import { updateItemsSelected } from '../store/actions/item';
 import * as React from 'react';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
@@ -54,7 +52,7 @@ export default function ItemsOptions({ setColorDelete, itemSelectedNew }) {
   let dispatch = useDispatch()
   const deleteRealy = () => {
     console.log("FFFf", itemSelectedNew)
-    dispatch(updateItemsSelected(itemSelectedNew));
+    // dispatch(updateItemsSelected(itemSelectedNew));
     handleClose();
     // copy = [] // מרוקנת לפעם הבאה
     // dispatch(removeItem(item.Id))
@@ -93,7 +91,7 @@ export default function ItemsOptions({ setColorDelete, itemSelectedNew }) {
 
         <AddIcon color="primary" sx={{
           border: "2px solid rgb(217, 214, 214)",
-          borderRadius: 3, padding: 0.7
+          borderRadius: 3, padding: 0.7,
         }} onClick={() => setOpenAddItem(true)} />
       </CardActions>
     </div>

@@ -20,10 +20,9 @@ export default function ListsNavBar(){
     const mynavigate = useNavigate()
     const [othersLists, setOthersLists] = React.useState([]);
     useEffect(()=>{
-        GetAttractionListByAttractionIdFromServer(attractionId,currentAttractionListId).then(res=>
-           {setOthersLists(res.data);
-           console.log("opoooooooo", res.data)}
-        ).catch(err=>"err "+err)
+      GetAttractionListByAttractionIdFromServer(attractionId,currentAttractionListId).then(res=>
+        setOthersLists(res.data)
+     ).catch(err=>"err "+err)
     },[])
     const [open, setOpen] = React.useState(true);
 
@@ -56,7 +55,7 @@ export default function ListsNavBar(){
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
 
-      {othersLists.map(list=>
+      {othersLists.length>0?othersLists.map(list=>
       <Collapse in={open}    timeout="auto" unmountOnExit>
         {/* <List component="div" disablePadding> ??? להוסיף*/}
           <ListItemButton key={list.id} sx={{ pl: 4 }}  onClick={()=>mynavigate('editedlist', { state: list })}>
@@ -67,7 +66,7 @@ export default function ListsNavBar(){
           </ListItemButton>
         {/* </List> */}
       </Collapse>
-      )}
+      ):"אין רשימות קיימות"}
     </List>
     <Outlet/>
     </>)

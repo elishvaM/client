@@ -8,6 +8,7 @@ import { saveItems, saveItemsSelected, saveProductTypes } from '../store/actions
 import { useDispatch } from 'react-redux';
 import { getAllProducts, GetAttractionListProductByAttractionListId, getAllProductTypes } from "../services/item";
 import { useParams } from 'react-router-dom';
+import UserAttractionList from "./UserAttractionList";
 import EditedLists from './EditedLists';
 export default function MyList() {
   //////////מיובא
@@ -47,23 +48,17 @@ export default function MyList() {
   const [itemsSelectedNew, setItemsSelectedNew] = useState(itemsSelected)
   let [colorDelete, setColorDelete] = useState(false);//לאפשר לצבוע פריטים למחיקה אך עוד לא למחוק
   React.useEffect(() => {
-    if (allitems.length === 0) {
-      GetAttractionListProductByAttractionListId(id).then(res => {
-        console.log("fuul product to my attraction list")
-        console.log(res.data)
-        dispatch(saveItemsSelected(res.data))
-      }).catch(error => { console.log(error) })
+     // if (allitems.length == 0) {
       getAllProducts().then(res => {
         //קריאה לשרת להביא כל המוצרים אם המערך לא ריק 
         //צריך לשנות שזה לא יקרא כל פעם!!! זה צריך להיות כנראה ברדיוסר
-        //
         dispatch(saveItems(res.data))
       }
       ).catch(error => { console.log(error) })
       getAllProductTypes().then(res => {
         dispatch(saveProductTypes(res.data))
       }).catch(error => { console.log(error) })
-    }
+   // }
   }, [])//allitems.length, dispatch//??? מה זה והאם הוא עושה לפי הסדר כיוון שקודם צריך לשמור פריטים שנבחרו
   //??? יותר מידי קריאות שרת
 
@@ -79,55 +74,9 @@ export default function MyList() {
   return (<>
   
     <ItemsNavBar/>
-    <div className='list'>
       <ItemsOptions setColorDelete={setColorDelete} itemsSelectedNew={itemsSelectedNew} />
-      <ul className='ul-myitem'>
-        {itemsSelected.map((item) =>
-          <li className="li-myitem"><Beauty item={item} colorDelete={colorDelete}
-            deleteItemSelected={() => deleteItemSelected(item, "del")}
-            setDone={() => deleteItemSelected(item, "done")}
-            itemsSelectedNew={itemsSelectedNew} setItemsSelectedNew={setItemsSelectedNew} /></li>
-          //all={flag} 
-        )}
-      </ul>
-    </div>
-
-    {/* <EditedLists attractionId={attractionId} /> */}
-    {/* // <input type="text" className={flag?"x":"xx"} onDoubleClick={setFlag(true)}/> */}
+        <UserAttractionList/>
     {/* //  <Plus/>  */}
   </>)
-
-  //  <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-  // {product.map((value) => {
-  //   const labelId = `checkbox-list-secondary-label-${value.Id}`;
-  //   return (
-  //     <ListItem
-  //       key={value}
-  //       secondaryAction={
-  //         <Checkbox
-  //           edge="end"
-  //           onChange={handleToggle(value.Id)}
-  //           checked={checked.indexOf(value.Id) !== -1}
-  //           inputProps={{ 'aria-labelledby': labelId }}
-  //         />
-  //       }
-  //       disablePadding
-  //     >
-  //       <ListItemButton>
-  //         <ListItemAvatar>
-  //           <Avatar
-  //             alt={`Avatar n°${value + 1}`} // לבדוק מה זה ????
-  //             src={`/imgs/items/${value.Img}`}
-  //           />
-  //         </ListItemAvatar>
-  //         <ListItemText id={labelId} primary={`Line item ${value.Name}`} />
-  //       </ListItemButton>
-  //     </ListItem>
-  //   );
-  // })}
-  // </List> 
-
-
-  // <ItemInList item={item} setAmount={setAmount} deleteItem={deleteItem}/>
-  // {/<OneList2 /> 
 }
+ 

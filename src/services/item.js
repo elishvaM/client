@@ -3,9 +3,6 @@ import axios from "axios";
 export const getAllProducts = () => {
     return axios.get(`https://localhost:7114/api/Product/GetAllProducts`);   
 }
-export const addItemToSql = (item) => {
-    return axios.post(`https://localhost:7114/api/Product/AddProduct`, item);   
-}
 export const getAllProductTypes = () => {
     return axios.get(`https://localhost:7114/api/ProductType/GetAll`);   
 }
@@ -26,9 +23,17 @@ export const GetAllStorageTypesFromServer = () => {
     
 }
 export const AddListAttractionListProductFromServer = (attractionListProduct) => {
-    console.log("attractionListProduct")
-    console.log(attractionListProduct)
-    return axios.post(`https://localhost:7114/api/AttractionListProduct/AddList`, attractionListProduct);  
-    
+    return axios.post(`https://localhost:7114/api/AttractionListProduct/AddList`, attractionListProduct);    
 }
-
+export const getAllProductsByTripListId = (tripListId) => {
+    return axios.get(`https://localhost:7114/api/AttractionListProduct/GetAllByTripListId/${tripListId}`);
+}
+export const updateProductFromServer = (item) => {
+    return axios.post(`https://localhost:7114/api/Product/Update`,item);
+}
+export const DeleteProductFromServer = (id) => {
+    return axios.post(`https://localhost:7114/api/Product/Delete/${id}`);
+}
+export const AddProductFromServer = (item) => {
+    return axios.post(`https://localhost:7114/api/Product/Add`,item);
+}

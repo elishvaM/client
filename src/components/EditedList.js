@@ -6,7 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addManyItems } from '../store/actions/item';
 import { AddListAttractionListProductFromServer } from '../services/item';
 const columns = [
-  { field: 'id', headerName: 'מספר', width: 150 },
+  { field: 'idRow', headerName: 'מספר', width: 150 },
+  { field: "img",
+  headerName: "תמונה",
+  width: 100,
+  renderCell: (params)=>{
+  return (
+      <img src={params.row.product.img} width={70} height={62}alt='' component="span"/>
+  )
+} 
+},
   {
     field: 'name',
     headerName: 'שם הפריט',
@@ -50,12 +59,13 @@ export default function EditedList(){
     const existProducts = useSelector(s=>s.item.itemsSelected);
     const dispatch = useDispatch();
     React.useEffect(()=>{ 
+      state.attractionListProduct.map((row, index) => row["idRow"] = index+1);
         setRows(state.attractionListProduct) 
     },[state])
 
     const [selectedProducts, SetSelectedProducts]= React.useState([]);
     const onRowsSelectionHandler = (ids) => {
-        const selectedRowsData = ids.map((id) => rows.find((row) => row.id === id));
+        const selectedRowsData = ids.map((id) => rows.find((row) => row.id === id));//דוחף למשתנה את כל השורות שסומנו
         console.log(selectedRowsData);
         SetSelectedProducts(selectedRowsData);
       };
@@ -78,7 +88,6 @@ export default function EditedList(){
       }
     }
     return (<>
-    {state.attractionListProduct.map(i=><img key={i.id} src={i.product.img} style={{height:100, width:100}}/>)}
     {selectedProducts.length>0?<input type="button" value="העבר אלי" onClick={addtomylist}/>:null}
     <Box sx={{ height: 400, width: '70%', position:"relative",left:"1rem", top:"7rem" }}>
       <DataGrid

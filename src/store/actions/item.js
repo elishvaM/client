@@ -7,18 +7,17 @@ export const addItemToMyList = (item)=>{
     }
     
 }
-export const removeItemFromMyList = (id)=>{
-    
+export const removeItemFromMyList = (id)=>{  
     return {
         type:types.REMOVE_ITEM_FROM_MY_LIST,
         payload: id
     }
     
 }
-export const updateItemsSelected = (arr)=>{
+export const updateItem = (item)=>{
     return {
-        type:types.UPDATE_ITEMS_SELECTED,
-        payload: arr
+        type:types.UPDATE_ITEM,
+        payload: item
     }
     
 }
@@ -68,6 +67,13 @@ export const saveStorageTypes = (storageTypes)=>{
 export const addManyItems = (arr)=>{
     return {
         type:types.ADD_MANY_ITEMS,
+        payload: arr
+    }
+    
+}
+export const deleteManyItemsFromMyList = (arr)=>{
+    return {
+        type:types.DELETE_MANY_ITEMS,
         payload: arr
     }
     

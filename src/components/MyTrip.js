@@ -1,8 +1,10 @@
 import * as React from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import OneDayInTrip from "./OneDayInTrip";
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 import moment from "moment";
 
 const daysWeek = [
@@ -19,7 +21,8 @@ export default function MyTrip() {
   const { tripId } = useParams();
   const data = useSelector((s) => s);
   const chosenTripList = useSelector((s) => s.list.allTripList.find((x) => x.id == tripId));
-  console.log(tripId, chosenTripList,data)
+  const mynavigate = useNavigate();
+  console.log(tripId, chosenTripList, data)
   //הטיול הנבחר
   const [attractionsDay, setattractionsDay] = useState([]);
   //האטרקציות לאותו טיול
@@ -45,7 +48,10 @@ export default function MyTrip() {
 
   return (
     <>
-      <div style={{ display: "block" }}>
+      <div>
+      <Button variant="contained" endIcon={<SendIcon />} onClick={()=>mynavigate(`/userlist/${tripId}`)}>
+         בואו נארוז
+      </Button>
         <ul
           style={{
             listStyleType: "none",
@@ -61,6 +67,7 @@ export default function MyTrip() {
                 dayinWeek={attractions.dayinWeek}
                 date={attractions.date}
                 attractionsDay={attractions.trips}
+                tripId={tripId}
               />
             </li>
           ))}

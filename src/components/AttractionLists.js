@@ -23,36 +23,22 @@ export function AttractionLists({attractionsDay}){
     return (<>
   <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', direction:"ltr" }}>
       <List component="nav" aria-label="main mailbox folders">
-      {console.log(attractionsDay)}
       {attractionsDay?.map(attractionList => 
         <ListItemButton
           selected={selectedIndex === 0}
           onClick={(event) => handleListItemClick(event, 0)}
         >
           <ListItemIcon onClick={() =>
-                            {dispatch(saveCurrentAttractionListId(attractionList.id));
-                            mynavigate(`/lists/${attractionList.attractionId}/mylist/${attractionList.id}/${attractionList.attractionId}` )                          
-                             }} 
+                            {dispatch(saveCurrentAttractionListId(attractionList.attractionListId));
+                            mynavigate(`/lists/${attractionList.attractionListId}/mylist/${attractionList.attractionListId}/${attractionList.attractionId}` )                          
+                             }}   
                         onMouseEnter={()=>setColor(true)} onMouseLeave={()=>setColor(false)} 
            > 
           <EditNoteIcon fontSize='medium' color="primary"/>
           </ListItemIcon>
-          <ListItemText primary={attractionList.attraction.name} />
+          <ListItemText primary={attractionList.name} sx={{width:200}}/>
         </ListItemButton>)}
-        {attractionsDay.length!=0?<ListItemButton>
-        <ListItemIcon  onClick={() => { mynavigate(`/lists/${attractionsDay}/mylist/${attractionsDay.attractionList[0].id}` )}}>
-          <EditNoteIcon fontSize='medium' sx={{ color: pink[500] }}/></ListItemIcon>
-        <ListItemText primary="לרשימה כוללת" />
-        </ListItemButton>:null}
         </List>
         </Box>
         </>)
 }
-{/* <Tooltip title="צור רשימה"><IconButton sx={{position:"absolute", marginRight:26}}><CreateIcon onClick={() =>
-{dispatch(saveCurrentAttractionListId(attractionList.id));
-  navigate(`/mypage/editedlists/${attractionList.attractionId}` )
-    //navigate(`/mylist/${attractionList.id}/${attractionList.attractionId}`)  
-
-  }}/></IconButton></Tooltip>
-
-</li> */}

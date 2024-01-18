@@ -23,6 +23,7 @@ import EditedLists from './components/EditedLists';
 import ListsNavBar from './components/ListsNavBar';
 import Manage from './components/Manage';
 import ManagementItems from './components/ManagementItems';
+import { UserList } from './components/UserList';
 
 // app first page
 function App() {
@@ -47,6 +48,7 @@ function App() {
           <Route path="mylist/:listId" element={<MyList />} />
           <Route path="editedlist" element={<EditedList />} />
         </Route>
+        <Route path="userlist/:tripId" element={<UserList />} />
 
         <Route path="mypage" element={<MyPage />} >
           <Route path='love' element={<LovedAttractions />} />

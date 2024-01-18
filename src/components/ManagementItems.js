@@ -23,6 +23,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   addManyItems,
+  removeItem,
   saveItems,
   saveProductTypes,
   saveStorageTypes,
@@ -35,6 +36,9 @@ import {
 } from "../services/item";
 import Checkbox from "@mui/joy/Checkbox";
 import Close from "@mui/icons-material/Close";
+import AddItem from "./AddItem";
+import {updateItem} from "../store/actions/item";
+import {updateProductFromServer,DeleteProductFromServer,AddProductFromServer} from '../services/item';
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
@@ -66,6 +70,7 @@ export default function ManagementItems() {
         ? setRows(products)
         : getAllProducts()
             .then((res) => {
+              res.data.map((row, index) => row["idRow"] = index+1);
               setRows(res.data);
               dispatch(saveItems(res.data));
             })
@@ -89,10 +94,10 @@ export default function ManagementItems() {
           .catch((e) => console.log(e));
     }
   }, []);
-  const [openFile, setOpenFile] = React.useState(false);
   const [rows, setRows] = React.useState([...products]);
+  const [file, setFile] = React.useState();
   const [rowModesModel, setRowModesModel] = React.useState({});
-  let [file, setFile] = useState();
+
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
@@ -101,6 +106,8 @@ export default function ManagementItems() {
   };
 
   const handleDeleteClick = (id) => () => {
+    DeleteProductFromServer(id).then(res=> 
+      {console.log(res.data); dispatch(removeItem(id))}).catch(err=> console.log("err"+ err))
     setRows(rows.filter((row) => row.id !== id));
   };
 
@@ -115,7 +122,48 @@ export default function ManagementItems() {
     }
   };
 
+
+
+  const handleRowEditStop = (params, event) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+  const [tempRows, setTempRow] = useState([]);
+  const processRowUpdate = (newRow) => {
+    //my update start
+    const updatedItem ={
+      id: newRow.id,
+      isDuplicated: newRow.isDuplicated,
+      productTypeId: productTypes.find(i=> i.type == newRow.productType).id,
+      storageTypeId: storageTypes.find(i=> i.type == newRow.storageType).id,
+      isNeedAssurants: newRow.isNeedAssurants,
+      img: newRow.img,
+      isImgConfirm: newRow.isImgConfirm,
+      isConfirm: newRow.isConfirm,   
+      name: newRow.name,
+      status:newRow.status
+    }
+    console.log(updatedItem)
+    updateProductFromServer(updatedItem).then(res=>
+      {console.log(res.data)
+      dispatch(updateItem(updatedItem))}
+      )
+    .catch(err=> console.log("err"+err))
+    //my update start
+    const updatedRow = { ...newRow, isNew: false };
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
+
+  const handleRowModesModelChange = (newRowModesModel) => {
+    setRowModesModel(newRowModesModel);
+  };
+  
   const changeData = (x, y) => {
+    const id = x.id;
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+    // handleEditClick(x.id)  two up lines is instead call this function
     const copyRowes = [...rows];
     const index = copyRowes.findIndex((row) => row.id == x.id);
     if (index > -1) {
@@ -123,85 +171,51 @@ export default function ManagementItems() {
       copyRowes[index][y] = !copyRowes[index][y];
     }
     setRows(copyRowes);
-    //
   };
-
   const columns = [
-    { field: "id", headerName: "מספר" },
+    { field: "idRow", headerName:"מספר" },
     {
       field: "img",
       headerName: "תמונה",
       width: 110,
-      editable: function (rowData) {
-        return rowData.userId == 0 ? true : false;
-      },
-      renderCell: (params) => {
+      renderCell: (params)=>{
         return (
-          <>
-            {/* <input type="file" /> */}
-            {/* <input type="file" /> */}
-
+          <div>
             <input
               accept={file}
               style={{ display: "none" }}
+              id={rows[params.row.idRow-1].id}
               onChange={(e) => {
-                setFile(URL.createObjectURL(e.target.files[0]));
+                const id = e.target.id;
+                setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+                // handleEditClick(x.id);  two up lines is instead call this function
+                const copyRowes = [...rows];
+                const index = copyRowes.findIndex((row) => row.id == e.target.id);
+                if (index > -1) {
+                  copyRowes[index]["edit"] = true;
+                  copyRowes[index]["img"] = URL.createObjectURL(e.target.files[0]);
+                }
+                setRows(copyRowes);          
               }}
-              id="raised-button-file"
               multiple
               type="file"
-            />
-            <label htmlFor="raised-button-file">
-              <img
-                src={file?file:params.row.img}
-                alt=""
-                width={70}
-                height={62}
-                component="span"
-                onChange={(e) => {
-                  console.log(e);
-                  setFile(URL.createObjectURL(e.target.files[0]));
-                }}
-              />
-            </label>
-
-            {/*                 
-              <Button label="בחר תמונה" component="span"
-                onChange={(e) => {
-                  console.log(e)
-                  setFile(URL.createObjectURL(e.target.files[0]))
-                }} /> */}
-
-            {/* <img src={file} style={{ width: 70, height: 70 }} /> */}
-
-            {/* {openFile ? (
-              <>
-                <input type="file" />
-              </>
-            ) : (
-              <button onclick={() => setOpenFile(true)}>
-                <img src={} alt="" width={70} height={62} />
-              </button>
-            )} */}
-          </>
-        );
-      },
+/>            <label htmlFor={rows[params.row.idRow-1].id}>
+            <img src={params.row.img}  width={70} height={62}alt='' component="span"/></label>
+           </div>
+        )
+      } 
     },
     {
       field: "name",
       headerName: "שם הפריט",
       width: 150,
-      editable: function (rowData) {
-        return rowData.userId == 0 ? true : false;
-      },
+      editable: true,
     },
     {
       field: "storageType",
       headerName: "סוג אחסון",
       width: 100,
-      editable: function (rowData) {
-        return rowData.userId == 0 ? true : false;
-      },
+      editable: true,
       type: "singleSelect",
       valueOptions: storageTypes.map((x) => x.type),
     },
@@ -209,9 +223,7 @@ export default function ManagementItems() {
       field: "productType",
       headerName: "סוג מוצר",
       width: 100,
-      editable: function (rowData) {
-        return rowData.userId == 0 ? true : false;
-      },
+      editable: true,
       type: "singleSelect",
       valueOptions: productTypes.map((x) => x.type),
     },
@@ -220,13 +232,12 @@ export default function ManagementItems() {
       type: "actions",
       headerName: "צריך ביטוח",
       width: 150,
-      editable: false, // function(rowData) {return rowData.userId == 0?true:false;},
+      editable: false,
       cellClassName: "actions",
       getActions: (params) => {
         return [
           <Checkbox
             color="success"
-            defaultChecked
             onClick={() => changeData(params.row, "isNeedAssurants")}
             checked={params.row.isNeedAssurants ? "checked" : ""}
           />,
@@ -238,35 +249,14 @@ export default function ManagementItems() {
       type: "actions",
       headerName: "האם מוכפל",
       width: 150,
-      editable: false, // function(rowData) {return rowData.userId == 0?true:false;},
+      editable: false, 
       cellClassName: "actions",
       getActions: (params) => {
         return [
           <Checkbox
             color="success"
-            defaultChecked
             onClick={() => changeData(params.row, "isDuplicated")}
             checked={params.row.isDuplicated ? "checked" : ""}
-          />,
-        ];
-      },
-    },
-    {
-      field: "isImgConfirm",
-      type: "actions",
-      headerName: "האם תמונה מאושרת",
-      width: 150,
-      editable: false, // function(rowData) {return rowData.userId == 0?true:false;},
-      cellClassName: "actions",
-      getActions: (params) => {
-        return [
-          <Checkbox
-            color="success"
-            defaultChecked
-            onClick={() => {
-              changeData(params.row, "isImgConfirm");
-            }}
-            checked={params.row.isImgConfirm ? "checked" : ""}
           />,
         ];
       },
@@ -276,13 +266,12 @@ export default function ManagementItems() {
       type: "actions",
       headerName: "האם מאושר",
       width: 150,
-      editable: false, // function(rowData) {return rowData.userId == 0?true:false;},
+      editable: false, 
       cellClassName: "actions",
       getActions: (params) => {
         return [
           <Checkbox
             color="success"
-            defaultChecked
             onClick={() => {
               changeData(params.row, "isConfirm");
             }}
@@ -292,7 +281,7 @@ export default function ManagementItems() {
       },
     },
     {
-      field: "actions",
+      field: "מחק / ערוך",
       type: "actions",
       headerName: "Actions",
       width: 100,
@@ -340,12 +329,15 @@ export default function ManagementItems() {
 
   return (
     <>
+    {/* {console.log(products)} */}
       {console.log(rows)}
+      {/* <AddItem/>  */}
       <Box
         sx={{
-          height: 550,
+          height: 520,
           width: "95%",
           margin: "auto",
+          marginTop:10,
           "& .actions": {
             color: "text.secondary",
           },
@@ -360,12 +352,14 @@ export default function ManagementItems() {
           rowHeight={62}
           editMode="row"
           rowModesModel={rowModesModel}
-          // onRowModesModelChange={handleRowModesModelChange}
-          // onRowEditStop={handleRowEditStop}
-          // processRowUpdate={processRowUpdate}
+
+          onRowModesModelChange={handleRowModesModelChange}
+          onRowEditStop={handleRowEditStop}
+          processRowUpdate={processRowUpdate}
           slots={{
             toolbar: EditToolbar,
           }}
+
           initialState={{
             pagination: {
               paginationModel: {

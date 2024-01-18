@@ -12,7 +12,7 @@ import { TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addItem, saveStorageTypes } from "../store/actions/item";
-import { GetAllStorageTypesFromServer, addItemToSql } from "../services/item";
+import { AddProductFromServer, GetAllStorageTypesFromServer, addItemToSql } from "../services/item";
 //select start
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -23,6 +23,7 @@ import Switch from "@mui/material/Switch"; //switch
 import Stack from "@mui/material/Stack";
 import "../StyleComponents/AddItem.scss";
 import { useForm } from "react-hook-form";
+import { addItemToMyList } from "../store/actions/item";
 //select end
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -113,37 +114,21 @@ export default function AddItem({ setOpenAddItem }) {
     setOpenAddItem(false);
   };
   const handleAddItem = () => {
-    //e
-    let item = {};
-
-    // move_uploaded_file($_FILES['image']['tmp_name'],
-    // '/public_html/images/'.$_FILES['image']['name']))
-    console.log("file");
-    console.log(file);
-    //console.log($_FILES['image']['tmp_name'])
-    //console.log($_FILES['image']['tmp_name'])
-
-    // moveTo(file,
-    // '/public/imgs/items/'+ file)
-
-    let newItem = {
+    const newItem = {
       name: name,
       isDuplicated: false,
       productTypeId: age[0],
       storageTypeId: age[1],
       isNeedAssurants: isNeedInsurance ? true : false,
       img: file,
-      isImgConfirm: true,
-      isConfirm: true,
-      statusId: 1,
+      isImgConfirm: false,
+      isConfirm: false,
+      status: true,
     };
+    AddProductFromServer(newItem).then(res=>{
+      dispatch(addItem(res.data));dispatch(addItemToMyList(res.data))
+      }).catch(err=>console.log("err"+err))
     newItem.isSelected = false;
-    let id;
-    id += 1; //??? לא עובד... מה רק בסטייט? ואם כן למה ??id:id ,
-    // addItemToSql(newItem).then(res=>
-    //  newItem.Id = res.data).catch(error =>
-    //  console.log("error in adding item")
-    // )
     dispatch(addItem(newItem));
     handleClose();
   };
@@ -152,16 +137,12 @@ export default function AddItem({ setOpenAddItem }) {
 
   return (
     <div>
-      {/* ref={x} */}
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <form method="POST" action="" enctype="multipart/form-data">
-          {/* ??? יש ענין להכניס את כולם לתןך תגית פורם, כי אין שימוש בשליחת כל הנתונים לפונ */}
-          {/* כלומר אפשר להקטין את הפורם רק להעלאת התמונה??? */}
-          {/* onSubmit={handleSubmit(handleAddItem)} */}
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
             הוספת פריט חדש
           </DialogTitle>
@@ -182,7 +163,6 @@ export default function AddItem({ setOpenAddItem }) {
             <div style={{ display: "flex" }}>
               <div style={{ display: "block" }}>
                 <TextField
-                  //??? מה לעשות אם בא לי רק את הבדיקת תקינות בלי השליחה
                   {...register("Name", {
                     minLength: 2,
                     maxLength: 30,
@@ -216,9 +196,6 @@ export default function AddItem({ setOpenAddItem }) {
                   value={age[0]}
                   onChange={handleChange}
                 >
-                  {/* <MenuItem value="">
-            <em>אף לא אחד</em>
-          </MenuItem> */}
                   {productTypes.map((i) => (
                     <MenuItem value={i.id}>{i.type}</MenuItem>
                   ))}
@@ -237,9 +214,6 @@ export default function AddItem({ setOpenAddItem }) {
                   value={age[1]}
                   onChange={handleChange}
                 >
-                  {/* <MenuItem value="">
-            <em>אף לא אחד</em>
-          </MenuItem> */}
                   {storageTypes.map((i) => (
                     <MenuItem value={i.id}>{i.type}</MenuItem>
                   ))}
@@ -257,34 +231,20 @@ export default function AddItem({ setOpenAddItem }) {
               }
               labelPlacement="start"
             />
-            {/* <br/>
-      <p>uploading</p>
-      <input type="file" name="choosefile" value="" />
-      <button type="submit" name="uploadfile">
-          UPLOAD
-      </button> */}
             <br />
             <br />
             <input
-              type="file"
+              accept={file}
+              style={{ display: "none" }}
+              id="here"
               onChange={(e) => {
-                console.log("lllll");
-                console.log(e.target.files);
                 setFile(URL.createObjectURL(e.target.files[0]));
-              }}
-              name="choosefile"
-            />
-            <img src={file} style={{ width: 70, height: 70 }} />
-            {/* className='add_pic' */}
-            {/* <Button variant="outlined" >Outlined</Button>
-
-      <Stack direction="row" alignItems="center" spacing={2}>
-      <Button variant="contained" component="label" sx={{fontSize:16}}>
-        הוסף תמונה
-        <input hidden accept="image/*" multiple type="file" />
-      </Button>
-    </Stack> */}
-
+                }        
+              }
+              multiple
+              type="file"/> 
+           <label htmlFor="here">
+            <img src={file}  width={70} height={62}alt='' component="span"/></label>
             {/* end form */}
           </DialogContent>
           <DialogActions>
@@ -295,27 +255,14 @@ export default function AddItem({ setOpenAddItem }) {
               sx={{ fontSize: 18 }}
               onClick={handleAddItem}
             >
-              UPLOAD
-              {/* הוסף את הפריט   */}
+              הוסף את הפריט  
               {/* onClick={handleClose} */}
             </Button>
           </DialogActions>
         </form>
         <div id="display-image">
-          {/* <?php
-        $query = " select * from image ";
-        $result = mysqli_query($db, $query);
- 
-        while ($data = mysqli_fetch_assoc($result)) {
-    ?>
-        <img src="./image/<?php echo $data['filename']; ?>">
- 
-    <?php
-        }
-    ?> */}
         </div>
       </BootstrapDialog>
     </div>
-    ///
   );
 }
