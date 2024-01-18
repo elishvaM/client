@@ -50,7 +50,7 @@ export default function OneDayInTrip({ date, attractionsDay, dayinWeek ,tripId})
   // lovedattractions.map(x => { x.label = x.name });
   const addattractionsList = (attraction) => {
     const attractionList = {TripListId:Number(tripId),AttractionId:attraction.id,ExitDate:new Date(date),IsBasic:false,RemainderDate:new Date(),Status:true};
-   console.log(attractionList)
+   console.log("aaa",attractionList)
     AddAttractionListFromServer(attractionList).then(res=>{
       const copy = [...choosenAttraction];
       const b = {attractionListId:res.data.id,attractionId:attraction.id,name:attraction.name}

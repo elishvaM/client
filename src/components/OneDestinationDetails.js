@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { deleteOpeningHourFromServer } from "../services/openingHour";
+import {deleteOpeningHourFromServer}  from "../services/openingHour";
 import { Link } from "react-router-dom"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -9,7 +9,8 @@ import { addCommentFromServer, deleteFromServer, getAllCommentsFromServer } from
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import OneComment from "./OneComment";
-import { openingHourFromServer, updateOpeningHourFromServer } from "../services/openingHour";
+import {openingHourFromServer} from "../services/openingHour";
+import {updateOpeningHourFromServer}  from "../services/openingHour";
 import Tooltip from "@mui/material/Tooltip";
 import CreateIcon from "@mui/icons-material/Create";
 import Swal from "sweetalert2";

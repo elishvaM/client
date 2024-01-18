@@ -22,7 +22,7 @@ export default function MyTrip() {
   const data = useSelector((s) => s);
   const chosenTripList = useSelector((s) => s.list.allTripList.find((x) => x.id == tripId));
   const mynavigate = useNavigate();
-  console.log(tripId, chosenTripList, data)
+  console.log("trip d",tripId, chosenTripList, data)
   //הטיול הנבחר
   const [attractionsDay, setattractionsDay] = useState([]);
   //האטרקציות לאותו טיול
