@@ -94,13 +94,6 @@ export default function NavBar() {
                     לאיזור האישי
                   </Button>
                 </LightTooltip>
-                <div>
-                  <LightTooltip title="בקשת אטרקציה" className="addAtt">
-                    <Button size="large" variant="contained">
-                      בקשת אטרקציה
-                    </Button>
-                  </LightTooltip>
-                </div>
               </div>}
               {open ? <Login
                 setOpen={setOpen}

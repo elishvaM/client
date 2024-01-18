@@ -19,6 +19,7 @@ export default function ManagementUsers() {
 
   useEffect(() => {
     usersFromServer().then(res => {
+      console.log(res.data)
       setUsers(res.data)
     }).catch(err => console.log(err))
     //מביא הערה על המערך הריק שכאן
@@ -77,8 +78,9 @@ export default function ManagementUsers() {
         <div>
 
 
-          {user.name}    {user.status}
-          <Button onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
+        {user.name} {user.email} 
+        {user.status == false ?<h5>לא פעיל</h5> :<h5> פעיל</h5> }   
+          <Button sx={{width:"40px"}} onClick={() => handleChange({ user })} >שינוי סטטוס</Button>
 
           {/* {user.status === false ? <FormControlLabel
                     control={
