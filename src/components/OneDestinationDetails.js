@@ -151,9 +151,8 @@ export default function OneDestinationDetails(onLoved) {
                     <FavoriteIcon color={chosenAttraction.isLoved ? "error" : "none"} />
                 </IconButton> : null}
             <img src={`/imgs/att/${chosenAttraction.img}`} sx={{ width: 50 }} alt={chosenAttraction.name} />
-            <h2 href={chosenAttraction.websiteAddres}>{chosenAttraction.websiteAddress}</h2>
+            <a href={chosenAttraction.websiteAddress} target="_blank">לאתר</a>
             <h2>{chosenAttraction.address.city},{chosenAttraction.address.land}</h2>
-            <Link href={chosenAttraction.websiteAddres}>לאתר</Link>
             <h3>שעות פתיחה</h3>
             {arrDays?.map(x =>
                 <div key={x.id}>

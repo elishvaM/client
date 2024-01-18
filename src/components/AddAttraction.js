@@ -28,7 +28,8 @@ const schema = yup.object({
   WebsiteAddress: yup.string().required("שדה חובה"),
   Type: yup.string().required("שדה חובה"),
   Land: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
-  City: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20)
+  City: yup.string().required("שדה חובה").test('len', "אורך בין 2-20", x => x.length >= 2 && x.length <= 20),
+  Img: yup.string().required("שדה חובה")
 }).required();
 export default function AddAttraction() {
   const [open, setOpen] = React.useState(true);
@@ -45,11 +46,38 @@ export default function AddAttraction() {
     resolver: yupResolver(schema)
   });
   const addAttraction = (details) => {
+
+
+    // {
+    //   "id": 0,
+    //   "name": "string",
+    //   "desc": "string",
+    //   "img": "string",
+    //   "img2": "string",
+    //   "img3": "string",
+    //   "websiteAddress": "string",
+    //   "isConfirm": true,
+    //   "address": {
+    //     "id": 0,
+    //     "land": "string",
+    //     "city": "string",
+    //     "street": "string",
+    //     "number": 0
+    //   },
+    //   "status": true,
+    //   "personStateId": 0,
+    //   "typeId": 0,
+    //   "addressId": 0,
+    //   "countryId": 0,
+    //   "state": "string",
+    //   "type1": "string"
+    // }
+    alert("kkkk")
     details.IsConfirm = true;
     details.Img = file;
     details.Img3 = file;
     details.Img2 = file;
-    details.Stautus = true;
+    details.Status = true;
     addAttractionFromServer(details).then(res => {
       console.log(res);
     }).catch(err => console.log(err))
@@ -92,10 +120,13 @@ export default function AddAttraction() {
               placeholder={errors.Land ? errors.Land.message : "ארץ"} />
             <TextField id="standard-basic" label="עיר" variant="standard" {...register("City")} sx={{ margin: 0.5 }}
               placeholder={errors.City ? errors.City.message : "עיר"} />
-
-
+            <TextField id="standard-basic" label="גיל" variant="standard" {...register("State")} sx={{ margin: 0.5 }}
+              placeholder={errors.State ? errors.State.message : "גיל"} />
+            <TextField id="standard-basic" label="סוג" variant="standard" {...register("Type")} sx={{ margin: 0.5 }}
+              placeholder={errors.Type ? errors.Type.message : "סוג"} />
             <input
               accept={file}
+              {...register("Img")}
               style={{ display: 'none' }}
               onChange={(e) => {
                 setFile(URL.createObjectURL(e.target.files[0]))
@@ -112,50 +143,7 @@ export default function AddAttraction() {
                 }}
               />
             </label>
-
-            {/* <input
-              {...register("Img2")}
-              accept={file2}
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                setFile2(URL.createObjectURL(e.target.files[0]))
-              }}
-              id="raised-button-file2"
-              multiple
-              type="file"
-            />
-            <label htmlFor="raised-button-file2">
-              <img src={file2} style={{ width: 70, height: 70 }}
-                onChange={(e) => {
-                  console.log(e)
-                  setFile2(URL.createObjectURL(e.target.files[0]))
-                }}
-              />
-            </label>
- */}
-
-            {/* <input
-              {...register("Img3")}
-              accept={file3}
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                console.log("eeee", file3)
-                setFile3(URL.createObjectURL(e.target.files[0]));
-                console.log("eeee", file3)
-              }}
-              id="raised-button-file3"
-              multiple
-              type="file"
-            />
-            <label htmlFor="raised-button-file3">
-              <img src={file3} style={{ width: 70, height: 70 }}
-                onChange={(e) => {
-                  console.log(e)
-                  setFile3(URL.createObjectURL(e.target.files[0]))
-                }}
-              />
-            </label> */}
-            <Button autoFocus type="submit">
+            <Button type="submit" >
               הוסף
             </Button>
           </form>
