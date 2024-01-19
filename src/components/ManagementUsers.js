@@ -25,6 +25,8 @@ import TableRow from '@mui/material/TableRow';
 
 export default function ManagementUsers() {
   const [users, setUsers] = useState([]);
+  const [filterArr, setFilterArr] = useState([]);
+
 
   useEffect(() => {
     usersFromServer().then(res => {
@@ -51,12 +53,13 @@ export default function ManagementUsers() {
     setSelectedIndex(index);
     setOpen(false);
   };
-//   const filter = (e) => {
-//     const copy = [...users];
-//     if (e == true) {
-// copy.filter()
-//     }
-//   }
+  // const filterFunc = (e) => {
+  //   console(e.target.value)
+  //   const copy = [...users];
+  //   copy = users.filter(i => i.status == e.target.value);
+  //   setFilterArr(copy)
+  //   console.log(filterArr);
+  // }
   const handleMenuItemClick = (event, index, userId) => {
     const user = { id: open, typeId: options[selectedIndex].id }
     changeTypeFromServer(user).then(res => {
@@ -163,7 +166,8 @@ export default function ManagementUsers() {
       </li>)}
 
     </ul> */}
-    {/* <Button onClick={filter(true)}>פעילים</Button> */}
+    {/* <Button onClick={filterFunc(true)}>פעילים</Button> */}
+
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
